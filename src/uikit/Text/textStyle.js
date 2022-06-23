@@ -1,7 +1,8 @@
 import { StyleSheet } from "react-native";
 import {
   BLACK,
-  GARY_3,
+  ERROR,
+  GARY_1,
   LINK,
   PRIMARY,
   SUCCESS,
@@ -25,7 +26,7 @@ export const textStyles = StyleSheet.create({
     color: PRIMARY,
   },
   gray: {
-    color: GARY_3,
+    color: GARY_1,
   },
   common: {
     fontFamily: "Poppins-Regular",
@@ -45,6 +46,6 @@ export const textStyles = StyleSheet.create({
     color: LINK,
   },
   errorColor: {
-    color: "red",
+    color: ERROR,
   },
 });

@@ -1,13 +1,10 @@
-import React, { useState, useEffect, forwardRef } from "react";
-import {
-  TextInput,
-  View,
-} from "react-native";
-import Text from "../Text/Text";
-import { isEmpty } from "../UikitUtils/validators";
-import { inptTextHelper } from "./inputTextHelper";
-import { inputTextStyles } from "./InputTextStyles";
-import LabelWrapper from "./LabelWrapper";
+import React, {useState, useEffect, forwardRef} from 'react';
+import {TextInput, View} from 'react-native';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import {isEmpty} from '../UikitUtils/validators';
+import {inptTextHelper} from './inputTextHelper';
+import {inputTextStyles} from './InputTextStyles';
+import LabelWrapper from './LabelWrapper';
 
 const InputText = (
   {
@@ -39,15 +36,18 @@ const InputText = (
     error,
     required,
     actionLeftStyle,
+    touched,
+    errors,
+    name,
   },
-  ref
+  ref,
 ) => {
   const [styleContainer, setStyleContainer] = useState([]);
   const [isFocused, setIsFocused] = useState(false);
 
   useEffect(() => {
     handleStyleContainer();
-  }, []);
+  }, [error]);
 
   const handleStyleContainer = () => {
     const styleContainerArray = [inputTextStyles.common];
@@ -57,6 +57,7 @@ const InputText = (
       actionLeft,
       types,
       textAlign,
+      error,
     });
     if (overrideStyle) {
       styleContainerArray.push(overrideStyle);
@@ -64,16 +65,16 @@ const InputText = (
     setStyleContainer(styleContainerArray);
   };
 
-  const handleFocus = (e) => {
+  const handleFocus = e => {
     setIsFocused(true);
-    if (typeof onFocus === "function") {
+    if (typeof onFocus === 'function') {
       onFocus(e);
     }
   };
 
-  const handleBlur = (e) => {
+  const handleBlur = e => {
     setIsFocused(false);
-    if (typeof onBlur === "function") {
+    if (typeof onBlur === 'function') {
       onBlur(e);
     }
   };
@@ -83,7 +84,7 @@ const InputText = (
     <LabelWrapper label={label} required={required}>
       <View>
         <View style={[inputTextStyles.viewContainer]}>
-          {typeof actionLeft === "function" && (
+          {typeof actionLeft === 'function' && (
             <View style={[inputTextStyles.actionLeftStyle, actionLeftStyle]}>
               {actionLeft()}
             </View>
@@ -111,16 +112,14 @@ const InputText = (
             onFocus={handleFocus}
             onBlur={handleBlur}
           />
-          {typeof actionRight === "function" && (
+          {typeof actionRight === 'function' && (
             <View style={inputTextStyles.actionRightStyle}>
               {actionRight()}
             </View>
           )}
         </View>
         {!isEmpty(error) && (
-          <Text size={12} color="error" overrideStyle={{ marginTop: 4 }}>
-            {error}
-          </Text>
+          <ErrorMessage name={name} touched={touched} errors={errors} />
         )}
       </View>
     </LabelWrapper>

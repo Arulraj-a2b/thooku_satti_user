@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "175279278916",
+    "project_id": "thookusatti-25b2e",
+    "storage_bucket": "thookusatti-25b2e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:175279278916:android:bacfba38e80df503526511",
+        "android_client_info": {
+          "package_name": "com.thooku_satti"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "175279278916-cid9qfrap0188id58cgj65qh11gnpomk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8ustI6EkseJzgdM_WxCUeJR11gRfL-bA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "175279278916-cid9qfrap0188id58cgj65qh11gnpomk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

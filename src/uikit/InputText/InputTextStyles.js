@@ -1,10 +1,9 @@
 import { StyleSheet } from "react-native";
-import { BORDER_COLOR, PRIMARY, WHITE } from "../UikitUtils/colors";
+import { BORDER_COLOR, ERROR, PRIMARY, WHITE } from "../UikitUtils/colors";
 import { ZINDEX } from "../UikitUtils/constants";
 
 export const inputTextStyles = StyleSheet.create({
   common: {
-    borderColor: BORDER_COLOR,
     borderWidth: 1,
     borderRadius: 20,
     backgroundColor: WHITE,
@@ -43,4 +42,10 @@ export const inputTextStyles = StyleSheet.create({
   selected: {
     borderColor: PRIMARY,
   },
+  error:{
+    borderColor:ERROR
+  },
+  commonBorder:{
+    borderColor: BORDER_COLOR,
+  }
 });

@@ -1,11 +1,7 @@
-/* eslint-env browser, node */
-import {ToastAndroid} from 'react-native';
-import {isEmpty} from '../UikitUtils/validators';
+import { ToastAndroid } from 'react-native';
+import { isEmpty } from '../UikitUtils/validators';
 
-type DurationTypes = 'SHORT' | 'LONG';
-type PositionTypes = 'TOP' | 'BOTTOM' | 'CENTER';
-
-const handleSetAppDuration = (duration: DurationTypes) => {
+const handleSetAppDuration = duration => {
   let res = ToastAndroid.SHORT;
   if (duration === 'LONG') {
     res = ToastAndroid.LONG;
@@ -13,7 +9,7 @@ const handleSetAppDuration = (duration: DurationTypes) => {
   return res;
 };
 
-const handleAppGravity = (position: PositionTypes) => {
+const handleAppGravity = position => {
   switch (position) {
     case 'BOTTOM':
       return ToastAndroid.BOTTOM;
@@ -23,11 +19,7 @@ const handleAppGravity = (position: PositionTypes) => {
       return ToastAndroid.TOP;
   }
 };
-const Toast = (
-  message: string,
-  duration: DurationTypes = 'SHORT',
-  position: PositionTypes = 'TOP',
-) => {
+const Toast = (message, duration = 'SHORT', position = 'CENTER') => {
   const choosenDuration = handleSetAppDuration(duration);
   const choosenPosition = handleAppGravity(position);
   if (!isEmpty(message)) {
