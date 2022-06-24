@@ -19,7 +19,7 @@ const Text = ({
 
   useEffect(() => {
     handleStyleContainer();
-  }, [overrideStyle]);
+  }, [overrideStyle,color]);
 
   const handleStyleContainer = () => {
     const styleContainerArray = [textStyles.common];

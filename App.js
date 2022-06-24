@@ -4,10 +4,10 @@ import SplashScreen from 'react-native-splash-screen';
 import {useNetInfo} from '@react-native-community/netinfo';
 import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {Text} from 'react-native';
 import store from './store';
 import AppLayout from './src/navigation/AppLayout';
 import {requestUserPermission} from './src/utility/notificationService';
+import OfflineScreen from './src/modules/offlinemodule/OfflineScreen';
 
 const App = () => {
   useEffect(() => {
@@ -29,7 +29,7 @@ const App = () => {
     </SafeAreaProvider>
   ) : (
     <SafeAreaProvider>
-      <Text>off</Text>
+      <OfflineScreen/>
     </SafeAreaProvider>
   );
 };

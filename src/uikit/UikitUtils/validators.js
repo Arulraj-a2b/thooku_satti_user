@@ -64,6 +64,13 @@ export const isValidEmail = value => {
   return false;
 };
 
+export const isValidPassword = value => {
+  if (typeof value === 'string') {
+    return value.trim().match(/^(?=.*?[A-Z])(?=.*?[a-z]).{8,12}/) !== null;
+  }
+  return false;
+};
+
 /**
  * Returns an error object with keys error and message if
  * the given value is not an number or less than zero

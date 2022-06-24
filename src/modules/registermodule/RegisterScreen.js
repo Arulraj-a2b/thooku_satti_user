@@ -1,7 +1,13 @@
 import {useNavigation} from '@react-navigation/native';
 import {useFormik} from 'formik';
-import React, {useState} from 'react';
-import {ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
+import React, {useRef, useState} from 'react';
+import {
+  Keyboard,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import SvgAddress from '../../icons/SvgAddress';
 import SvgLocation from '../../icons/SvgLocation';
 import SvgLock from '../../icons/SvgLock';
@@ -15,11 +21,25 @@ import Button from '../../uikit/Button/Button';
 import Flex from '../../uikit/Flex/Flex';
 import InputText from '../../uikit/InputText/InputText';
 import Text from '../../uikit/Text/Text';
+import Loader from '../../uikit/Loader/Loader';
 import {ERROR, PRIMARY, WHITE} from '../../uikit/UikitUtils/colors';
-import {THIS_FIELD_REQUIRED} from '../../uikit/UikitUtils/constants';
-import {isEmpty} from '../../uikit/UikitUtils/validators';
+import {
+  INVALID_EMAIL_ENTERED,
+  INVALID_PHONE_ENTERED,
+  THIS_FIELD_REQUIRED,
+} from '../../uikit/UikitUtils/constants';
+import {
+  isEmpty,
+  isValidEmail,
+  isValidPassword,
+} from '../../uikit/UikitUtils/validators';
 import ErrorMessage from '../../uikit/ErrorMessage/ErrorMessage';
 import PhoneInputText from '../../uikit/PhoneInputText/PhoneInputText';
+import {useDispatch} from 'react-redux';
+import {signInMiddleWare} from './store/registerScreenReducerMiddleware';
+import Toast from '../../uikit/Toast/Toast';
+import SvgEyeOutline from '../../icons/SvgEyleOutLine';
+import SvgEye from '../../icons/SvgEye';
 
 const styles = StyleSheet.create({
   logoContainer: {
@@ -60,15 +80,49 @@ const initialValues = {
 
 const RegisterScreen = () => {
   const navigattion = useNavigation();
-  const [isWhatsAppsFocus, setWhatsAppsFocus] = useState(false);
+  const phoneInput = useRef(null);
+  const dispatch = useDispatch();
+  const [isWhatsAppValue, setWhatsAppValue] = useState('');
+  const [isLoader, setLoader] = useState(false);
+  const [hidePassword, setHidePassword] = useState(true);
+  const [hidePassword1, setHidePassword1] = useState(true);
 
-  const handleSubmit = value => {};
+  const handleSubmit = value => {
+    setLoader(true);
+    dispatch(
+      signInMiddleWare({
+        Name: `${value.firstName} ${value.lastName}`,
+        EmailAddress: value.email,
+        Mobileno: value.mobileNumber,
+        WhatsappNo: value.whatsappNumber,
+        Address: value.address,
+        Password: value.password,
+        City: value.city,
+      }),
+    )
+      .then(res => {
+        setLoader(false);
+        if (
+          res.payload &&
+          Array.isArray(res.payload) &&
+          res.payload[0].Message === 'Success'
+        ) {
+          navigattion.navigate('LoginScreen');
+          Toast('Account create successfully');
+        }
+      })
+      .catch(() => {
+        setLoader(false);
+      });
+  };
 
   const handleValidate = values => {
     const errors = {};
 
     if (isEmpty(values.firstName)) {
       errors.firstName = THIS_FIELD_REQUIRED;
+    } else if (values.firstName.length < 2) {
+      errors.firstName = 'Please enter a valid name';
     }
 
     if (isEmpty(values.lastName)) {
@@ -77,28 +131,44 @@ const RegisterScreen = () => {
 
     if (isEmpty(values.email)) {
       errors.email = THIS_FIELD_REQUIRED;
+    } else if (!isValidEmail(values.email)) {
+      errors.email = INVALID_EMAIL_ENTERED;
     }
 
     if (isEmpty(values.mobileNumber)) {
       errors.mobileNumber = THIS_FIELD_REQUIRED;
+    } else if (values.mobileNumber.length !== 10) {
+      errors.mobileNumber = INVALID_PHONE_ENTERED;
     }
 
     if (isEmpty(values.whatsappNumber)) {
       errors.whatsappNumber = THIS_FIELD_REQUIRED;
+    } else if (isWhatsAppValue.length !== 10) {
+      errors.whatsappNumber = INVALID_PHONE_ENTERED;
     }
 
     if (isEmpty(values.address)) {
       errors.address = THIS_FIELD_REQUIRED;
+    } else if (values.address.length < 15) {
+      errors.address = 'Please enter a valid city name';
+    }
+
+    if (isEmpty(values.password)) {
+      errors.password = THIS_FIELD_REQUIRED;
+    } else if (!isValidPassword(values.password)) {
+      errors.password = `Password must be at least 8 - 12 characters long, at least one lowercase and one uppercase`;
+    }
+
+    if (isEmpty(values.confirmPassword)) {
+      errors.confirmPassword = THIS_FIELD_REQUIRED;
+    } else if (values.confirmPassword !== values.password) {
+      errors.confirmPassword = `The two password fields didn't match.`;
     }
 
     if (isEmpty(values.city)) {
       errors.city = THIS_FIELD_REQUIRED;
-    }
-    if (isEmpty(values.confirmPassword)) {
-      errors.confirmPassword = THIS_FIELD_REQUIRED;
-    }
-    if (isEmpty(values.password)) {
-      errors.password = THIS_FIELD_REQUIRED;
+    } else if (values.city.length < 3) {
+      errors.city = 'Please enter a valid city name';
     }
 
     return errors;
@@ -109,9 +179,11 @@ const RegisterScreen = () => {
     onSubmit: handleSubmit,
     validate: handleValidate,
   });
+
   return (
     <ScrollView>
       <Flex flex={1} overrideStyle={styles.overAll}>
+        {isLoader && <Loader />}
         <Flex center middle overrideStyle={styles.logoContainer}>
           <SvgLogo width={350} height={130} />
         </Flex>
@@ -146,12 +218,12 @@ const RegisterScreen = () => {
               </View>
               <View style={{flex: 5, marginLeft: 8}}>
                 <InputText
-                  name={'lastName *'}
+                  name={'lastName'}
                   touched={formik.touched}
                   errors={formik.errors}
                   error={formik.errors.lastName && formik.touched.lastName}
                   maxLength={20}
-                  placeholder="Last Name"
+                  placeholder="Last Name *"
                   value={formik.values.lastName}
                   onChange={formik.handleChange('lastName')}
                 />
@@ -183,6 +255,7 @@ const RegisterScreen = () => {
             </View>
             <View style={styles.marginTop16}>
               <InputText
+                maxLength={10}
                 keyboardType={'phone-pad'}
                 name={'mobileNumber'}
                 touched={formik.touched}
@@ -207,6 +280,7 @@ const RegisterScreen = () => {
             </View>
             <View style={styles.marginTop16}>
               <PhoneInputText
+                ref={phoneInput}
                 placeholder="Whatsapp Number *"
                 actionLeft={() => (
                   <SvgWhatsApp
@@ -221,6 +295,9 @@ const RegisterScreen = () => {
                 error={
                   formik.errors.whatsappNumber && formik.touched.whatsappNumber
                 }
+                onChangeText={val => {
+                  setWhatsAppValue(val);
+                }}
                 onChange={formik.handleChange('whatsappNumber')}
               />
             </View>
@@ -231,7 +308,7 @@ const RegisterScreen = () => {
             />
             <View style={styles.marginTop16}>
               <InputText
-                maxLength={20}
+                maxLength={12}
                 actionLeftStyle={{left: -4}}
                 actionLeft={() => (
                   <SvgLock
@@ -249,6 +326,13 @@ const RegisterScreen = () => {
                 touched={formik.touched}
                 errors={formik.errors}
                 error={formik.errors.password && formik.touched.password}
+                secureTextEntry={hidePassword}
+                actionRight={() => (
+                  <TouchableOpacity
+                    onPress={() => setHidePassword(!hidePassword)}>
+                    {hidePassword ? <SvgEyeOutline /> : <SvgEye />}
+                  </TouchableOpacity>
+                )}
               />
             </View>
             <View style={styles.marginTop16}>
@@ -275,6 +359,13 @@ const RegisterScreen = () => {
                   formik.errors.confirmPassword &&
                   formik.touched.confirmPassword
                 }
+                secureTextEntry={hidePassword1}
+                actionRight={() => (
+                  <TouchableOpacity
+                    onPress={() => setHidePassword1(!hidePassword1)}>
+                    {hidePassword1 ? <SvgEyeOutline /> : <SvgEye />}
+                  </TouchableOpacity>
+                )}
               />
             </View>
             <View style={styles.marginTop16}>
@@ -321,7 +412,13 @@ const RegisterScreen = () => {
                 error={formik.errors.city && formik.touched.city}
               />
             </View>
-            <Button onClick={formik.handleSubmit}>REGISTER</Button>
+            <Button
+              onClick={() => {
+                Keyboard.dismiss();
+                formik.handleSubmit();
+              }}>
+              REGISTER
+            </Button>
             <Flex middle row center overrideStyle={{marginTop: 16}}>
               <Text>Already have an account? </Text>
               <TouchableOpacity
