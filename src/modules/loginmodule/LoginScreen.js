@@ -11,7 +11,7 @@ import Button from '../../uikit/Button/Button';
 import Flex from '../../uikit/Flex/Flex';
 import InputText from '../../uikit/InputText/InputText';
 import Text from '../../uikit/Text/Text';
-import {PRIMARY, WHITE} from '../../uikit/UikitUtils/colors';
+import {ERROR, PRIMARY, WHITE} from '../../uikit/UikitUtils/colors';
 import {
   INVALID_EMAIL_ENTERED,
   INVALID_PASSWORD,
@@ -23,6 +23,7 @@ import Loader from '../../uikit/Loader/Loader';
 import SvgEye from '../../icons/SvgEye';
 import SvgEyeOutline from '../../icons/SvgEyleOutLine';
 import {useAuthCheck} from '../../utility/config';
+import {routesPath} from '../../routes/routesPath';
 
 const styles = StyleSheet.create({
   logoContainer: {
@@ -43,9 +44,14 @@ const styles = StyleSheet.create({
   footerStyle: {
     backgroundColor: PRIMARY,
     height: 70,
+    zIndex: 11,
   },
   loginText: {
     marginBottom: 30,
+  },
+  forgotStyle: {
+    alignItems: 'center',
+    marginTop: 16,
   },
 });
 
@@ -87,7 +93,7 @@ const LoginScreen = () => {
             JSON.stringify({...res.payload[0], loggedIn: true}),
           );
           formik.resetForm();
-          navigation.navigate('HomeScreen');
+          navigation.navigate(routesPath.HOME_SCREEN);
         }
       });
     });
@@ -131,25 +137,39 @@ const LoginScreen = () => {
             name={'email'}
             touched={formik.touched}
             errors={formik.errors}
-            error={formik.errors.email}
+            error={formik.errors.email && formik.touched.email}
             value={formik.values.email}
             onChange={formik.handleChange('email')}
             actionLeftStyle={{left: -4}}
-            actionLeft={() => <SvgUser />}
+            actionLeft={() => (
+              <SvgUser
+                fill={
+                  formik.errors.email && formik.touched.email ? ERROR : PRIMARY
+                }
+              />
+            )}
             placeholder="Email Address"
           />
-          <View style={{marginVertical: 20, marginBottom: 40}}>
+          <View style={{marginVertical: 20, marginBottom: 20}}>
             <InputText
-              secureTextEntry={hidePassword}
               name={'password'}
               touched={formik.touched}
               errors={formik.errors}
-              error={formik.errors.password}
+              error={formik.errors.password && formik.touched.password}
               value={formik.values.password}
               onChange={formik.handleChange('password')}
               actionLeftStyle={{left: -4}}
-              actionLeft={() => <SvgPassword />}
+              actionLeft={() => (
+                <SvgPassword
+                  fill={
+                    formik.errors.password && formik.touched.password
+                      ? ERROR
+                      : PRIMARY
+                  }
+                />
+              )}
               placeholder="Password"
+              secureTextEntry={hidePassword}
               actionRight={() => (
                 <TouchableOpacity
                   onPress={() => setHidePassword(!hidePassword)}>
@@ -157,6 +177,15 @@ const LoginScreen = () => {
                 </TouchableOpacity>
               )}
             />
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate(routesPath.FORGOT_PASSWORD_SCREEN)
+              }
+              style={styles.forgotStyle}>
+              <Text bold color="theme">
+                Forgot password ?
+              </Text>
+            </TouchableOpacity>
           </View>
           <Button
             onClick={() => {
@@ -166,7 +195,7 @@ const LoginScreen = () => {
             LOGIN
           </Button>
           <Button
-            onClick={() => navigation.navigate('RegisterScreen')}
+            onClick={() => navigation.navigate(routesPath.REGISTER_SCREEN)}
             overrideStyle={styles.registerBtn}
             types="secondary">
             REGISTER HERE

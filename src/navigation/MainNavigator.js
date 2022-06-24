@@ -11,7 +11,7 @@ const LoginStack = createNativeStackNavigator();
 const MainNavigator = () => {
   return (
     <LoginStack.Navigator
-      screenOptions={{}}
+      // screenOptions={{}}
       initialRouteName={routesPath.LOGIN_SCREEN}>
       <LoginStack.Screen
         name={routesPath.LOGIN_SCREEN}
@@ -26,7 +26,7 @@ const MainNavigator = () => {
       <LoginStack.Screen
         name={routesPath.HOME_SCREEN}
         component={HomeScreen}
-        options={{headerShown: true}}
+        options={{headerShown: true, headerBackVisible: false}}
       />
       <LoginStack.Screen
         name={routesPath.FORGOT_PASSWORD_SCREEN}

@@ -109,6 +109,7 @@ const RegisterScreen = () => {
         ) {
           navigattion.navigate('LoginScreen');
           Toast('Account create successfully');
+          formik.resetForm()
         }
       })
       .catch(() => {
