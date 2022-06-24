@@ -54,7 +54,6 @@ const PhoneInputText = (
   if (isFocused) {
     if (!isEmpty(error)) {
       borderColor = ERROR;
-      console.log('error', error);
     } else {
       borderColor = PRIMARY;
     }
