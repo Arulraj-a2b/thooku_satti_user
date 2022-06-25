@@ -9,6 +9,7 @@ import Button from '../../uikit/Button/Button';
 import InputText from '../../uikit/InputText/InputText';
 import Text from '../../uikit/Text/Text';
 import {WHITE} from '../../uikit/UikitUtils/colors';
+import HotalCard from './HotalCard';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -55,6 +56,7 @@ const HomeScreen = () => {
           <SvgRightArrow />
         </Flex>
       </Flex>
+      {/* <HotalCard/> */}
       <Button onClick={logout}>Logout</Button>
     </Flex>
   );
