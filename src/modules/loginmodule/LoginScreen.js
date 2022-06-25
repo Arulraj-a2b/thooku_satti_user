@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {Keyboard, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {
+  Dimensions,
+  Keyboard,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {useFormik} from 'formik';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
@@ -34,6 +41,7 @@ const styles = StyleSheet.create({
     paddingVertical: 24,
     paddingHorizontal: 20,
     paddingLeft: 30,
+    // height: 300,
   },
   overAll: {
     backgroundColor: WHITE,
@@ -127,81 +135,91 @@ const LoginScreen = () => {
         <SvgLogo width={350} height={130} />
       </Flex>
       <Flex flex={1} between>
-        <Flex overrideStyle={styles.inputContainer}>
-          <Text size={20} bold overrideStyle={styles.loginText}>
-            Login Here
-          </Text>
+        <ScrollView
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}>
+          <Flex
+            overrideStyle={[
+              styles.inputContainer,
+              {height: Dimensions.get('screen').height - 262},
+            ]}>
+            <Text size={20} bold overrideStyle={styles.loginText}>
+              Login Here
+            </Text>
 
-          <InputText
-            keyboardType={'email-address'}
-            name={'email'}
-            touched={formik.touched}
-            errors={formik.errors}
-            error={formik.errors.email && formik.touched.email}
-            value={formik.values.email}
-            onChange={formik.handleChange('email')}
-            actionLeftStyle={{left: -4}}
-            actionLeft={() => (
-              <SvgUser
-                fill={
-                  formik.errors.email && formik.touched.email ? ERROR : PRIMARY
-                }
-              />
-            )}
-            placeholder="Email Address"
-          />
-          <View style={{marginVertical: 20, marginBottom: 20}}>
             <InputText
-              name={'password'}
+              keyboardType={'email-address'}
+              name={'email'}
               touched={formik.touched}
               errors={formik.errors}
-              error={formik.errors.password && formik.touched.password}
-              value={formik.values.password}
-              onChange={formik.handleChange('password')}
+              error={formik.errors.email && formik.touched.email}
+              value={formik.values.email}
+              onChange={formik.handleChange('email')}
               actionLeftStyle={{left: -4}}
               actionLeft={() => (
-                <SvgPassword
+                <SvgUser
                   fill={
-                    formik.errors.password && formik.touched.password
+                    formik.errors.email && formik.touched.email
                       ? ERROR
                       : PRIMARY
                   }
                 />
               )}
-              placeholder="Password"
-              secureTextEntry={hidePassword}
-              actionRight={() => (
-                <TouchableOpacity
-                  onPress={() => setHidePassword(!hidePassword)}>
-                  {hidePassword ? <SvgEyeOutline /> : <SvgEye />}
-                </TouchableOpacity>
-              )}
+              placeholder="Email Address"
             />
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate(routesPath.FORGOT_PASSWORD_SCREEN)
-              }
-              style={styles.forgotStyle}>
-              <Text bold color="theme">
-                Forgot password ?
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <Button
-            onClick={() => {
-              Keyboard.dismiss();
-              formik.handleSubmit();
-            }}>
-            LOGIN
-          </Button>
-          <Button
-            onClick={() => navigation.navigate(routesPath.REGISTER_SCREEN)}
-            overrideStyle={styles.registerBtn}
-            types="secondary">
-            REGISTER HERE
-          </Button>
-        </Flex>
-        <View style={styles.footerStyle} />
+            <View style={{marginVertical: 20, marginBottom: 20}}>
+              <InputText
+                name={'password'}
+                touched={formik.touched}
+                errors={formik.errors}
+                error={formik.errors.password && formik.touched.password}
+                value={formik.values.password}
+                onChange={formik.handleChange('password')}
+                actionLeftStyle={{left: -4}}
+                actionLeft={() => (
+                  <SvgPassword
+                    fill={
+                      formik.errors.password && formik.touched.password
+                        ? ERROR
+                        : PRIMARY
+                    }
+                  />
+                )}
+                placeholder="Password"
+                secureTextEntry={hidePassword}
+                actionRight={() => (
+                  <TouchableOpacity
+                    onPress={() => setHidePassword(!hidePassword)}>
+                    {hidePassword ? <SvgEyeOutline /> : <SvgEye />}
+                  </TouchableOpacity>
+                )}
+              />
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate(routesPath.FORGOT_PASSWORD_SCREEN)
+                }
+                style={styles.forgotStyle}>
+                <Text bold color="theme">
+                  Forgot password ?
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <Button
+              onClick={() => {
+                Keyboard.dismiss();
+                formik.handleSubmit();
+              }}>
+              LOGIN
+            </Button>
+            <Button
+              onClick={() => navigation.navigate(routesPath.REGISTER_SCREEN)}
+              overrideStyle={styles.registerBtn}
+              types="secondary">
+              REGISTER HERE
+            </Button>
+          </Flex>
+          <View style={styles.footerStyle} />
+        </ScrollView>
       </Flex>
     </Flex>
   );

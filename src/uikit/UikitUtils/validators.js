@@ -63,10 +63,10 @@ export const isValidEmail = value => {
   }
   return false;
 };
-
+// (?=.*[@$!%*?&`~#^-_+=])
 export const isValidPassword = value => {
   if (typeof value === 'string') {
-    return value.trim().match(/^(?=.*?[A-Z])(?=.*?[a-z]).{8,12}/) !== null;
+    return value.trim().match(/^(?=.*?[A-Z])(?=.*?[0-9])(?=.*[@$!%*?&`~#^-_+=])(?=.*?[a-z]).{8,12}/) !== null;
   }
   return false;
 };
