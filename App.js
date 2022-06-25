@@ -11,6 +11,7 @@ import OfflineScreen from './src/modules/offlinemodule/OfflineScreen';
 // import Logger, {startNetworkLogging} from 'react-native-network-logger';
 // import {TouchableOpacity} from 'react-native';
 // import Text from './src/uikit/Text/Text';
+import { RootSiblingParent } from 'react-native-root-siblings';
 
 const App = () => {
   // const [showLogger, setShowLogger] = useState(false);
@@ -28,6 +29,7 @@ const App = () => {
 
   return netInfo.isConnected || netInfo.isConnected === null ? (
     <SafeAreaProvider>
+      <RootSiblingParent>
       <Provider store={store}>
         <NavigationContainer>
           {/* {
@@ -41,6 +43,7 @@ const App = () => {
           <AppLayout />
         </NavigationContainer>
       </Provider>
+      </RootSiblingParent>
     </SafeAreaProvider>
   ) : (
     <SafeAreaProvider>

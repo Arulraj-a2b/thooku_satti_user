@@ -22,7 +22,7 @@ export const signInMiddleWare = createAsyncThunk(
       });
       return data;
     } catch (error) {
-      Toast(error.response.data[0].Message);
+      Toast(error.response.data[0].Message,'error');
       const typedError = error;
       return rejectWithValue(typedError);
     }

@@ -1,29 +1,35 @@
-import { ToastAndroid } from 'react-native';
-import { isEmpty } from '../UikitUtils/validators';
+import {isEmpty} from '../UikitUtils/validators';
+import ToastAndroid from 'react-native-root-toast';
+import {BLACK, ERROR, SUCCESS, WHITE} from '../UikitUtils/colors';
+import {textStyles} from '../Text/textStyle';
 
-const handleSetAppDuration = duration => {
-  let res = ToastAndroid.SHORT;
-  if (duration === 'LONG') {
-    res = ToastAndroid.LONG;
+const Toast = (
+  message,
+  color = 'success',
+  duration = 'SHORT',
+  position = 'BOTTOM',
+) => {
+  if (!isEmpty(color)) {
+    if (color === 'error') {
+      color = ERROR;
+    }
+    if (color === 'success') {
+      color = SUCCESS;
+    }
+    if (color === 'black') {
+      color = BLACK;
+    }
+    if (color === 'error') {
+      color = ERROR;
+    }
   }
-  return res;
-};
 
-const handleAppGravity = position => {
-  switch (position) {
-    case 'BOTTOM':
-      return ToastAndroid.BOTTOM;
-    case 'CENTER':
-      return ToastAndroid.CENTER;
-    default:
-      return ToastAndroid.TOP;
-  }
-};
-const Toast = (message, duration = 'SHORT', position = 'CENTER') => {
-  const choosenDuration = handleSetAppDuration(duration);
-  const choosenPosition = handleAppGravity(position);
-  if (!isEmpty(message)) {
-    ToastAndroid.showWithGravity(message, choosenDuration, choosenPosition);
-  }
+  return ToastAndroid.show(message, {
+    backgroundColor: color,
+    textColor: WHITE,
+    textStyle: textStyles.bold,
+    position: ToastAndroid.positions[position],
+    duration: ToastAndroid.durations[duration],
+  });
 };
 export default Toast;

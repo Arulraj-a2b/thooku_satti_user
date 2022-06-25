@@ -108,7 +108,7 @@ const RegisterScreen = () => {
           res.payload[0].Message === 'Success'
         ) {
           navigattion.navigate('LoginScreen');
-          Toast('Account create successfully');
+          Toast('Account create successfully','success');
           formik.resetForm()
         }
       })
