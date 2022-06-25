@@ -11,11 +11,11 @@ import {routesPath} from '../routes/routesPath';
 import {WHITE} from '../uikit/UikitUtils/colors';
 import Header from './Header';
 
-const LoginStack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator();
 
 const MainNavigator = () => {
   return (
-    <LoginStack.Navigator
+    <Stack.Navigator
       screenOptions={{
         headerMode: 'screen',
         contentStyle: {
@@ -23,22 +23,22 @@ const MainNavigator = () => {
         },
       }}
       initialRouteName={routesPath.LOGIN_SCREEN}>
-      <LoginStack.Screen
+      <Stack.Screen
         name={routesPath.LOGIN_SCREEN}
         component={LoginScreen}
         options={{headerShown: false}}
       />
-      <LoginStack.Screen
+      <Stack.Screen
         name={routesPath.REGISTER_SCREEN}
         component={RegisterScreen}
         options={{headerShown: false}}
       />
-      <LoginStack.Screen
+      <Stack.Screen
         name={routesPath.HOME_SCREEN}
         component={HomeScreen}
         options={{headerShown: true, headerBackVisible: false}}
       />
-      <LoginStack.Screen
+      <Stack.Screen
         name={routesPath.FORGOT_PASSWORD_SCREEN}
         component={ForgotPasswordScreen}
         options={() => ({
@@ -46,7 +46,7 @@ const MainNavigator = () => {
           header: props => <Header props={props} />,
         })}
       />
-      <LoginStack.Screen
+      <Stack.Screen
         name={routesPath.FORGOT_PASSWORD_VERIFY_SCREEN}
         component={ForgotPasswordVerifyScreen}
         options={() => ({
@@ -54,7 +54,7 @@ const MainNavigator = () => {
           header: props => <Header props={props} />,
         })}
       />
-      <LoginStack.Screen
+      <Stack.Screen
         name={routesPath.CREATE_PASSWORD_SCREEN}
         component={CreatePasswordScreen}
         options={() => ({
@@ -62,7 +62,7 @@ const MainNavigator = () => {
           header: props => <Header props={props} />,
         })}
       />
-      <LoginStack.Screen
+      <Stack.Screen
         name={routesPath.CREATE_PASSWORD_SUCCESS}
         component={CreatePasswordSuccss}
         options={() => ({
@@ -70,7 +70,7 @@ const MainNavigator = () => {
           header: props => <Header props={props} />,
         })}
       />
-    </LoginStack.Navigator>
+    </Stack.Navigator>
   );
 };
 
