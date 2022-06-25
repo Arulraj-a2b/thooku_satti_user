@@ -47,5 +47,8 @@ export const inputTextStyles = StyleSheet.create({
   },
   commonBorder:{
     borderColor: BORDER_COLOR,
+  },
+  normal:{
+    borderRadius:4
   }
 });

@@ -12,6 +12,7 @@ import OfflineScreen from './src/modules/offlinemodule/OfflineScreen';
 // import {TouchableOpacity} from 'react-native';
 // import Text from './src/uikit/Text/Text';
 import { RootSiblingParent } from 'react-native-root-siblings';
+import 'react-native-gesture-handler';
 
 const App = () => {
   // const [showLogger, setShowLogger] = useState(false);

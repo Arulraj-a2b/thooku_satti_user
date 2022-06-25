@@ -1,6 +1,7 @@
 import React from 'react';
 import {Pressable, StyleSheet} from 'react-native';
 import SvgBack from '../icons/SvgBack';
+import SvgHamburger from '../icons/SvgHamburger';
 import Flex from '../uikit/Flex/Flex';
 import Text from '../uikit/Text/Text';
 import {PRIMARY, WHITE} from '../uikit/UikitUtils/colors';
@@ -17,10 +18,16 @@ const styles = StyleSheet.create({
     padding: 6,
     borderRadius: 8,
   },
+  hamburgerStyle: {
+    padding: 12,
+    backgroundColor: WHITE,
+    borderRadius: 8,
+  },
 });
+
 const Header = ({props, isBack}) => {
   return (
-    <Flex overrideStyle={styles.overAll}>
+    <Flex between row center overrideStyle={styles.overAll}>
       <Flex row center>
         {!isBack && (
           <Pressable
@@ -33,9 +40,14 @@ const Header = ({props, isBack}) => {
           {props.options.title}
         </Text>
       </Flex>
-      {/* <TouchableOpacity onPress={() => props.navigation.navigate('SideNav')}>
-        <SvgHamburger fill={WHITE} width={30} height={20} />
-      </TouchableOpacity> */}
+      <Pressable
+        style={styles.hamburgerStyle}
+      //   onPress={() => 
+      //   props.navigation.navigate('SideNav')
+      // }
+        >
+        <SvgHamburger fill={WHITE} width={14} height={8} />
+      </Pressable>
     </Flex>
   );
 };

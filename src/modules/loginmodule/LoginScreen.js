@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {
-  Dimensions,
   Keyboard,
   ScrollView,
   StyleSheet,
@@ -30,7 +29,7 @@ import Loader from '../../uikit/Loader/Loader';
 import SvgEye from '../../icons/SvgEye';
 import SvgEyeOutline from '../../icons/SvgEyleOutLine';
 import {useAuthCheck} from '../../utility/config';
-import {routesPath} from '../../routes/routesPath';
+import {routesPath, stacks} from '../../routes/routesPath';
 
 const styles = StyleSheet.create({
   logoContainer: {
@@ -41,10 +40,6 @@ const styles = StyleSheet.create({
     paddingVertical: 24,
     paddingHorizontal: 20,
     paddingLeft: 30,
-    // height: 300,
-  },
-  overAll: {
-    backgroundColor: WHITE,
   },
   registerBtn: {
     marginVertical: 20,
@@ -101,7 +96,7 @@ const LoginScreen = () => {
             JSON.stringify({...res.payload[0], loggedIn: true}),
           );
           formik.resetForm();
-          navigation.navigate(routesPath.HOME_SCREEN);
+          navigation.navigate(stacks.HomeStack);
         }
       });
     });
@@ -129,12 +124,11 @@ const LoginScreen = () => {
   });
 
   return (
-    <ScrollView
-      showsHorizontalScrollIndicator={false}
-      showsVerticalScrollIndicator={false}
-      style={styles.overAll}>
-      <Flex flex={1} >
-        {isLoading && <Loader />}
+    <Flex flex={1}>
+      {isLoading && <Loader />}
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}>
         <Flex center middle overrideStyle={styles.logoContainer}>
           <SvgLogo width={350} height={130} />
         </Flex>
@@ -215,10 +209,9 @@ const LoginScreen = () => {
               REGISTER HERE
             </Button>
           </Flex>
-          {/* <View style={styles.footerStyle} /> */}
         </Flex>
-      </Flex>
-    </ScrollView>
+      </ScrollView>
+    </Flex>
   );
 };
 

@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import {useEffect} from 'react';
+import {stacks} from '../routes/routesPath';
 
 export const BASE_URL = 'https://foodapp.appsure.co.in/api/';
 
@@ -18,7 +19,7 @@ export const useAuthCheck = () => {
         userData = JSON.parse(userData);
 
         if (userData.loggedIn) {
-          navigation.navigate('HomeScreen');
+          navigation.navigate(stacks.HomeStack);
         } else {
           navigation.navigate('LoginScreen');
         }

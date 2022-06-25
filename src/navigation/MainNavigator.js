@@ -4,11 +4,11 @@ import CreatePasswordScreen from '../modules/forgotpasswordmodule/CreatePassword
 import CreatePasswordSuccss from '../modules/forgotpasswordmodule/CreatePasswordSuccss';
 import ForgotPasswordScreen from '../modules/forgotpasswordmodule/ForgotPasswordScreen';
 import ForgotPasswordVerifyScreen from '../modules/forgotpasswordmodule/ForgotPasswordVerifyScreen';
-import HomeScreen from '../modules/homemodule/HomeScreen';
 import LoginScreen from '../modules/loginmodule/LoginScreen';
 import RegisterScreen from '../modules/registermodule/RegisterScreen';
-import {routesPath} from '../routes/routesPath';
+import {routesPath, stacks} from '../routes/routesPath';
 import {WHITE} from '../uikit/UikitUtils/colors';
+import BottomTab from './BottomTab';
 import Header from './Header';
 
 const Stack = createNativeStackNavigator();
@@ -34,10 +34,11 @@ const MainNavigator = () => {
         options={{headerShown: false}}
       />
       <Stack.Screen
-        name={routesPath.HOME_SCREEN}
-        component={HomeScreen}
-        options={{headerShown: true, headerBackVisible: false}}
+        options={{headerShown: false}}
+        name={stacks.HomeStack}
+        component={BottomTab}
       />
+
       <Stack.Screen
         name={routesPath.FORGOT_PASSWORD_SCREEN}
         component={ForgotPasswordScreen}

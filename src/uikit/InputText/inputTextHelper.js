@@ -17,9 +17,9 @@ export const inptTextHelper = ({
   }
 
   if (!isEmpty(types)) {
-    // if (types === "normal") {
-    //   styleArray.push(inputTextStyles.normal);
-    // }
+    if (types === "normal") {
+      styleArray.push(inputTextStyles.normal);
+    }
   }
   if (error) {
     styleArray.push(inputTextStyles.error);
