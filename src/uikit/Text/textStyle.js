@@ -8,7 +8,9 @@ import {
   PRIMARY_TEXT,
   SUCCESS,
   WHITE,
+  GARY_3
 } from "../UikitUtils/colors";
+
 export const textStyles = StyleSheet.create({
   bold: {
     fontWeight: "bold",
@@ -28,6 +30,9 @@ export const textStyles = StyleSheet.create({
   },
   gray: {
     color: GARY_2,
+  },
+  btnTextColor:{
+    color: '#424242',
   },
   common: {
     fontFamily: "Poppins-Regular",

@@ -129,20 +129,17 @@ const LoginScreen = () => {
   });
 
   return (
-    <Flex flex={1} overrideStyle={styles.overAll}>
-      {isLoading && <Loader />}
-      <Flex center middle overrideStyle={styles.logoContainer}>
-        <SvgLogo width={350} height={130} />
-      </Flex>
-      <Flex flex={1} between>
-        <ScrollView
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}>
-          <Flex
-            overrideStyle={[
-              styles.inputContainer,
-              {height: Dimensions.get('screen').height - 262},
-            ]}>
+    <ScrollView
+      showsHorizontalScrollIndicator={false}
+      showsVerticalScrollIndicator={false}
+      style={styles.overAll}>
+      <Flex flex={1} >
+        {isLoading && <Loader />}
+        <Flex center middle overrideStyle={styles.logoContainer}>
+          <SvgLogo width={350} height={130} />
+        </Flex>
+        <Flex flex={1} between>
+          <Flex overrideStyle={[styles.inputContainer]}>
             <Text size={20} bold overrideStyle={styles.loginText}>
               Login Here
             </Text>
@@ -218,10 +215,10 @@ const LoginScreen = () => {
               REGISTER HERE
             </Button>
           </Flex>
-          <View style={styles.footerStyle} />
-        </ScrollView>
+          {/* <View style={styles.footerStyle} /> */}
+        </Flex>
       </Flex>
-    </Flex>
+    </ScrollView>
   );
 };
 

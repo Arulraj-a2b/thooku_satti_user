@@ -1,7 +1,7 @@
-import React, { ReactNode, useEffect, useState } from "react";
-import { TextStyle, ViewStyle, Text as TextComponent } from "react-native";
-import { textHelper } from "./textHelper";
-import { textStyles } from "./textStyle";
+import React, {useEffect, useState} from 'react';
+import {Text as TextComponent} from 'react-native';
+import {textHelper} from './textHelper';
+import {textStyles} from './textStyle';
 
 const Text = ({
   children,
@@ -11,7 +11,7 @@ const Text = ({
   ellipsizeMode,
   numberOfLines,
   size = 14,
-  color = "primary",
+  color = 'primary',
   align,
   transform,
 }) => {
@@ -19,7 +19,7 @@ const Text = ({
 
   useEffect(() => {
     handleStyleContainer();
-  }, [overrideStyle,color]);
+  }, [overrideStyle, color,bold]);
 
   const handleStyleContainer = () => {
     const styleContainerArray = [textStyles.common];
@@ -42,8 +42,7 @@ const Text = ({
     <TextComponent
       ellipsizeMode={ellipsizeMode}
       numberOfLines={numberOfLines}
-      style={[...styleContainer, { fontSize: size }]}
-    >
+      style={[...styleContainer, {fontSize: size}]}>
       {children}
     </TextComponent>
   );

@@ -430,7 +430,7 @@ const RegisterScreen = () => {
               </TouchableOpacity>
             </Flex>
           </Flex>
-          <View style={styles.footerStyle} />
+          {/* <View style={styles.footerStyle} /> */}
         </Flex>
       </Flex>
     </ScrollView>
