@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Header = ({props, isBack}) => {
+const Header = ({props, isBack, isMenu}) => {
   return (
     <Flex between row center overrideStyle={styles.overAll}>
       <Flex row center>
@@ -40,14 +40,16 @@ const Header = ({props, isBack}) => {
           {props.options.title}
         </Text>
       </Flex>
-      <Pressable
-        style={styles.hamburgerStyle}
-      //   onPress={() => 
-      //   props.navigation.navigate('SideNav')
-      // }
+      {isMenu && (
+        <Pressable
+          style={styles.hamburgerStyle}
+          //   onPress={() =>
+          //   props.navigation.navigate('SideNav')
+          // }
         >
-        <SvgHamburger fill={WHITE} width={14} height={8} />
-      </Pressable>
+          <SvgHamburger fill={WHITE} width={14} height={8} />
+        </Pressable>
+      )}
     </Flex>
   );
 };

@@ -42,7 +42,7 @@ const App = () => {
       );
     }
   }
-  console.log('isLocationDetail', isLocationDetail);
+  // console.log('isLocationDetail', isLocationDetail);
 
   const netInfo = useNetInfo();
 

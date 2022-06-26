@@ -6,8 +6,8 @@ import {textStyles} from '../Text/textStyle';
 const Toast = (
   message,
   color = 'success',
-  duration = 'SHORT',
   position = 'CENTER',
+  duration = 'SHORT',
 ) => {
   if (!isEmpty(color)) {
     if (color === 'error') {

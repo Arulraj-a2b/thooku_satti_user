@@ -68,7 +68,7 @@ const MainNavigator = () => {
         component={CreatePasswordSuccss}
         options={() => ({
           title: '',
-          header: props => <Header props={props} />,
+          header: props => <Header props={props} isBack />,
         })}
       />
     </Stack.Navigator>
