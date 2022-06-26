@@ -7,7 +7,7 @@ const Toast = (
   message,
   color = 'success',
   duration = 'SHORT',
-  position = 'BOTTOM',
+  position = 'CENTER',
 ) => {
   if (!isEmpty(color)) {
     if (color === 'error') {

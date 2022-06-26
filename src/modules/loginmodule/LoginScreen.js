@@ -17,10 +17,9 @@ import Button from '../../uikit/Button/Button';
 import Flex from '../../uikit/Flex/Flex';
 import InputText from '../../uikit/InputText/InputText';
 import Text from '../../uikit/Text/Text';
-import {ERROR, PRIMARY, WHITE} from '../../uikit/UikitUtils/colors';
+import {ERROR, PRIMARY} from '../../uikit/UikitUtils/colors';
 import {
   INVALID_EMAIL_ENTERED,
-  INVALID_PASSWORD,
   THIS_FIELD_REQUIRED,
 } from '../../uikit/UikitUtils/constants';
 import {isEmpty, isValidEmail} from '../../uikit/UikitUtils/validators';
@@ -111,8 +110,6 @@ const LoginScreen = () => {
     }
     if (isEmpty(values.password)) {
       errors.password = THIS_FIELD_REQUIRED;
-    } else if (values.password.length < 8 || values.password.length > 16) {
-      errors.password = INVALID_PASSWORD;
     }
     return errors;
   };

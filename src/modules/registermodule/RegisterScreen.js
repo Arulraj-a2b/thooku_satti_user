@@ -28,11 +28,7 @@ import {
   INVALID_PHONE_ENTERED,
   THIS_FIELD_REQUIRED,
 } from '../../uikit/UikitUtils/constants';
-import {
-  isEmpty,
-  isValidEmail,
-  isValidPassword,
-} from '../../uikit/UikitUtils/validators';
+import {isEmpty, isValidEmail} from '../../uikit/UikitUtils/validators';
 import ErrorMessage from '../../uikit/ErrorMessage/ErrorMessage';
 import PhoneInputText from '../../uikit/PhoneInputText/PhoneInputText';
 import {useDispatch} from 'react-redux';
@@ -108,8 +104,8 @@ const RegisterScreen = () => {
           res.payload[0].Message === 'Success'
         ) {
           navigattion.navigate('LoginScreen');
-          Toast('Account create successfully','success');
-          formik.resetForm()
+          Toast('Account create successfully', 'success');
+          formik.resetForm();
         }
       })
       .catch(() => {
@@ -150,15 +146,17 @@ const RegisterScreen = () => {
 
     if (isEmpty(values.address)) {
       errors.address = THIS_FIELD_REQUIRED;
-    } else if (values.address.length < 15) {
-      errors.address = 'Please enter a valid city name';
     }
+    // else if (values.address.length < 15) {
+    //   errors.address = 'Please enter a valid city name';
+    // }
 
     if (isEmpty(values.password)) {
       errors.password = THIS_FIELD_REQUIRED;
-    } else if (!isValidPassword(values.password)) {
-      errors.password = `Password must be at least 8 - 12 characters long, at least one lowercase and one uppercase`;
     }
+    // else if (!isValidPassword(values.password)) {
+    //   errors.password = `Password must be at least 8 - 12 characters long, at least one lowercase and one uppercase`;
+    // }
 
     if (isEmpty(values.confirmPassword)) {
       errors.confirmPassword = THIS_FIELD_REQUIRED;
@@ -168,9 +166,10 @@ const RegisterScreen = () => {
 
     if (isEmpty(values.city)) {
       errors.city = THIS_FIELD_REQUIRED;
-    } else if (values.city.length < 3) {
-      errors.city = 'Please enter a valid city name';
     }
+    // else if (values.city.length < 3) {
+    //   errors.city = 'Please enter a valid city name';
+    // }
 
     return errors;
   };
@@ -371,8 +370,12 @@ const RegisterScreen = () => {
             </View>
             <View style={styles.marginTop16}>
               <InputText
+                overrideStyle={{textAlignVertical: 'top'}}
+                height={130}
+                numberOfLines={30}
+                multiline
                 maxLength={4000}
-                actionLeftStyle={{left: -4}}
+                actionLeftStyle={{left: -4,top:0}}
                 actionLeft={() => (
                   <SvgLocation
                     fill={
