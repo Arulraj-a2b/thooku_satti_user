@@ -1,49 +1,59 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Provider} from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
 import {useNetInfo} from '@react-native-community/netinfo';
+import Geolocation from 'react-native-geolocation-service';
+import {PERMISSIONS, request} from 'react-native-permissions';
+import {RootSiblingParent} from 'react-native-root-siblings';
+import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import store from './store';
 import AppLayout from './src/navigation/AppLayout';
 import {requestUserPermission} from './src/utility/notificationService';
 import OfflineScreen from './src/modules/offlinemodule/OfflineScreen';
-// import Logger, {startNetworkLogging} from 'react-native-network-logger';
-// import {TouchableOpacity} from 'react-native';
-// import Text from './src/uikit/Text/Text';
-import { RootSiblingParent } from 'react-native-root-siblings';
-import 'react-native-gesture-handler';
 
 const App = () => {
-  // const [showLogger, setShowLogger] = useState(false);
+  const [isLocationDetail, setLocationDetail] = useState({});
 
   useEffect(() => {
-    // startNetworkLogging();
     requestUserPermission();
     setTimeout(() => {
       SplashScreen.hide();
     }, 1000);
+    // requestLocationPermission();
   }, []);
 
+  async function requestLocationPermission() {
+    var res = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
+    if (res === 'granted') {
+      await Geolocation.getCurrentPosition(
+        ({coords}) => {
+          setLocationDetail(coords);
+        },
+        _error => {
+          // Alert.alert(error.code,error.message)
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 15000,
+          maximumAge: 10000,
+        },
+      );
+    }
+  }
+  console.log('isLocationDetail', isLocationDetail);
+
   const netInfo = useNetInfo();
-  // const handleToggleLogger = () => setShowLogger(!showLogger);
 
   return netInfo.isConnected || netInfo.isConnected === null ? (
     <SafeAreaProvider>
       <RootSiblingParent>
-      <Provider store={store}>
-        <NavigationContainer>
-          {/* {
-            <TouchableOpacity onPress={handleToggleLogger}>
-              <Text color={'link'}>
-                {showLogger ? 'Hide Logger' : 'Show Logger'}
-              </Text>
-            </TouchableOpacity>
-          }
-          {showLogger ? <Logger /> : <AppLayout />} */}
-          <AppLayout />
-        </NavigationContainer>
-      </Provider>
+        <Provider store={store}>
+          <NavigationContainer>
+            <AppLayout />
+          </NavigationContainer>
+        </Provider>
       </RootSiblingParent>
     </SafeAreaProvider>
   ) : (
