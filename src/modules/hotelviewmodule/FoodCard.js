@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Image, StyleSheet, Pressable, View} from 'react-native';
 import SvgFav from '../../icons/SvgFav';
 import SvgStar from '../../icons/SvgStar';
@@ -7,14 +7,14 @@ import Text from '../../uikit/Text/Text';
 import {
   BLACK,
   BORDER_COLOR,
-  GRAY_5,
+  GARY_1,
   PRIMARY,
   WHITE,
 } from '../../uikit/UikitUtils/colors';
 import SvgSuccess from '../../icons/SvgSccess';
-import SvgClock from '../../icons/SvgClock';
 import {useNavigation} from '@react-navigation/native';
 import {routesPath} from '../../routes/routesPath';
+import Stepper from '../../uikit/Stepper/Stepper';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -33,16 +33,27 @@ const styles = StyleSheet.create({
     height: 136,
     borderTopRightRadius: 8,
     borderTopLeftRadius: 8,
+    backgroundColor: GARY_1,
   },
   imageContainer: {
     position: 'relative',
   },
-  ratingContainer: {
+  priceContainer: {
     position: 'absolute',
     paddingHorizontal: 16,
     top: 10,
     display: 'flex',
     width: '100%',
+  },
+  ratingContainer: {
+    position: 'absolute',
+    paddingHorizontal: 16,
+    bottom: -14,
+    display: 'flex',
+    width: '100%',
+    zIndex: 11,
+    left: 0,
+    alignItems: 'flex-start',
   },
   ratingBox: {
     backgroundColor: WHITE,
@@ -74,54 +85,41 @@ const styles = StyleSheet.create({
   svgSuccess: {
     marginLeft: 4,
   },
-  chip: {
-    backgroundColor: GRAY_5,
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'flex-start',
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    borderRadius: 4,
-    elevation: 2,
-    shadowColor: BLACK,
-    shadowOffset: {width: 0, height: 3},
-    shadowOpacity: 0.06,
-    shadowRadius: 3,
-  },
   nameListContainer: {
     paddingHorizontal: 20,
-    paddingVertical: 12,
+    paddingBottom: 12,
+    paddingTop: 24,
     borderBottomRightRadius: 8,
     borderBottomLeftRadius: 8,
     borderTopWidth: 1,
     borderTopColor: BORDER_COLOR,
   },
+  choiceStyle: {
+    position: 'absolute',
+    bottom: -20,
+  },
 });
 
-const HotalCard = ({item, index, totalLength, isAll}) => {
+const FoodCard = ({}) => {
+  const [isCount, setCount] = useState(0);
   const navigation = useNavigation();
   const handleNavigate = () => {
-    navigation.navigate(routesPath.HOTEL_LIST_VIEW_SCREEN);
+    // navigation.navigate(routesPath.HOTEL_LIST_VIEW_SCREEN);
   };
   return (
     <Pressable onPress={handleNavigate}>
-      <Flex
-        overrideStyle={[
-          styles.overAll,
-          {marginBottom: index + 1 === totalLength && isAll ? 50 : 8},
-        ]}>
+      <Flex overrideStyle={[styles.overAll]}>
         <Flex overrideStyle={styles.imageContainer}>
           <Image
             resizeMode="cover"
-            source={{uri: item.HotelImage}}
+            source={{uri: ''}}
             style={styles.imageStyle}
           />
-          <View style={styles.ratingContainer}>
+          <View style={styles.priceContainer}>
             <Flex row center between>
-              <Flex row center middle overrideStyle={styles.ratingBox}>
-                <SvgStar />
-                <Text size={12} bold overrideStyle={{marginLeft: 4}}>
-                  4.0
+              <Flex center middle overrideStyle={styles.ratingBox}>
+                <Text size={14} bold>
+                  ₹ 40
                 </Text>
               </Flex>
               <View style={styles.svgFavStye}>
@@ -129,44 +127,40 @@ const HotalCard = ({item, index, totalLength, isAll}) => {
               </View>
             </Flex>
           </View>
+          <View style={styles.ratingContainer}>
+            <Flex row center middle overrideStyle={styles.ratingBox}>
+              <SvgStar />
+              <Text size={10} color="gray" bold>
+                {' (45+)'}
+              </Text>
+            </Flex>
+          </View>
         </Flex>
 
         <Flex overrideStyle={styles.nameListContainer}>
-          <Flex row center>
-            <Text bold size={14}>
-              {item.HotelName}
-            </Text>
-            <View style={styles.svgSuccess}>
-              <SvgSuccess height={10} width={10} />
-            </View>
-          </Flex>
-          <Flex row center overrideStyle={{marginTop: 8}}>
-            {/* <Flex row center>
-            <View style={{marginRight: 4, marginBottom: 2}}>
-              <SvgSuccess height={13} width={13} />
-            </View>
-            <Text color="gray" size={14}>
-              Free delivery
-            </Text>
-          </Flex> */}
+          <Flex row center between>
             <Flex row center>
-              <View style={{marginRight: 4}}>
-                <SvgClock fill={PRIMARY} />
+              <Text bold size={14}>
+                {'Chicken Hawaiian'}
+              </Text>
+              <View style={styles.svgSuccess}>
+                <SvgSuccess height={10} width={10} />
               </View>
-              <Text color="gray" size={14}>
-                10-15 mins
+            </Flex>
+            <Flex center overrideStyle={{position: 'relative'}}>
+              <Stepper onChange={setCount} />
+              <Text size={12} color="gray" overrideStyle={styles.choiceStyle}>
+                {'(choice)'}
               </Text>
             </Flex>
           </Flex>
-          {/* <Flex overrideStyle={styles.chip}>
-          <Text color="gray" size={12}>
-            Burger
+          <Text color="gray" overrideStyle={{marginTop: 2}}>
+            Chicken, Cheese and pineapple
           </Text>
-        </Flex> */}
         </Flex>
       </Flex>
     </Pressable>
   );
 };
 
-export default HotalCard;
+export default FoodCard;
