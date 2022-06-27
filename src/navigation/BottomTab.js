@@ -13,7 +13,7 @@ function BottomTab() {
   return (
     <Tab.Navigator
       screenOptions={{
-        header: props => <Header props={props} isBack />,
+        header: props => <Header props={props} isBack isMenu />,
       }}>
       <Tab.Screen
         name={routesPath.HOME_SCREEN}

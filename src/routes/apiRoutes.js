@@ -6,4 +6,4 @@ export const signInApi = fetchUrl('Mobapi/MobileSignUp');
 export const getForgotEmailOtpApi = fetchUrl('Mobapi/GetOTP');
 export const emailVerifyOtpApi = fetchUrl('Mobapi/ValidateOTP');
 export const changePasswordApi = fetchUrl('Mobapi/ChangePassword');
-
+export const getRestaurantListApi = fetchUrl('Mobapi/GetRestaurantList');

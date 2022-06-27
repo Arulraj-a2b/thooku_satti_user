@@ -8,6 +8,7 @@ export const GARY_1 = '#898A8F';
 export const GARY_2 = '#999999';
 export const GRAY_3 = '#424242';
 export const GRAY_4 = '#D3D1D8';
+export const GRAY_5 = '#F6F6F6';
 
 export const PRIMARY = '#e59722';
 export const SECONDARY = '#ffc929';
