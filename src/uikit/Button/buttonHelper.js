@@ -3,7 +3,7 @@ import { buttonStyles } from "./buttonStyles";
 
 export const isButtonHeightKey = (str) => str !== undefined;
 
-export const buttonHelper = ({ flex, styleArray, height, types, disabled }) => {
+export const buttonHelper = ({ flex, styleArray, height, types, disabled ,normal}) => {
   if (!isEmpty(flex)) {
     styleArray.push({ flex });
   }
@@ -24,6 +24,10 @@ export const buttonHelper = ({ flex, styleArray, height, types, disabled }) => {
     styleArray.push(buttonStyles.secondaryBtn);
   }
 
+  if(normal){
+    styleArray.push(buttonStyles.normal);
+
+  }
   if (disabled) {
     styleArray.push(buttonStyles.disabled);
   }

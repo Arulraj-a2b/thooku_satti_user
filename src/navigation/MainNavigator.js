@@ -5,6 +5,7 @@ import CreatePasswordSuccss from '../modules/forgotpasswordmodule/CreatePassword
 import ForgotPasswordScreen from '../modules/forgotpasswordmodule/ForgotPasswordScreen';
 import ForgotPasswordVerifyScreen from '../modules/forgotpasswordmodule/ForgotPasswordVerifyScreen';
 import LoginScreen from '../modules/loginmodule/LoginScreen';
+import MapView from '../modules/mapmodule/MapView';
 import RegisterScreen from '../modules/registermodule/RegisterScreen';
 import {routesPath, stacks} from '../routes/routesPath';
 import {WHITE} from '../uikit/UikitUtils/colors';
@@ -22,10 +23,16 @@ const MainNavigator = () => {
           backgroundColor: WHITE,
         },
       }}
-      initialRouteName={routesPath.LOGIN_SCREEN}>
+      >
       <Stack.Screen
         name={routesPath.LOGIN_SCREEN}
         component={LoginScreen}
+        options={{headerShown: false}}
+      />
+
+      <Stack.Screen
+        name={routesPath.MAP_VIEW_SCREEN}
+        component={MapView}
         options={{headerShown: false}}
       />
       <Stack.Screen
@@ -38,7 +45,6 @@ const MainNavigator = () => {
         name={stacks.HomeStack}
         component={BottomTab}
       />
-
       <Stack.Screen
         name={routesPath.FORGOT_PASSWORD_SCREEN}
         component={ForgotPasswordScreen}

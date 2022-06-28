@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import {useEffect} from 'react';
-import {stacks} from '../routes/routesPath';
+import {routesPath, stacks} from '../routes/routesPath';
 
 export const BASE_URL = 'https://foodapp.appsure.co.in/api/';
 
@@ -15,15 +15,19 @@ export const useAuthCheck = () => {
   const authUser = async () => {
     try {
       let userData = await AsyncStorage.getItem('userData');
-      if (userData) {
-        userData = JSON.parse(userData);
-
-        if (userData.loggedIn) {
-          navigation.navigate(stacks.HomeStack);
-        } else {
-          navigation.navigate('LoginScreen');
+      let geoLocation = await AsyncStorage.getItem('geoLocationDone');
+      console.log('geoLocation',geoLocation);
+      if (geoLocation) {
+        if (userData) {
+          userData = JSON.parse(userData);
+          if (userData.loggedIn) {
+            navigation.navigate(stacks.HomeStack);
+          } else {
+            navigation.navigate('LoginScreen');
+          }
         }
       } else {
+        navigation.navigate(routesPath.MAP_VIEW_SCREEN);
       }
     } catch (error) {
       navigation.navigate('LoginScreen');
@@ -31,5 +35,5 @@ export const useAuthCheck = () => {
   };
   useEffect(() => {
     authUser();
-  });
+  }, []);
 };

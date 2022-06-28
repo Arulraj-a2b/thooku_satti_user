@@ -1,6 +1,8 @@
 import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PushNotification from 'react-native-push-notification';
+import {useNavigation} from '@react-navigation/native';
+import {routesPath} from '../routes/routesPath';
 
 export const handleNotification = message => {
   PushNotification.cancelAllLocalNotifications();
@@ -25,6 +27,26 @@ export async function requestUserPermission() {
     getFcmToken();
   }
 }
+
+export const checkLocationUser = async () => {
+  const navigation = useNavigation();
+  try {
+    let geoLocation = await AsyncStorage.getItem('geoLocationDone');
+
+    if (geoLocation) {
+      geoLocation = JSON.parse(geoLocation);
+      if (geoLocation) {
+        navigation.navigate('LoginScreen');
+      } else {
+        navigation.navigate(routesPath.MAP_VIEW_SCREEN);
+      }
+    } else {
+      navigation.navigate(routesPath.MAP_VIEW_SCREEN);
+    }
+  } catch (error) {
+    navigation.navigate(routesPath.MAP_VIEW_SCREEN);
+  }
+};
 
 const getFcmToken = async () => {
   let fcmToken = await AsyncStorage.getItem('fcmToken');

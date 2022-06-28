@@ -28,6 +28,10 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
       </activity>
+    
+        <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyAtTmXsHAqTEi-wa1etXRpzoD726V2NTk0"/>
 
       <meta-data  android:name="com.dieam.reactnativepushnotification.notification_foreground"
                     android:value="false"/>

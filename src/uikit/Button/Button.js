@@ -17,6 +17,7 @@ const Button = ({
   types,
   onClick,
   disabled,
+  normal
 }) => {
   const [styleContainer, setStyleContainer] = useState([]);
   let textColor = 'primary';
@@ -37,6 +38,7 @@ const Button = ({
       height,
       types,
       disabled,
+      normal
     });
     setStyleContainer(styleContainerArray);
   };

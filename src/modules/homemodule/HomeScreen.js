@@ -8,6 +8,7 @@ import Loader from '../../uikit/Loader/Loader';
 import {WHITE} from '../../uikit/UikitUtils/colors';
 import {getRestaurantListMiddleWare} from './store/homeMiddleware';
 import HotelList from './HotelList';
+import Button from '../../uikit/Button/Button';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -15,6 +16,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
 const HomeScreen = () => {
   const navigation = useNavigation();
   const dispacth = useDispatch();
@@ -53,6 +55,7 @@ const HomeScreen = () => {
     <>
       {isLoading && <Loader />}
       <Flex overrideStyle={styles.overAll}>
+        <Button onClick={logout}>Logout</Button>
         <HotelList
           isSearch={isSearch}
           handleSearch={handleSearch}

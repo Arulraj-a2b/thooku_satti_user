@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {Provider} from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
 import {useNetInfo} from '@react-native-community/netinfo';
@@ -12,16 +12,16 @@ import store from './store';
 import AppLayout from './src/navigation/AppLayout';
 import {requestUserPermission} from './src/utility/notificationService';
 import OfflineScreen from './src/modules/offlinemodule/OfflineScreen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const App = () => {
-  const [isLocationDetail, setLocationDetail] = useState({});
-
   useEffect(() => {
+    AsyncStorage.removeItem('geoLocationDone');
     requestUserPermission();
+    requestLocationPermission();
     setTimeout(() => {
       SplashScreen.hide();
     }, 1000);
-    // requestLocationPermission();
   }, []);
 
   async function requestLocationPermission() {
@@ -29,7 +29,7 @@ const App = () => {
     if (res === 'granted') {
       await Geolocation.getCurrentPosition(
         ({coords}) => {
-          setLocationDetail(coords);
+          AsyncStorage.setItem('geoLocation', JSON.stringify(coords));
         },
         _error => {
           // Alert.alert(error.code,error.message)
@@ -42,7 +42,6 @@ const App = () => {
       );
     }
   }
-  // console.log('isLocationDetail', isLocationDetail);
 
   const netInfo = useNetInfo();
 

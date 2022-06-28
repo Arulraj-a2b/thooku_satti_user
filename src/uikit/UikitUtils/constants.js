@@ -1,6 +1,8 @@
 export const ZINDEX = 11;
 export const ZINDEX_MODAL = 10;
 
+export const API_KEY='AIzaSyAtTmXsHAqTEi-wa1etXRpzoD726V2NTk0'
+
 export const THIS_FIELD_REQUIRED = 'This Field Required';
 export const INVALID_PASSWORD = 'Invalid password';
 
@@ -11,3 +13,4 @@ export const INVALID_PHONE_ENTERED = 'Invalid phone number entered';
 
 export const SPECIAL_CHARACTER = /^(?=.*[@$!%*?&`~#^-_+=])/;
 export const UPPER_CASE = /^(?=.*[A-Z])/;
+

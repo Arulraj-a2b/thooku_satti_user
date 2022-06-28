@@ -6,7 +6,9 @@ export const routesPath = {
   FORGOT_PASSWORD_VERIFY_SCREEN: 'ForgotPasswordVeryScreen',
   CREATE_PASSWORD_SCREEN: 'CreatePasswordScreen',
   CREATE_PASSWORD_SUCCESS: 'CreatePasswordSuccss',
-  HOTEL_LIST_VIEW_SCREEN:'HotelListViewScreen'
+  HOTEL_LIST_VIEW_SCREEN:'HotelListViewScreen',
+  MAP_VIEW_SCREEN:'HotelListViewScreen'
+
 };
 
 export const stacks={
