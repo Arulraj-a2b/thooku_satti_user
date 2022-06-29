@@ -31,7 +31,7 @@
     
         <meta-data
         android:name="com.google.android.geo.API_KEY"
-        android:value="AIzaSyAtTmXsHAqTEi-wa1etXRpzoD726V2NTk0"/>
+        android:value="AIzaSyDyIPNKYpe9zG_JlEEhl070cC28N0q4qbc"/>
 
       <meta-data  android:name="com.dieam.reactnativepushnotification.notification_foreground"
                     android:value="false"/>

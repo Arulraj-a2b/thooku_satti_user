@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useNavigation} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import React, {useEffect, useRef, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import MapViews from 'react-native-maps';
 import {useDispatch, useSelector} from 'react-redux';
@@ -18,6 +18,7 @@ import {
 import {API_KEY} from '../../uikit/UikitUtils/constants';
 import {mapStyle} from './mock';
 import {getAddressMiddleWare} from './store/mapMiddleware';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 const styles = StyleSheet.create({
   body: {
@@ -36,7 +37,10 @@ const styles = StyleSheet.create({
   btnStyle: {
     paddingHorizontal: 40,
     width: '100%',
-    marginTop: 16,
+    paddingTop: 16,
+    marginBottom: 12,
+    borderTopWidth: 1,
+    borderTopColor: BORDER_COLOR,
   },
   staticMarker: {
     left: '18%',
@@ -71,18 +75,21 @@ const styles = StyleSheet.create({
     zIndex: 99,
     bottom: 0,
     width: '100%',
-    // height: 100,
     borderTopColor: BORDER_COLOR,
     borderTopWidth: 1,
-    paddingHorizontal: 20,
     paddingVertical: 8,
+    height: 150,
   },
 });
 
 const MapView = () => {
   const navigation = useNavigation();
+  const route = useRoute();
+
   const [isGetLocation, setGetLocation] = useState();
   const dispatch = useDispatch();
+  const myRef = useRef();
+  const [isLoader, setLoader] = useState(true);
 
   const {data} = useSelector(({getAddressReducers}) => {
     return {
@@ -93,25 +100,51 @@ const MapView = () => {
     AsyncStorage.setItem('geoLocationDone', 'true');
     navigation.navigate(routesPath.LOGIN_SCREEN);
   };
-
   useEffect(() => {
     getCurrentPosition();
   }, []);
 
   const getCurrentPosition = async () => {
-    await AsyncStorage.getItem('geoLocation').then(locationRes => {
-      setGetLocation(JSON.parse(locationRes));
-      const location = JSON.parse(locationRes);
+    setLoader(true);
+    if (typeof route.params === 'undefined') {
+      await AsyncStorage.getItem('geoLocation').then(locationRes => {
+        setGetLocation(JSON.parse(locationRes));
+        const location = JSON.parse(locationRes);
+        dispatch(
+          getAddressMiddleWare({
+            address: `${location.latitude},${location.longitude}`,
+            key: API_KEY,
+          }),
+        )
+          .then(() => {
+            setLoader(false);
+          })
+          .catch(() => {
+            setLoader(false);
+          });
+      });
+    } else if (typeof route.params !== 'undefined') {
+      setGetLocation({
+        latitude: route.params.location.lat,
+        longitude: route.params.location.lng,
+      });
       dispatch(
         getAddressMiddleWare({
-          address: `${location.latitude},${location.longitude}`,
+          address: `${route.params.location.lat},${route.params.location.lng}`,
           key: API_KEY,
         }),
-      );
-    });
+      )
+        .then(() => {
+          setLoader(false);
+        })
+        .catch(() => {
+          setLoader(false);
+        });
+    }
   };
 
   const handleMarkerMove = event => {
+    setLoader(true);
     setGetLocation({
       latitude: event.nativeEvent.coordinate.latitude,
       longitude: event.nativeEvent.coordinate.longitude,
@@ -121,9 +154,16 @@ const MapView = () => {
         address: `${event.nativeEvent.coordinate.latitude},${event.nativeEvent.coordinate.longitude}`,
         key: API_KEY,
       }),
-    );
+    )
+      .then(() => {
+        setLoader(false);
+      })
+      .catch(() => {
+        setLoader(false);
+      });
   };
   const onRegionChangeComplete = event => {
+    setLoader(true);
     setGetLocation({
       latitude: event.latitude,
       longitude: event.longitude,
@@ -133,7 +173,13 @@ const MapView = () => {
         address: `${event.latitude},${event.longitude}`,
         key: API_KEY,
       }),
-    );
+    )
+      .then(() => {
+        setLoader(false);
+      })
+      .catch(() => {
+        setLoader(false);
+      });
   };
 
   const MoveMarker = isGetLocation && (
@@ -148,6 +194,13 @@ const MapView = () => {
     </MapViews.Marker>
   );
 
+  useEffect(() => {
+    myRef.current?.a;
+  }, []);
+
+  const handleChange = () => {
+    navigation.navigate(routesPath.GOOGLE_PLACES_SEARCH_SCREEN);
+  };
   return (
     <View style={styles.body}>
       {isGetLocation && (
@@ -157,7 +210,7 @@ const MapView = () => {
             showsUserLocation={true}
             showsMyLocationButton={true}
             stopPropagation={true}
-            onPress={handleMarkerMove}
+            // onPress={handleMarkerMove}
             customMapStyle={mapStyle}
             style={styles.map}
             initialRegion={{
@@ -184,14 +237,51 @@ const MapView = () => {
         </>
       )}
       <Flex between overrideStyle={styles.btnContainer}>
-        <Text color="gray" size={12} bold overrideStyle={{marginBottom: 4}}>
-          SELECT DELIVERY LOCATION
-        </Text>
-        <Text bold numberOfLines={2}>
-          {data && data.results && data.results[0].formatted_address}
-        </Text>
+        {isLoader && (
+          <SkeletonPlaceholder>
+            <View style={{paddingHorizontal: 20}}>
+              <View style={{width: 170, height: 18, borderRadius: 4}} />
+              <View
+                style={{
+                  width: '100%',
+                  height: 18,
+                  borderRadius: 4,
+                  marginTop: 8,
+                }}
+              />
+            </View>
+          </SkeletonPlaceholder>
+        )}
+
+        {!isLoader && (
+          <Flex row center overrideStyle={{paddingHorizontal: 20}}>
+            <Flex flex={9.5}>
+              <Text
+                color="gray"
+                size={12}
+                bold
+                overrideStyle={{marginBottom: 4}}>
+                SELECT DELIVERY LOCATION
+              </Text>
+              <Text bold numberOfLines={2} overrideStyle={{marginBottom: 4}}>
+                {data && data.results && data.results[0].formatted_address}
+              </Text>
+            </Flex>
+            <Flex flex={2.5}>
+              <Button
+                onClick={handleChange}
+                height={'small'}
+                overrideStyle={{paddingHorizontal: 4}}
+                normal
+                types={'secondary'}>
+                Change
+              </Button>
+            </Flex>
+          </Flex>
+        )}
+
         <View style={styles.btnStyle}>
-          <Button normal onClick={handleSubmit}>
+          <Button disabled={isLoader} normal onClick={handleSubmit}>
             Confirm Location
           </Button>
         </View>

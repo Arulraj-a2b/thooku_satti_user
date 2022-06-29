@@ -1,7 +1,7 @@
 export const ZINDEX = 11;
 export const ZINDEX_MODAL = 10;
 
-export const API_KEY='AIzaSyAtTmXsHAqTEi-wa1etXRpzoD726V2NTk0'
+export const API_KEY='AIzaSyDyIPNKYpe9zG_JlEEhl070cC28N0q4qbc'
 
 export const THIS_FIELD_REQUIRED = 'This Field Required';
 export const INVALID_PASSWORD = 'Invalid password';

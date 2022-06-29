@@ -7,7 +7,8 @@ export const routesPath = {
   CREATE_PASSWORD_SCREEN: 'CreatePasswordScreen',
   CREATE_PASSWORD_SUCCESS: 'CreatePasswordSuccss',
   HOTEL_LIST_VIEW_SCREEN:'HotelListViewScreen',
-  MAP_VIEW_SCREEN:'HotelListViewScreen'
+  MAP_VIEW_SCREEN:'HotelListViewScreen',
+  GOOGLE_PLACES_SEARCH_SCREEN: 'GooglePlacesSearchScreen',
 
 };
 

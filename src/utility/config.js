@@ -16,7 +16,6 @@ export const useAuthCheck = () => {
     try {
       let userData = await AsyncStorage.getItem('userData');
       let geoLocation = await AsyncStorage.getItem('geoLocationDone');
-      console.log('geoLocation',geoLocation);
       if (geoLocation) {
         if (userData) {
           userData = JSON.parse(userData);

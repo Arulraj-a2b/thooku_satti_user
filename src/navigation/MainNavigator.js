@@ -5,6 +5,7 @@ import CreatePasswordSuccss from '../modules/forgotpasswordmodule/CreatePassword
 import ForgotPasswordScreen from '../modules/forgotpasswordmodule/ForgotPasswordScreen';
 import ForgotPasswordVerifyScreen from '../modules/forgotpasswordmodule/ForgotPasswordVerifyScreen';
 import LoginScreen from '../modules/loginmodule/LoginScreen';
+import GooglePlacesSearchScreen from '../modules/mapmodule/GooglePlacesSearchScreen';
 import MapView from '../modules/mapmodule/MapView';
 import RegisterScreen from '../modules/registermodule/RegisterScreen';
 import {routesPath, stacks} from '../routes/routesPath';
@@ -22,8 +23,7 @@ const MainNavigator = () => {
         contentStyle: {
           backgroundColor: WHITE,
         },
-      }}
-      >
+      }}>
       <Stack.Screen
         name={routesPath.LOGIN_SCREEN}
         component={LoginScreen}
@@ -75,6 +75,14 @@ const MainNavigator = () => {
         options={() => ({
           title: '',
           header: props => <Header props={props} isBack />,
+        })}
+      />
+      <Stack.Screen
+        name={routesPath.GOOGLE_PLACES_SEARCH_SCREEN}
+        component={GooglePlacesSearchScreen}
+        options={() => ({
+          title: '',
+          header: props => <Header props={props} />,
         })}
       />
     </Stack.Navigator>
