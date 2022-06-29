@@ -65,10 +65,11 @@ const initialValues = {
 const LoginScreen = () => {
   const navigation = useNavigation();
   const [hidePassword, setHidePassword] = useState(true);
+  const [isLoader, setLoader] = useState(true);
 
   const dispatch = useDispatch();
 
-  useAuthCheck();
+  useAuthCheck(setLoader);
 
   const {isLoading} = useSelector(({loginReducers}) => {
     return {
@@ -119,7 +120,9 @@ const LoginScreen = () => {
     onSubmit: handleSubmit,
     validate: handleValidate,
   });
-
+  if (isLoader) {
+    return <Loader />;
+  }
   return (
     <Flex flex={1}>
       {isLoading && <Loader />}

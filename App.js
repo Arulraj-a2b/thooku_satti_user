@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {Provider} from 'react-redux';
-import SplashScreen from 'react-native-splash-screen';
 import {useNetInfo} from '@react-native-community/netinfo';
 import Geolocation from 'react-native-geolocation-service';
 import {PERMISSIONS, request} from 'react-native-permissions';
@@ -22,13 +21,10 @@ const App = () => {
 
   useEffect(() => {
     // startNetworkLogging();
-
     AsyncStorage.removeItem('geoLocationDone');
     requestUserPermission();
     requestLocationPermission();
-    setTimeout(() => {
-      SplashScreen.hide();
-    }, 1000);
+  
   }, []);
 
   async function requestLocationPermission() {

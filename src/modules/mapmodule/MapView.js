@@ -263,7 +263,10 @@ const MapView = () => {
                 overrideStyle={{marginBottom: 4}}>
                 SELECT DELIVERY LOCATION
               </Text>
-              <Text bold numberOfLines={2} overrideStyle={{marginBottom: 4}}>
+              <Text
+                bold
+                numberOfLines={2}
+                overrideStyle={{marginBottom: 4, paddingRight: 16}}>
                 {data && data.results && data.results[0].formatted_address}
               </Text>
             </Flex>
