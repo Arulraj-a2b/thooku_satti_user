@@ -5,7 +5,7 @@ import {View, StyleSheet} from 'react-native';
 import MapViews from 'react-native-maps';
 import {useDispatch, useSelector} from 'react-redux';
 import SvgLocationMarker from '../../icons/SvgLocationMarker';
-import {routesPath} from '../../routes/routesPath';
+import {routesPath, stacks} from '../../routes/routesPath';
 import Button from '../../uikit/Button/Button';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
@@ -96,10 +96,26 @@ const MapView = () => {
       data: getAddressReducers.data,
     };
   });
-  const handleSubmit = () => {
+
+  const handleSubmit = async () => {
     AsyncStorage.setItem('geoLocationDone', 'true');
-    navigation.navigate(routesPath.LOGIN_SCREEN);
+    try {
+      let userData = await AsyncStorage.getItem('userData');
+      if (userData) {
+        userData = JSON.parse(userData);
+        if (userData.loggedIn) {
+          navigation.navigate(stacks.HomeStack);
+        } else {
+          navigation.navigate(routesPath.LOGIN_SCREEN);
+        }
+      } else {
+        navigation.navigate(routesPath.LOGIN_SCREEN);
+      }
+    } catch (error) {
+      navigation.navigate(routesPath.LOGIN_SCREEN);
+    }
   };
+
   useEffect(() => {
     getCurrentPosition();
   }, []);
