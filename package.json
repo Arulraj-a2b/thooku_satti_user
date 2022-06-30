@@ -44,6 +44,7 @@
     "react-native-permissions": "^3.3.1",
     "react-native-phone-number-input": "^2.1.0",
     "react-native-push-notification": "^8.1.1",
+    "react-native-raw-bottom-sheet": "^2.2.0",
     "react-native-reanimated": "^3.0.0-rc.0",
     "react-native-restart": "^0.0.24",
     "react-native-root-toast": "^3.4.0",

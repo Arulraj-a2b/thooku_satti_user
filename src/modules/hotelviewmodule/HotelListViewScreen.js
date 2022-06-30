@@ -1,9 +1,10 @@
-import React from 'react';
-import {StyleSheet} from 'react-native';
+import React, {useRef} from 'react';
+import {Button, StyleSheet} from 'react-native';
 import Flex from '../../uikit/Flex/Flex';
 import {WHITE} from '../../uikit/UikitUtils/colors';
 import FiterSection from './FiterSection';
 import FoodCard from './FoodCard';
+import FoodDetailsPopup from './FoodDetailsPopup';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -12,10 +13,12 @@ const styles = StyleSheet.create({
   },
 });
 const HotelListViewScreen = () => {
+
   return (
     <Flex overrideStyle={styles.overAll}>
       <FiterSection />
       <FoodCard />
+      {/* <FoodDetailsPopup /> */}
     </Flex>
   );
 };

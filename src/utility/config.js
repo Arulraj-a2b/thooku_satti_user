@@ -27,12 +27,18 @@ export const useAuthCheck = setLoader => {
             }, 1000);
             setLoader(false);
           } else {
-            navigation.navigate('LoginScreen');
+            navigation.navigate(routesPath.LOGIN_SCREEN);
             setLoader(false);
             setTimeout(() => {
               SplashScreen.hide();
             }, 1000);
           }
+        } else {
+          navigation.navigate(routesPath.LOGIN_SCREEN);
+          setLoader(false);
+          setTimeout(() => {
+            SplashScreen.hide();
+          }, 1000);
         }
       } else {
         navigation.navigate(routesPath.MAP_VIEW_SCREEN);
@@ -42,7 +48,7 @@ export const useAuthCheck = setLoader => {
         }, 1000);
       }
     } catch (error) {
-      navigation.navigate('LoginScreen');
+      navigation.navigate(routesPath.LOGIN_SCREEN);
       setLoader(false);
       setTimeout(() => {
         SplashScreen.hide();

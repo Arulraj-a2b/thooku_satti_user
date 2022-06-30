@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
 const HotelList = ({data, handleViewAll, isAll, handleSearch, isSearch}) => {
   return (
     <FlatList
-    onEndReachedThreshold ={0.1}
+      onEndReachedThreshold={0.1}
       ListEmptyComponent={<ListEmpty />}
       style={styles.overAll}
       ListHeaderComponentStyle={styles.ListHeaderComponentStyle}

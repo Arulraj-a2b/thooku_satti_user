@@ -12,6 +12,7 @@ import AppLayout from './src/navigation/AppLayout';
 import {requestUserPermission} from './src/utility/notificationService';
 import OfflineScreen from './src/modules/offlinemodule/OfflineScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+// import SplashScreen from 'react-native-splash-screen';
 // import Text from './src/uikit/Text/Text';
 // import {TouchableOpacity} from 'react-native';
 // import Logger, {startNetworkLogging} from 'react-native-network-logger';
@@ -24,7 +25,9 @@ const App = () => {
     // AsyncStorage.removeItem('geoLocationDone');
     requestUserPermission();
     requestLocationPermission();
-  
+    // setTimeout(() => {
+    //   SplashScreen.hide();
+    // }, 1000);
   }, []);
 
   async function requestLocationPermission() {

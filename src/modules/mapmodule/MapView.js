@@ -19,6 +19,8 @@ import {API_KEY} from '../../uikit/UikitUtils/constants';
 import {mapStyle} from './mock';
 import {getAddressMiddleWare} from './store/mapMiddleware';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import {PERMISSIONS, request} from 'react-native-permissions';
+import Geolocation from 'react-native-geolocation-service';
 
 const styles = StyleSheet.create({
   body: {
@@ -123,22 +125,7 @@ const MapView = () => {
   const getCurrentPosition = async () => {
     setLoader(true);
     if (typeof route.params === 'undefined') {
-      await AsyncStorage.getItem('geoLocation').then(locationRes => {
-        setGetLocation(JSON.parse(locationRes));
-        const location = JSON.parse(locationRes);
-        dispatch(
-          getAddressMiddleWare({
-            address: `${location.latitude},${location.longitude}`,
-            key: API_KEY,
-          }),
-        )
-          .then(() => {
-            setLoader(false);
-          })
-          .catch(() => {
-            setLoader(false);
-          });
-      });
+      requestLocationPermission();
     } else if (typeof route.params !== 'undefined') {
       setGetLocation({
         latitude: route.params.location.lat,
@@ -158,6 +145,41 @@ const MapView = () => {
         });
     }
   };
+
+  async function requestLocationPermission() {
+    var res = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
+    if (res === 'granted') {
+      await Geolocation.getCurrentPosition(
+        ({coords}) => {
+          setGetLocation({
+            latitude: coords.latitude,
+            longitude: coords.longitude,
+          });
+
+          dispatch(
+            getAddressMiddleWare({
+              address: `${coords.latitude},${coords.longitude}`,
+              key: API_KEY,
+            }),
+          )
+            .then(() => {
+              setLoader(false);
+            })
+            .catch(() => {
+              setLoader(false);
+            });
+        },
+        _error => {
+          // Alert.alert(error.code,error.message)
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 15000,
+          maximumAge: 10000,
+        },
+      );
+    }
+  }
 
   const handleMarkerMove = event => {
     setLoader(true);

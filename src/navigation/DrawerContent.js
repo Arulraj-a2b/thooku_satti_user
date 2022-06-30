@@ -1,5 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Flex from '../uikit/Flex/Flex';
 import Text from '../uikit/Text/Text';
 import Button from '../uikit/Button/Button';
@@ -14,6 +20,7 @@ import SvgLogout from '../icons/SvgLogout';
 import {WHITE} from '../uikit/UikitUtils/colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDrawerStatus} from '@react-navigation/drawer';
+import SvgClose from '../icons/SvgClose';
 
 const styles = StyleSheet.create({
   listStyle: {
@@ -43,6 +50,11 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     paddingBottom: 40,
   },
+  svgClose: {
+    position: 'absolute',
+    right: 16,
+    top: 16,
+  },
 });
 
 const DrawerContent = props => {
@@ -50,7 +62,7 @@ const DrawerContent = props => {
   const isDrawerOpen = useDrawerStatus() === 'open';
 
   const logout = () => {
-    AsyncStorage.setItem('userData', JSON.stringify({}));
+    AsyncStorage.clear();
     props.navigation.navigate('LoginScreen');
   };
 
@@ -113,6 +125,11 @@ const DrawerContent = props => {
 
   return (
     <Flex flex={1} overrideStyle={styles.overAll}>
+      <Pressable
+        onPress={() => props.navigation.closeDrawer()}
+        style={styles.svgClose}>
+        <SvgClose />
+      </Pressable>
       <Flex overrideStyle={styles.imageContainer}>
         <Image
           source={require('../assests/image/profile.png')}

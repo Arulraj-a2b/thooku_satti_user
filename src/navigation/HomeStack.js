@@ -20,6 +20,10 @@ const HomeStack = () => {
       }}
       initialRouteName={routesPath.HOME_SCREEN}>
       <Stack.Screen name={routesPath.HOME_SCREEN} component={HomeScreen} />
+      <Stack.Screen
+        name={routesPath.HOTEL_LIST_VIEW_SCREEN}
+        component={HotelListViewScreen}
+      />
     </Stack.Navigator>
   );
 };
