@@ -15,6 +15,7 @@ import SvgSuccess from '../../icons/SvgSccess';
 import SvgClock from '../../icons/SvgClock';
 import {useNavigation} from '@react-navigation/native';
 import {routesPath} from '../../routes/routesPath';
+import {isEmpty} from '../../uikit/UikitUtils/validators';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -111,11 +112,14 @@ const HotalCard = ({item, index, totalLength, isAll}) => {
           {marginBottom: index + 1 === totalLength && isAll ? 50 : 8},
         ]}>
         <Flex overrideStyle={styles.imageContainer}>
-          <Image
-            resizeMode="cover"
-            source={{uri: item.HotelImage}}
-            style={styles.imageStyle}
-          />
+          {!isEmpty(item.HotelImage) && (
+            <Image
+              resizeMode="cover"
+              source={{uri: item.HotelImage}}
+              style={styles.imageStyle}
+            />
+          )}
+
           <View style={styles.ratingContainer}>
             <Flex row center between>
               <Flex row center middle overrideStyle={styles.ratingBox}>

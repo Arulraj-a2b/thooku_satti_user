@@ -47,7 +47,7 @@ const Header = ({props, isBack, isMenu, isLocation}) => {
   });
 
   useEffect(() => {
-    if (!data) {
+    if (data && !data.results) {
       requestLocationPermission();
     }
   }, []);
