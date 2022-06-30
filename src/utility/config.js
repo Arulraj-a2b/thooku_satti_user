@@ -21,7 +21,7 @@ export const useAuthCheck = setLoader => {
         if (userData) {
           userData = JSON.parse(userData);
           if (userData.loggedIn) {
-            navigation.navigate('c');
+            navigation.navigate(routesPath.ALL_SCREEN);
             setTimeout(() => {
               SplashScreen.hide();
             }, 1000);

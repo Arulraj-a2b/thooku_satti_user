@@ -8,7 +8,7 @@ import LoginScreen from '../modules/loginmodule/LoginScreen';
 import GooglePlacesSearchScreen from '../modules/mapmodule/GooglePlacesSearchScreen';
 import MapView from '../modules/mapmodule/MapView';
 import RegisterScreen from '../modules/registermodule/RegisterScreen';
-import {routesPath} from '../routes/routesPath';
+import {routesPath, stacks} from '../routes/routesPath';
 import {WHITE} from '../uikit/UikitUtils/colors';
 import Header from './Header';
 import SideNavigation from './SideNavigation';
