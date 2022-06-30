@@ -21,7 +21,7 @@ const App = () => {
 
   useEffect(() => {
     // startNetworkLogging();
-    AsyncStorage.removeItem('geoLocationDone');
+    // AsyncStorage.removeItem('geoLocationDone');
     requestUserPermission();
     requestLocationPermission();
   

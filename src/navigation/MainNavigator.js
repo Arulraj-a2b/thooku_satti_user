@@ -10,8 +10,8 @@ import MapView from '../modules/mapmodule/MapView';
 import RegisterScreen from '../modules/registermodule/RegisterScreen';
 import {routesPath, stacks} from '../routes/routesPath';
 import {WHITE} from '../uikit/UikitUtils/colors';
-import BottomTab from './BottomTab';
 import Header from './Header';
+import SideNavigation from './SideNavigation';
 
 const Stack = createNativeStackNavigator();
 
@@ -43,7 +43,7 @@ const MainNavigator = () => {
       <Stack.Screen
         options={{headerShown: false}}
         name={stacks.HomeStack}
-        component={BottomTab}
+        component={SideNavigation}
       />
       <Stack.Screen
         name={routesPath.FORGOT_PASSWORD_SCREEN}

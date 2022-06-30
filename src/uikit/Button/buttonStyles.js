@@ -16,10 +16,6 @@ export const buttonStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 20,
-    // elevation: 1,
-    // shadowColor: BLACK,
-    // shadowOffset: { width: 0, height: 0 },
-    // shadowOpacity: 0.06,
   },
   secondaryBtn: {
     borderWidth: 1,
@@ -33,5 +29,5 @@ export const buttonStyles = StyleSheet.create({
   },
   normal:{
     borderRadius: 4
-  }
+  },
 });

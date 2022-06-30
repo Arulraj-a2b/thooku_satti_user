@@ -112,7 +112,7 @@ const FoodCard = ({}) => {
         <Flex overrideStyle={styles.imageContainer}>
           <Image
             resizeMode="cover"
-            source={{uri: ''}}
+            source={require('../../assests/image/profile.png')}
             style={styles.imageStyle}
           />
           <View style={styles.priceContainer}>

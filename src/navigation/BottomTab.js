@@ -5,6 +5,10 @@ import TabBarIcon from './TabBarIcon';
 import SvgHome from '../icons/SvgHome';
 import {GRAY_4, PRIMARY} from '../uikit/UikitUtils/colors';
 import HomeStack from './HomeStack';
+import MyCartScreen from '../modules/mycartmodule/MyCartScreen';
+import SvgCart from '../icons/SvgCart';
+import SvgFav from '../icons/SvgFav';
+import FavouriteScreen from '../modules/favouritemodule/FavouriteScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -13,7 +17,7 @@ function BottomTab() {
     <Tab.Navigator
       screenOptions={{
         // header: props => <Header props={props} isBack isMenu />,
-        headerShown:false
+        headerShown: false,
       }}>
       <Tab.Screen
         name={routesPath.HOME_SCREEN}
@@ -22,6 +26,42 @@ function BottomTab() {
           title: '',
           tabBarIcon: ({focused}) => (
             <TabBarIcon icon={<SvgHome fill={focused ? PRIMARY : GRAY_4} />} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={routesPath.MY_CART_SCREEN}
+        component={MyCartScreen}
+        options={{
+          title: '',
+          tabBarIcon: ({focused}) => (
+            <TabBarIcon
+              icon={
+                <SvgCart
+                  width={26}
+                  height={26}
+                  fill={focused ? PRIMARY : GRAY_4}
+                />
+              }
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={routesPath.FAVOURITE_SCREEN}
+        component={FavouriteScreen}
+        options={{
+          title: '',
+          tabBarIcon: ({focused}) => (
+            <TabBarIcon
+              icon={
+                <SvgFav
+                  width={26}
+                  height={26}
+                  fill={focused ? PRIMARY : GRAY_4}
+                />
+              }
+            />
           ),
         }}
       />

@@ -2,8 +2,8 @@ import React from 'react';
 import Svg, {Path} from 'react-native-svg';
 
 const defaultProps = {
-  width: 36,
-  height: 36,
+  width: 33,
+  height: 33,
   fill: '#E59722',
 };
 

@@ -1,5 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {StyleSheet} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
@@ -8,7 +6,6 @@ import Loader from '../../uikit/Loader/Loader';
 import {WHITE} from '../../uikit/UikitUtils/colors';
 import {getRestaurantListMiddleWare} from './store/homeMiddleware';
 import HotelList from './HotelList';
-import Button from '../../uikit/Button/Button';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -18,7 +15,6 @@ const styles = StyleSheet.create({
 });
 
 const HomeScreen = () => {
-  const navigation = useNavigation();
   const dispacth = useDispatch();
   const [isAll, setAll] = useState(false);
   const [isSearch, setSearch] = useState('');
@@ -32,11 +28,6 @@ const HomeScreen = () => {
       data: getRestaurantListReducers.data,
     };
   });
-
-  const logout = () => {
-    AsyncStorage.setItem('userData', JSON.stringify({}));
-    navigation.navigate('LoginScreen');
-  };
 
   const handleViewAll = () => {
     setAll(true);
@@ -55,13 +46,12 @@ const HomeScreen = () => {
     <>
       {isLoading && <Loader />}
       <Flex overrideStyle={styles.overAll}>
-        <Button onClick={logout}>Logout</Button>
         <HotelList
           isSearch={isSearch}
           handleSearch={handleSearch}
           data={isAll ? results : inputSearchCheck ? data.slice(0, 5) : results}
           handleViewAll={handleViewAll}
-          isAll={(isAll && inputSearchCheck)}
+          isAll={isAll && inputSearchCheck}
         />
       </Flex>
     </>

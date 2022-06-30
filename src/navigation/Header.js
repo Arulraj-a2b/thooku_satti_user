@@ -43,10 +43,7 @@ const Header = ({props, isBack, isMenu}) => {
       {isMenu && (
         <Pressable
           style={styles.hamburgerStyle}
-          //   onPress={() =>
-          //   props.navigation.navigate('SideNav')
-          // }
-        >
+          onPress={() => props.navigation.openDrawer()}>
           <SvgHamburger fill={WHITE} width={14} height={8} />
         </Pressable>
       )}

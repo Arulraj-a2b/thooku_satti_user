@@ -17,7 +17,7 @@ const Button = ({
   types,
   onClick,
   disabled,
-  normal
+  normal,
 }) => {
   const [styleContainer, setStyleContainer] = useState([]);
   let textColor = 'primary';
