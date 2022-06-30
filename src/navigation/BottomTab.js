@@ -1,6 +1,6 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {routesPath} from '../routes/routesPath';
+import {routesPath, stacks} from '../routes/routesPath';
 import TabBarIcon from './TabBarIcon';
 import SvgHome from '../icons/SvgHome';
 import {GRAY_4, PRIMARY} from '../uikit/UikitUtils/colors';
@@ -17,7 +17,7 @@ function BottomTab() {
   return (
     <Tab.Navigator>
       <Tab.Screen
-        name={routesPath.HOME_SCREEN}
+        name={stacks.HomeStack}
         component={HomeStack}
         options={{
           title: '',

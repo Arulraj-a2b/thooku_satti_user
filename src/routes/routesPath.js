@@ -1,4 +1,6 @@
+
 export const routesPath = {
+  ALL_SCREEN:'AllScreen',
   LOGIN_SCREEN: 'LoginScreen',
   REGISTER_SCREEN: 'RegisterScreen',
   HOME_SCREEN: 'HomeScreen',
@@ -14,7 +16,6 @@ export const routesPath = {
   MY_PROFILE_SCREEN: 'MyProfileScreen',
   ADDRESS_SCREEN: 'AddressScreen',
   FAVOURITE_SCREEN: 'FavouriteScreen',
-
 };
 
 export const stacks = {

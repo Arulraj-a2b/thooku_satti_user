@@ -96,7 +96,7 @@ const LoginScreen = () => {
             JSON.stringify({...res.payload[0], loggedIn: true}),
           );
           formik.resetForm();
-          navigation.navigate(stacks.HomeStack);
+          navigation.navigate(routesPath.ALL_SCREEN);
         }
       });
     });
