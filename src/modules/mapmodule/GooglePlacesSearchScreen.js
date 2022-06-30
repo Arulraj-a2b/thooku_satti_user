@@ -81,6 +81,7 @@ const GooglePlacesSearchScreen = ({navigation}) => {
             style: [styles.inputStyes, focussedStyle],
             onBlur: handleBlur,
             onFocus: handleFocus,
+            placeholder:'Please find your order location'
           }}
           styles={{borderWidth: 1}}
           placeholder="Search"

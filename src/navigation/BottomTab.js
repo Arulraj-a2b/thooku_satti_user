@@ -9,16 +9,13 @@ import MyCartScreen from '../modules/mycartmodule/MyCartScreen';
 import SvgCart from '../icons/SvgCart';
 import SvgFav from '../icons/SvgFav';
 import FavouriteScreen from '../modules/favouritemodule/FavouriteScreen';
+import Header from './Header';
 
 const Tab = createBottomTabNavigator();
 
 function BottomTab() {
   return (
-    <Tab.Navigator
-      screenOptions={{
-        // header: props => <Header props={props} isBack isMenu />,
-        headerShown: false,
-      }}>
+    <Tab.Navigator>
       <Tab.Screen
         name={routesPath.HOME_SCREEN}
         component={HomeStack}
@@ -27,6 +24,7 @@ function BottomTab() {
           tabBarIcon: ({focused}) => (
             <TabBarIcon icon={<SvgHome fill={focused ? PRIMARY : GRAY_4} />} />
           ),
+          headerShown: false,
         }}
       />
       <Tab.Screen
@@ -45,6 +43,7 @@ function BottomTab() {
               }
             />
           ),
+          header: props => <Header props={props} isBack isMenu />,
         }}
       />
       <Tab.Screen
@@ -63,6 +62,7 @@ function BottomTab() {
               }
             />
           ),
+          header: props => <Header props={props} isBack isMenu />,
         }}
       />
     </Tab.Navigator>

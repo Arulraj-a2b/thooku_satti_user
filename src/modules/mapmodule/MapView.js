@@ -4,6 +4,9 @@ import React, {useEffect, useRef, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import MapViews from 'react-native-maps';
 import {useDispatch, useSelector} from 'react-redux';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import {PERMISSIONS, request} from 'react-native-permissions';
+import Geolocation from 'react-native-geolocation-service';
 import SvgLocationMarker from '../../icons/SvgLocationMarker';
 import {routesPath, stacks} from '../../routes/routesPath';
 import Button from '../../uikit/Button/Button';
@@ -18,9 +21,7 @@ import {
 import {API_KEY} from '../../uikit/UikitUtils/constants';
 import {mapStyle} from './mock';
 import {getAddressMiddleWare} from './store/mapMiddleware';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
-import {PERMISSIONS, request} from 'react-native-permissions';
-import Geolocation from 'react-native-geolocation-service';
+
 
 const styles = StyleSheet.create({
   body: {
@@ -181,25 +182,6 @@ const MapView = () => {
     }
   }
 
-  const handleMarkerMove = event => {
-    setLoader(true);
-    setGetLocation({
-      latitude: event.nativeEvent.coordinate.latitude,
-      longitude: event.nativeEvent.coordinate.longitude,
-    });
-    dispatch(
-      getAddressMiddleWare({
-        address: `${event.nativeEvent.coordinate.latitude},${event.nativeEvent.coordinate.longitude}`,
-        key: API_KEY,
-      }),
-    )
-      .then(() => {
-        setLoader(false);
-      })
-      .catch(() => {
-        setLoader(false);
-      });
-  };
   const onRegionChangeComplete = event => {
     setLoader(true);
     setGetLocation({
