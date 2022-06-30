@@ -12,7 +12,6 @@ import {
   WHITE,
 } from '../../uikit/UikitUtils/colors';
 import SvgSuccess from '../../icons/SvgSccess';
-import {useNavigation} from '@react-navigation/native';
 import {routesPath} from '../../routes/routesPath';
 import Stepper from '../../uikit/Stepper/Stepper';
 
@@ -100,19 +99,20 @@ const styles = StyleSheet.create({
   },
 });
 
-const FoodCard = ({}) => {
+const FoodCard = ({index, totalLength, handleOpenDetails}) => {
   const [isCount, setCount] = useState(0);
-  const navigation = useNavigation();
-  const handleNavigate = () => {
-    // navigation.navigate(routesPath.HOTEL_LIST_VIEW_SCREEN);
-  };
+
   return (
-    <Pressable onPress={handleNavigate}>
-      <Flex overrideStyle={[styles.overAll]}>
+    <Pressable onPress={handleOpenDetails}>
+      <Flex
+        overrideStyle={[
+          styles.overAll,
+          {marginBottom: index + 1 === totalLength ? 50 : 8},
+        ]}>
         <Flex overrideStyle={styles.imageContainer}>
           <Image
-            resizeMode="cover"
-            source={require('../../assests/image/profile.png')}
+            resizeMode="contain"
+            source={{uri: 'https://i.ibb.co/WPzKrZ7/Concept-and-Ideas.jpg'}}
             style={styles.imageStyle}
           />
           <View style={styles.priceContainer}>

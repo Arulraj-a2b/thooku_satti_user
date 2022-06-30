@@ -7,6 +7,7 @@ import Text from '../../uikit/Text/Text';
 const styles = StyleSheet.create({
   overAll: {
     marginBottom: 20,
+    marginTop: 20
   },
 });
 

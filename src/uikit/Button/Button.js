@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Pressable, TouchableOpacity} from 'react-native';
+import {Pressable} from 'react-native';
 import Text from '../Text/Text';
 import {buttonHelper} from './buttonHelper';
 import {buttonStyles} from './buttonStyles';

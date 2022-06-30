@@ -1,5 +1,5 @@
-import React, {useRef, useState} from 'react';
-import {Dimensions, Image, StyleSheet, View} from 'react-native';
+import React, {forwardRef, useState} from 'react';
+import {Dimensions, ScrollView, StyleSheet, View} from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import SvgStar from '../../icons/SvgStar';
 import Button from '../../uikit/Button/Button';
@@ -7,28 +7,41 @@ import Flex from '../../uikit/Flex/Flex';
 import Stepper from '../../uikit/Stepper/Stepper';
 import Text from '../../uikit/Text/Text';
 import {GARY_1} from '../../uikit/UikitUtils/colors';
+
 const {height} = Dimensions.get('screen');
+
 const styles = StyleSheet.create({
   imageStyle: {
-    height: 136,
+    height: 200,
     borderRadius: 8,
     backgroundColor: GARY_1,
   },
+  contentOverAll: {
+    paddingHorizontal: 20,
+    marginTop: 16,
+  },
+  ratingContainer: {
+    marginTop: 2,
+    marginBottom: 8,
+  },
+  ratingText: {
+    marginHorizontal: 4,
+  },
+  choiceText: {marginTop: 20, marginBottom: 30},
+  btnContainer: {
+    marginVertical: 30,
+  },
 });
-const FoodDetailsPopup = () => {
-  const refRBSheet = useRef();
+
+const FoodDetailsPopup = ({}, ref) => {
   const [isCount, setCount] = useState(0);
 
   return (
-    <>
-      <Button onClick={() => refRBSheet.current.open()}>
-        OPEN BOTTOM SHEET
-      </Button>
+    <Flex>
       <RBSheet
         height={height - 100}
-        ref={refRBSheet}
+        ref={ref}
         closeOnDragDown={true}
-        closeOnPressMask={false}
         customStyles={{
           wrapper: {
             backgroundColor: 'rgba(0,0,0,0.25)',
@@ -37,45 +50,60 @@ const FoodDetailsPopup = () => {
             backgroundColor: '#000',
           },
         }}>
-        <Flex>
-          <View style={styles.imageStyle} />
-          {/* <Image
+        <Flex between flex={1}>
+          {/* <Flex
+            center
+            style={{position: 'absolute', bottom: 100, width: '100%', zIndex: 99}}>
+            <Button onClick={() => ref.current.close()}>'sss'</Button>
+          </Flex> */}
+
+          <ScrollView>
+            <Flex>
+              <View style={styles.imageStyle} />
+              {/* <Image
             resizeMode="cover"
             source={require('../../assests/image/profile.png')}
             style={styles.imageStyle}
           /> */}
-          <Flex overrideStyle={{paddingHorizontal: 20}}>
-            <Text size={16} bold>
-              Ground Beef Tacos
-            </Text>
-            <Flex row center overrideStyle={{marginTop: 2, marginBottom: 8}}>
-              <SvgStar />
-              <Text bold overrideStyle={{marginHorizontal: 4}}>
-                4.5
-              </Text>
-              <Text color="gray" size={12} overrideStyle={{marginTop: 3}}>
-                {'(25+)'}
-              </Text>
-            </Flex>
-            <Flex row center between>
-              <Text size={16} bold>
-                ₹ 100
-              </Text>
-              <Stepper onChange={setCount} />
-            </Flex>
+              <Flex overrideStyle={styles.contentOverAll}>
+                <Text size={16} bold>
+                  Ground Beef Tacos
+                </Text>
+                <Flex row center overrideStyle={styles.ratingContainer}>
+                  <SvgStar />
+                  <Text bold overrideStyle={styles.ratingText}>
+                    4.5
+                  </Text>
+                  <Text color="gray" size={12} overrideStyle={{marginTop: 3}}>
+                    {'(25+)'}
+                  </Text>
+                </Flex>
 
-            <Text bold overrideStyle={{marginTop: 20, marginBottom: 30}}>
-              Choice of Add On
-            </Text>
-            <Flex row center between>
-              <Text>Pepper Julienned</Text>
-              <Text>₹ 100</Text>
+                <Flex row center between>
+                  <Text size={16} bold>
+                    ₹ 100
+                  </Text>
+                  <Stepper onChange={setCount} />
+                </Flex>
+
+                <Text bold overrideStyle={styles.choiceText}>
+                  Choice of Add On
+                </Text>
+
+                <Flex row center between>
+                  <Text>Pepper Julienned</Text>
+                  <Text>₹ 100</Text>
+                </Flex>
+              </Flex>
             </Flex>
+          </ScrollView>
+          <Flex center overrideStyle={styles.btnContainer}>
+            <Button>Add item ₹ 210</Button>
           </Flex>
         </Flex>
       </RBSheet>
-    </>
+    </Flex>
   );
 };
 
-export default FoodDetailsPopup;
+export default forwardRef(FoodDetailsPopup);

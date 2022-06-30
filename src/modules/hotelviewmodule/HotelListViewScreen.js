@@ -1,10 +1,11 @@
 import React, {useRef} from 'react';
-import {Button, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
+import Button from '../../uikit/Button/Button';
 import Flex from '../../uikit/Flex/Flex';
 import {WHITE} from '../../uikit/UikitUtils/colors';
 import FiterSection from './FiterSection';
-import FoodCard from './FoodCard';
 import FoodDetailsPopup from './FoodDetailsPopup';
+import ViewListScreen from './ViewListScreen';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -13,12 +14,15 @@ const styles = StyleSheet.create({
   },
 });
 const HotelListViewScreen = () => {
+  const refRBSheet = useRef();
 
+  const handleOpenDetails=()=>{
+    refRBSheet.current.open()
+  }
   return (
     <Flex overrideStyle={styles.overAll}>
-      <FiterSection />
-      <FoodCard />
-      {/* <FoodDetailsPopup /> */}
+      <FoodDetailsPopup ref={refRBSheet} />
+      <ViewListScreen handleOpenDetails={handleOpenDetails}/>
     </Flex>
   );
 };

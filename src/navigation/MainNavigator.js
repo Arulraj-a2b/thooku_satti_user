@@ -1,5 +1,5 @@
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import CreatePasswordScreen from '../modules/forgotpasswordmodule/CreatePasswordScreen';
 import CreatePasswordSuccss from '../modules/forgotpasswordmodule/CreatePasswordSuccss';
 import ForgotPasswordScreen from '../modules/forgotpasswordmodule/ForgotPasswordScreen';
@@ -8,7 +8,7 @@ import LoginScreen from '../modules/loginmodule/LoginScreen';
 import GooglePlacesSearchScreen from '../modules/mapmodule/GooglePlacesSearchScreen';
 import MapView from '../modules/mapmodule/MapView';
 import RegisterScreen from '../modules/registermodule/RegisterScreen';
-import {routesPath, stacks} from '../routes/routesPath';
+import {routesPath} from '../routes/routesPath';
 import {WHITE} from '../uikit/UikitUtils/colors';
 import Header from './Header';
 import SideNavigation from './SideNavigation';
@@ -18,6 +18,7 @@ const Stack = createNativeStackNavigator();
 const MainNavigator = () => {
   return (
     <Stack.Navigator
+      initialRouteName={routesPath.LOGIN_SCREEN}
       screenOptions={{
         headerMode: 'screen',
         contentStyle: {
