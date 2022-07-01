@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Pressable, StyleSheet} from 'react-native';
+import {Pressable, StyleSheet, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {PERMISSIONS, request} from 'react-native-permissions';
 import Geolocation from 'react-native-geolocation-service';
@@ -11,7 +11,7 @@ import {PRIMARY, WHITE} from '../uikit/UikitUtils/colors';
 import {routesPath} from '../routes/routesPath';
 import {getAddressMiddleWare} from '../modules/mapmodule/store/mapMiddleware';
 import {API_KEY} from '../uikit/UikitUtils/constants';
-import SvgLocationMarker from '../icons/SvgLocationMarker';
+import SvgLocation2 from '../icons/SvgLocation2';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -47,7 +47,7 @@ const Header = ({props, isBack, isMenu, isLocation}) => {
   });
 
   useEffect(() => {
-    if (data && !data.results) {
+    if (data && !data.results && isLocation) {
       requestLocationPermission();
     }
   }, []);
@@ -85,8 +85,11 @@ const Header = ({props, isBack, isMenu, isLocation}) => {
             onPress={() =>
               props.navigation.navigate(routesPath.GOOGLE_PLACES_SEARCH_SCREEN)
             }>
-            <SvgLocationMarker fill={WHITE} />
-            <Text bold color="white" size={16} numberOfLines={1}>
+            <View style={{marginRight: 8}}>
+              <SvgLocation2 fill={WHITE} />
+            </View>
+
+            <Text bold color="white" size={14} numberOfLines={2}>
               {data && data.results && data.results[0].formatted_address}
             </Text>
           </Pressable>
@@ -107,7 +110,8 @@ const Header = ({props, isBack, isMenu, isLocation}) => {
       {isMenu && (
         <Pressable
           style={styles.hamburgerStyle}
-          onPress={() => props.navigation.openDrawer()}>
+          // onPress={() => props.navigation.openDrawer()}
+        >
           <SvgHamburger fill={WHITE} width={14} height={8} />
         </Pressable>
       )}

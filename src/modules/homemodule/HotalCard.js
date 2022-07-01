@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
 const HotalCard = ({item, index, totalLength, isAll}) => {
   const navigation = useNavigation();
   const handleNavigate = () => {
-    navigation.navigate(routesPath.HOTEL_LIST_VIEW_SCREEN);
+    // navigation.navigate(routesPath.HOTEL_LIST_VIEW_SCREEN);
   };
   return (
     <Pressable onPress={handleNavigate}>

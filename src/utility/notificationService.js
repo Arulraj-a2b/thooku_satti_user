@@ -36,7 +36,7 @@ export const checkLocationUser = async () => {
     if (geoLocation) {
       geoLocation = JSON.parse(geoLocation);
       if (geoLocation) {
-        navigation.navigate('LoginScreen');
+        navigation.navigate(routesPath.LOGIN_SCREEN);
       } else {
         navigation.navigate(routesPath.MAP_VIEW_SCREEN);
       }

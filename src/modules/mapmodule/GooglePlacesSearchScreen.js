@@ -1,15 +1,13 @@
 import React, {useState} from 'react';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
-import {Pressable, StyleSheet, View} from 'react-native';
+import {Alert, Linking, Pressable, StyleSheet, View} from 'react-native';
 import {API_KEY} from '../../uikit/UikitUtils/constants';
 import {BORDER_COLOR, PRIMARY} from '../../uikit/UikitUtils/colors';
 import {inputTextStyles} from '../../uikit/InputText/InputTextStyles';
 import {routesPath} from '../../routes/routesPath';
 import {PERMISSIONS, request} from 'react-native-permissions';
-import Geolocation from 'react-native-geolocation-service';
 import Flex from '../../uikit/Flex/Flex';
 import SvgGps from '../../icons/SvgGps';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -25,15 +23,20 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     paddingHorizontal: 16,
     position: 'relative',
-    paddingRight: 45,
+    paddingRight: 60,
   },
   svgGps: {
     position: 'absolute',
     zIndex: 99,
-    right: 14,
-    top: 14,
+    right: 0,
+    top: 0,
+    height: 50,
+    width: 50,
+    borderLeftColor: BORDER_COLOR,
+    borderLeftWidth: 1,
   },
 });
+
 const GooglePlacesSearchScreen = ({navigation}) => {
   const [isFocus, setFocus] = useState(false);
   const onPress = (_data, details) => {
@@ -53,19 +56,23 @@ const GooglePlacesSearchScreen = ({navigation}) => {
   async function handleLocationPermission() {
     var res = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
     if (res === 'granted') {
-      await Geolocation.getCurrentPosition(
-        ({coords}) => {
-          AsyncStorage.setItem('geoLocation', JSON.stringify(coords));
-          navigation.push(routesPath.MAP_VIEW_SCREEN);
-        },
-        _error => {
-          // Alert.alert(error.code,error.message)
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 15000,
-          maximumAge: 10000,
-        },
+      navigation.push(routesPath.MAP_VIEW_SCREEN);
+    } else if (res === 'blocked') {
+      Alert.alert(
+        'Permission',
+        'Device location permission blocked. Enable the location manually',
+        [
+          {
+            text: 'Cancel',
+            onPress: () => {},
+          },
+          {
+            text: 'Enable',
+            onPress: () => {
+              Linking.openSettings();
+            },
+          },
+        ],
       );
     }
   }
@@ -81,7 +88,7 @@ const GooglePlacesSearchScreen = ({navigation}) => {
             style: [styles.inputStyes, focussedStyle],
             onBlur: handleBlur,
             onFocus: handleFocus,
-            placeholder:'Please find your order location'
+            placeholder: 'Please find your order location',
           }}
           styles={{borderWidth: 1}}
           placeholder="Search"

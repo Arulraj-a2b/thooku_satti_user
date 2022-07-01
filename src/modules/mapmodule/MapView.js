@@ -22,7 +22,6 @@ import {API_KEY} from '../../uikit/UikitUtils/constants';
 import {mapStyle} from './mock';
 import {getAddressMiddleWare} from './store/mapMiddleware';
 
-
 const styles = StyleSheet.create({
   body: {
     flex: 1,

@@ -14,7 +14,7 @@ const SideNavigation = () => {
   return (
     <Drawer.Navigator
       drawerContent={props => <DrawerContent {...props} />}
-      screenOptions={{drawerPosition: 'right'}}
+      screenOptions={{drawerPosition: 'right', swipeEnabled: false}}
       initialRouteName="BottomTab">
       <Drawer.Screen
         options={{

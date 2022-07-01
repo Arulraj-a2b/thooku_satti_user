@@ -28,7 +28,7 @@ import Loader from '../../uikit/Loader/Loader';
 import SvgEye from '../../icons/SvgEye';
 import SvgEyeOutline from '../../icons/SvgEyleOutLine';
 import {useAuthCheck} from '../../utility/config';
-import {routesPath, stacks} from '../../routes/routesPath';
+import {routesPath} from '../../routes/routesPath';
 
 const styles = StyleSheet.create({
   logoContainer: {

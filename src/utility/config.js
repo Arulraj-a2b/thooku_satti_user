@@ -41,7 +41,7 @@ export const useAuthCheck = setLoader => {
           }, 1000);
         }
       } else {
-        navigation.navigate(routesPath.MAP_VIEW_SCREEN);
+        navigation.navigate(routesPath.GOOGLE_PLACES_SEARCH_SCREEN);
         setLoader(false);
         setTimeout(() => {
           SplashScreen.hide();
