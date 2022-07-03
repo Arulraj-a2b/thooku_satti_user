@@ -76,10 +76,18 @@ const Header = ({props, isBack, isMenu, isLocation}) => {
     }
   }
 
+  const handleOpenDrawer = () => {
+    props.navigation.openDrawer();
+  };
+
+  const handleGoBack = () => {
+    props.navigation.goBack();
+  };
+
   return (
     <Flex between row center overrideStyle={styles.overAll}>
       {isLocation && (
-        <Flex overrideStyle={{width: '80%'}}>
+        <Flex overrideStyle={{width: '75%'}}>
           <Pressable
             style={styles.locationStyle}
             onPress={() =>
@@ -97,9 +105,7 @@ const Header = ({props, isBack, isMenu, isLocation}) => {
       )}
       <Flex row center>
         {!isBack && (
-          <Pressable
-            style={styles.boxStyle}
-            onPress={() => props.navigation.goBack()}>
+          <Pressable style={styles.boxStyle} onPress={handleGoBack}>
             <SvgBack />
           </Pressable>
         )}
@@ -108,10 +114,7 @@ const Header = ({props, isBack, isMenu, isLocation}) => {
         </Text>
       </Flex>
       {isMenu && (
-        <Pressable
-          style={styles.hamburgerStyle}
-          // onPress={() => props.navigation.openDrawer()}
-        >
+        <Pressable style={styles.hamburgerStyle} onPress={handleOpenDrawer}>
           <SvgHamburger fill={WHITE} width={14} height={8} />
         </Pressable>
       )}

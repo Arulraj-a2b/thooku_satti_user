@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Image, StyleSheet, Pressable, View} from 'react-native';
+import React, {memo, useState} from 'react';
+import {Image, StyleSheet, View} from 'react-native';
 import SvgFav from '../../icons/SvgFav';
 import SvgStar from '../../icons/SvgStar';
 import Flex from '../../uikit/Flex/Flex';
@@ -11,9 +11,9 @@ import {
   PRIMARY,
   WHITE,
 } from '../../uikit/UikitUtils/colors';
-import SvgSuccess from '../../icons/SvgSccess';
 import {routesPath} from '../../routes/routesPath';
 import Stepper from '../../uikit/Stepper/Stepper';
+import {isEmpty} from '../../uikit/UikitUtils/validators';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -27,12 +27,14 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     backgroundColor: WHITE,
     marginHorizontal: 1,
+    borderTopColor:BORDER_COLOR,
+    borderTopWidth:1,
   },
   imageStyle: {
     height: 136,
     borderTopRightRadius: 8,
     borderTopLeftRadius: 8,
-    backgroundColor: GARY_1,
+    // backgroundColor: GARY_1,
   },
   imageContainer: {
     position: 'relative',
@@ -99,68 +101,82 @@ const styles = StyleSheet.create({
   },
 });
 
-const FoodCard = ({index, totalLength, handleOpenDetails}) => {
+const FoodCard = ({index, totalLength, item}) => {
   const [isCount, setCount] = useState(0);
 
   return (
-    <Pressable onPress={handleOpenDetails}>
-      <Flex
-        overrideStyle={[
-          styles.overAll,
-          {marginBottom: index + 1 === totalLength ? 50 : 8},
-        ]}>
-        <Flex overrideStyle={styles.imageContainer}>
+    <Flex
+      overrideStyle={[
+        styles.overAll,
+        {marginBottom: index + 1 === totalLength ? 50 : 8},
+      ]}>
+      <Flex overrideStyle={styles.imageContainer}>
+        {!isEmpty(item.FoodImage) && (
           <Image
             resizeMode="contain"
-            source={{uri: 'https://i.ibb.co/WPzKrZ7/Concept-and-Ideas.jpg'}}
+            source={{uri: item.FoodImage}}
             style={styles.imageStyle}
           />
-          <View style={styles.priceContainer}>
-            <Flex row center between>
-              <Flex center middle overrideStyle={styles.ratingBox}>
-                <Text size={14} bold>
-                  ₹ 40
+        )}
+
+        <View style={styles.priceContainer}>
+          <Flex row center between>
+            <Flex center middle overrideStyle={styles.ratingBox}>
+              <Text size={14} bold>
+                ₹ {item.Price}
+              </Text>
+            </Flex>
+            <View style={styles.svgFavStye}>
+              <SvgFav fill={WHITE} />
+            </View>
+          </Flex>
+        </View>
+        <View style={styles.ratingContainer}>
+          <Flex row center middle overrideStyle={styles.ratingBox}>
+            <SvgStar />
+            <Text bold overrideStyle={{marginLeft: 4}}>
+              {item.Rating}
+            </Text>
+          </Flex>
+        </View>
+      </Flex>
+
+      <Flex middle overrideStyle={styles.nameListContainer}>
+        <Flex row center between>
+          <Flex row center>
+            <Text bold size={14}>
+              {item.FoodName}
+            </Text>
+            {item.IsRecommand !== 'N' && (
+              <Flex row center overrideStyle={{marginLeft: 4}}>
+                <SvgStar fill={PRIMARY} />
+                <Text
+                  bold
+                  size={12}
+                  color="theme"
+                  overrideStyle={{marginLeft: 4, marginBottom: 2}}>
+                  Bestseller
                 </Text>
               </Flex>
-              <View style={styles.svgFavStye}>
-                <SvgFav fill={WHITE} />
-              </View>
-            </Flex>
-          </View>
-          <View style={styles.ratingContainer}>
-            <Flex row center middle overrideStyle={styles.ratingBox}>
-              <SvgStar />
-              <Text size={10} color="gray" bold>
-                {' (45+)'}
-              </Text>
-            </Flex>
-          </View>
-        </Flex>
-
-        <Flex overrideStyle={styles.nameListContainer}>
-          <Flex row center between>
-            <Flex row center>
-              <Text bold size={14}>
-                {'Chicken Hawaiian'}
-              </Text>
-              <View style={styles.svgSuccess}>
+            )}
+            {/* <View style={styles.svgSuccess}>
+              <Flex row center>
                 <SvgSuccess height={10} width={10} />
-              </View>
-            </Flex>
-            <Flex center overrideStyle={{position: 'relative'}}>
-              <Stepper onChange={setCount} />
-              <Text size={12} color="gray" overrideStyle={styles.choiceStyle}>
-                {'(choice)'}
-              </Text>
-            </Flex>
+                <Text>Best Seller</Text>
+              </Flex>
+            </View> */}
           </Flex>
-          <Text color="gray" overrideStyle={{marginTop: 2}}>
-            Chicken, Cheese and pineapple
-          </Text>
+          <Stepper onChange={setCount} />
         </Flex>
+        <Text
+          transform={'capitalize'}
+          color="gray"
+          overrideStyle={{marginTop: 2}}>
+          {item.CategoryName}
+        </Text>
       </Flex>
-    </Pressable>
+    </Flex>
   );
 };
 
-export default FoodCard;
+export default memo(FoodCard);

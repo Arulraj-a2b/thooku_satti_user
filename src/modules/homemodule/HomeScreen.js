@@ -6,8 +6,6 @@ import Loader from '../../uikit/Loader/Loader';
 import {WHITE} from '../../uikit/UikitUtils/colors';
 import {getRestaurantListMiddleWare} from './store/homeMiddleware';
 import HotelList from './HotelList';
-import Button from '../../uikit/Button/Button';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -20,6 +18,7 @@ const HomeScreen = ({navigation}) => {
   const dispacth = useDispatch();
   const [isAll, setAll] = useState(false);
   const [isSearch, setSearch] = useState('');
+  
   useEffect(() => {
     dispacth(getRestaurantListMiddleWare({LocationID: '1'}));
   }, []);
@@ -45,15 +44,10 @@ const HomeScreen = ({navigation}) => {
   );
   const inputSearchCheck = isSearch.length === 0;
 
-  const logout = () => {
-    AsyncStorage.clear();
-    navigation.navigate('LoginScreen');
-  };
   return (
     <>
       {isLoading && <Loader />}
       <Flex overrideStyle={styles.overAll}>
-        <Button onClick={logout}>Log Out</Button>
         {!isLoading && (
           <HotelList
             isSearch={isSearch}

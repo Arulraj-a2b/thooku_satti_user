@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Provider} from 'react-redux';
 import {useNetInfo} from '@react-native-community/netinfo';
 import {RootSiblingParent} from 'react-native-root-siblings';
@@ -9,17 +9,20 @@ import store from './store';
 import AppLayout from './src/navigation/AppLayout';
 import {requestUserPermission} from './src/utility/notificationService';
 import OfflineScreen from './src/modules/offlinemodule/OfflineScreen';
+import Logger, { startNetworkLogging } from 'react-native-network-logger';
+import { TouchableOpacity } from 'react-native';
+import Text from './src/uikit/Text/Text';
 
 const App = () => {
-  // const [showLogger, setShowLogger] = useState(false);
+  const [showLogger, setShowLogger] = useState(false);
 
   useEffect(() => {
-    // startNetworkLogging();
+    startNetworkLogging();
     // AsyncStorage.removeItem('geoLocationDone');
     requestUserPermission();
   }, []);
 
-  // const handleToggleLogger = () => setShowLogger(!showLogger);
+  const handleToggleLogger = () => setShowLogger(!showLogger);
 
   const netInfo = useNetInfo();
 
@@ -28,15 +31,15 @@ const App = () => {
       <RootSiblingParent>
         <Provider store={store}>
           <NavigationContainer>
-            {/* {
+            {
             <TouchableOpacity onPress={handleToggleLogger}>
               <Text color={'link'}>
                 {showLogger ? 'Hide Logger' : 'Show Logger'}
               </Text>
             </TouchableOpacity>
           }
-          {showLogger ? <Logger /> : <AppLayout />} */}
-            <AppLayout />
+          {showLogger ? <Logger /> : <AppLayout />}
+            {/* <AppLayout /> */}
           </NavigationContainer>
         </Provider>
       </RootSiblingParent>

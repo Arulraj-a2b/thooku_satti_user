@@ -5,11 +5,17 @@ import {
 } from '../modules/forgotpasswordmodule/store/forgotReducer';
 import {getRestaurantListReducers} from '../modules/homemodule/store/homeReducer';
 import {getAddressReducers} from '../modules/mapmodule/store/mapReducer';
+import {
+  getFoodItemsReducers,
+  getCategoryListReducers,
+} from '../modules/hotelviewmodule/store/hotelListViewReducer';
 
 export const reducers = {
   loginReducers,
   forgotEamilOtpReducers,
   emailOtpVerifyReducers,
   getRestaurantListReducers,
-  getAddressReducers
+  getAddressReducers,
+  getFoodItemsReducers,
+  getCategoryListReducers,
 };

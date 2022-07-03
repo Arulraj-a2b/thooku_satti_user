@@ -9,7 +9,8 @@ export const CHANGE_PASSWORD = 'forgot/CHANGE_PASSWORD';
 
 export const GET_RESTAURANT_LIST = 'home/GET_RESTAURANT_LIST';
 
-
+export const GET_FOOD_ITEMS = 'hotel_view/GET_FOOD_ITEMS';
+export const GET_CATEGORY_LIST = 'hotel_view/GET_CATEGORY_LIST';
 
 
 
