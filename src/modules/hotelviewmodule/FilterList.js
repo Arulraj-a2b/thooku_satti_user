@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
@@ -27,4 +27,4 @@ const FilterList = ({handleFilter, isFilter, item}) => {
   );
 };
 
-export default FilterList;
+export default memo(FilterList);

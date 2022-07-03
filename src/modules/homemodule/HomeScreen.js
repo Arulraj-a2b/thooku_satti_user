@@ -18,7 +18,7 @@ const HomeScreen = ({navigation}) => {
   const dispacth = useDispatch();
   const [isAll, setAll] = useState(false);
   const [isSearch, setSearch] = useState('');
-  
+
   useEffect(() => {
     dispacth(getRestaurantListMiddleWare({LocationID: '1'}));
   }, []);

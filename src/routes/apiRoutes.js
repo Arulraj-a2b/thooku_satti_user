@@ -9,3 +9,5 @@ export const changePasswordApi = fetchUrl('Mobapi/ChangePassword');
 export const getRestaurantListApi = fetchUrl('Mobapi/GetRestaurantList');
 export const getFoodItemsApi = fetchUrl('Mobapi/GetFoodItems');
 export const getCategoryListApi = fetchUrl('Mobapi/GetCategoryList');
+export const addCartApi = fetchUrl('Mobapi/UpdateCart');
+export const getCartDetailsApi = fetchUrl('Mobapi/GetCartDetails');

@@ -10,30 +10,36 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
 });
-const Stepper = ({onChange}) => {
-  const [isValue, setValue] = useState(0);
+const Stepper = ({onChange, onSubmit, value}) => {
+  // const [isValue, setValue] = useState(0);
 
   const handleIncrement = () => {
-    setValue(pre => pre + 1);
+    // setValue(pre => pre + 1);
     if (typeof onChange !== 'undefined') {
       onChange(pre => pre + 1);
+    }
+    if (typeof onSubmit !== 'undefined') {
+      onSubmit();
     }
   };
 
   const handleIDecrement = () => {
-    setValue(pre => pre - 1);
+    // setValue(pre => pre - 1);
     if (typeof onChange !== 'undefined') {
       onChange(pre => pre - 1);
+    }
+    if (typeof onSubmit !== 'undefined') {
+      onSubmit();
     }
   };
 
   return (
     <Flex row center>
-      <Pressable onPress={handleIDecrement} disabled={isValue === 0}>
+      <Pressable onPress={handleIDecrement} disabled={value === 0}>
         <SvgDecrement />
       </Pressable>
       <Text bold overrideStyle={styles.textStyle}>
-        {isValue}
+        {value}
       </Text>
       <Pressable onPress={handleIncrement}>
         <SvgIncrement />

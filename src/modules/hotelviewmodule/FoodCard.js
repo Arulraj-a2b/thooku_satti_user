@@ -7,11 +7,9 @@ import Text from '../../uikit/Text/Text';
 import {
   BLACK,
   BORDER_COLOR,
-  GARY_1,
   PRIMARY,
   WHITE,
 } from '../../uikit/UikitUtils/colors';
-import {routesPath} from '../../routes/routesPath';
 import Stepper from '../../uikit/Stepper/Stepper';
 import {isEmpty} from '../../uikit/UikitUtils/validators';
 
@@ -27,14 +25,13 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     backgroundColor: WHITE,
     marginHorizontal: 1,
-    borderTopColor:BORDER_COLOR,
-    borderTopWidth:1,
+    borderTopColor: BORDER_COLOR,
+    borderTopWidth: 1,
   },
   imageStyle: {
     height: 136,
     borderTopRightRadius: 8,
     borderTopLeftRadius: 8,
-    // backgroundColor: GARY_1,
   },
   imageContainer: {
     position: 'relative',
@@ -101,9 +98,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const FoodCard = ({index, totalLength, item}) => {
+const FoodCard = ({index, totalLength, item, handleAddCart, userDetails}) => {
   const [isCount, setCount] = useState(0);
 
+  const handleSubmit = () => {
+    handleAddCart(item.HotelID, item.FoodID, isCount + 1, userDetails?.UserID);
+  };
   return (
     <Flex
       overrideStyle={[
@@ -159,14 +159,8 @@ const FoodCard = ({index, totalLength, item}) => {
                 </Text>
               </Flex>
             )}
-            {/* <View style={styles.svgSuccess}>
-              <Flex row center>
-                <SvgSuccess height={10} width={10} />
-                <Text>Best Seller</Text>
-              </Flex>
-            </View> */}
           </Flex>
-          <Stepper onChange={setCount} />
+          <Stepper value={isCount} onChange={setCount} onSubmit={handleSubmit} />
         </Flex>
         <Text
           transform={'capitalize'}

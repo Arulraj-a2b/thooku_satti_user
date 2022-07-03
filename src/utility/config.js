@@ -2,6 +2,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import {useEffect} from 'react';
 import SplashScreen from 'react-native-splash-screen';
+import {useDispatch} from 'react-redux';
+import {getCartDetailsMiddleWare} from '../modules/hotelviewmodule/store/hotelListViewMiddleware';
 import {routesPath} from '../routes/routesPath';
 
 export const BASE_URL = 'https://foodapp.appsure.co.in/api/';
@@ -13,6 +15,7 @@ export const fetchUrl = url => {
 
 export const useAuthCheck = setLoader => {
   const navigation = useNavigation();
+  const dispacth = useDispatch();
   const authUser = async () => {
     try {
       let userData = await AsyncStorage.getItem('userData');
@@ -22,6 +25,7 @@ export const useAuthCheck = setLoader => {
           userData = JSON.parse(userData);
           if (userData.loggedIn) {
             navigation.navigate(routesPath.ALL_SCREEN);
+            dispacth(getCartDetailsMiddleWare({UserID: userData.UserID}));
             setTimeout(() => {
               SplashScreen.hide();
             }, 1000);

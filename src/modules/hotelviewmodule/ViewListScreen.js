@@ -16,7 +16,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const ViewListScreen = ({data, handleOpen}, ref) => {
+const ViewListScreen = (
+  {data, handleOpen, handleAddCart, userDetails},
+  ref,
+) => {
   return (
     <FlatList
       ref={ref}
@@ -30,7 +33,13 @@ const ViewListScreen = ({data, handleOpen}, ref) => {
         item.CategoryID.toString() + index.toString()
       }
       renderItem={({item, index}) => (
-        <FoodCard index={index} totalLength={data.length} item={item} />
+        <FoodCard
+          handleAddCart={handleAddCart}
+          index={index}
+          totalLength={data.length}
+          item={item}
+          userDetails={userDetails}
+        />
       )}
     />
   );

@@ -51,20 +51,10 @@ const FoodDetailsPopup = ({}, ref) => {
           },
         }}>
         <Flex between flex={1}>
-          {/* <Flex
-            center
-            style={{position: 'absolute', bottom: 100, width: '100%', zIndex: 99}}>
-            <Button onClick={() => ref.current.close()}>'sss'</Button>
-          </Flex> */}
-
           <ScrollView>
             <Flex>
               <View style={styles.imageStyle} />
-              {/* <Image
-            resizeMode="cover"
-            source={require('../../assests/image/profile.png')}
-            style={styles.imageStyle}
-          /> */}
+
               <Flex overrideStyle={styles.contentOverAll}>
                 <Text size={16} bold>
                   Ground Beef Tacos
@@ -83,7 +73,7 @@ const FoodDetailsPopup = ({}, ref) => {
                   <Text size={16} bold>
                     ₹ 100
                   </Text>
-                  <Stepper onChange={setCount} />
+                  <Stepper value={isCount} onChange={setCount} />
                 </Flex>
 
                 <Text bold overrideStyle={styles.choiceText}>

@@ -1,5 +1,6 @@
 export const ZINDEX = 11;
 export const ZINDEX_MODAL = 10;
+export const INDIAN_RUPEE ='₹'
 
 export const API_KEY='AIzaSyDyIPNKYpe9zG_JlEEhl070cC28N0q4qbc'
 

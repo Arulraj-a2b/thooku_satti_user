@@ -1,5 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {
+  getCartDetailsMiddleWare,
   getCategoryListMiddleWare,
   getFoodItemsMiddleWare,
 } from './hotelListViewMiddleware';
@@ -77,5 +78,46 @@ const getCategoryListReducer = createSlice({
   },
 });
 
+const getCartDetailsState = {
+  isLoading: false,
+  error: '',
+  data: [
+    {
+      HotelName: '',
+      OrdInfo: {
+        ItemName: '',
+        ItemPrice: 0,
+        ItemCount: 0,
+        ItemImage: '',
+        ItemID: 0,
+        HotelID: 0,
+      },
+    },
+  ],
+};
+
+const getCartDetailsReducer = createSlice({
+  name: 'getCartDetails',
+  initialState: getCartDetailsState,
+  reducers: {},
+  extraReducers: builder => {
+    builder.addCase(getCartDetailsMiddleWare.pending, state => {
+      state.isLoading = true;
+      state.error = '';
+    });
+    builder.addCase(getCartDetailsMiddleWare.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.data = action.payload;
+    });
+    builder.addCase(getCartDetailsMiddleWare.rejected, (state, action) => {
+      state.isLoading = false;
+      if (typeof action.payload === 'string') {
+        state.error = action.payload;
+      }
+    });
+  },
+});
+
 export const getFoodItemsReducers = getFoodItemsReducer.reducer;
 export const getCategoryListReducers = getCategoryListReducer.reducer;
+export const getCartDetailsReducers = getCartDetailsReducer.reducer;

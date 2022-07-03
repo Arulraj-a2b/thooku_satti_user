@@ -6,14 +6,22 @@ import SvgHome from '../icons/SvgHome';
 import {GRAY_4, PRIMARY} from '../uikit/UikitUtils/colors';
 import HomeStack from './HomeStack';
 import MyCartScreen from '../modules/mycartmodule/MyCartScreen';
-import SvgCart from '../icons/SvgCart';
 import SvgFav from '../icons/SvgFav';
 import FavouriteScreen from '../modules/favouritemodule/FavouriteScreen';
 import Header from './Header';
+import CartIcon from './CartIcon';
+import {useSelector} from 'react-redux';
 
 const Tab = createBottomTabNavigator();
 
-function BottomTab() {
+const BottomTab = () => {
+  const {getCartDetails} = useSelector(({getCartDetailsReducers}) => {
+    return {
+      getCartDetails: getCartDetailsReducers.data,
+    };
+  });
+  const getCartCount=getCartDetails && getCartDetails[0].OrdInfo.length;
+
   return (
     <Tab.Navigator>
       <Tab.Screen
@@ -33,15 +41,7 @@ function BottomTab() {
         options={{
           title: '',
           tabBarIcon: ({focused}) => (
-            <TabBarIcon
-              icon={
-                <SvgCart
-                  width={26}
-                  height={26}
-                  fill={focused ? PRIMARY : GRAY_4}
-                />
-              }
-            />
+            <TabBarIcon icon={<CartIcon focused={focused} count={getCartCount} />} />
           ),
           header: props => <Header props={props} isBack isMenu />,
         }}
@@ -67,6 +67,6 @@ function BottomTab() {
       />
     </Tab.Navigator>
   );
-}
+};
 
 export default BottomTab;

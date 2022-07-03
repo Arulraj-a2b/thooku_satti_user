@@ -13,6 +13,8 @@ export const rootReducer = (state, action) => {
 
 const store = configureStore({
   reducer: rootReducer,
+  immutableCheck:false,
+  serializableCheck: false
 });
 
 export const resetStore = () => {

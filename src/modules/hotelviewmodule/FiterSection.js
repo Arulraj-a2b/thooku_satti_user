@@ -1,13 +1,12 @@
 import React from 'react';
-import {StyleSheet,Pressable} from 'react-native';
+import {StyleSheet, Pressable} from 'react-native';
 import SvgFilter from '../../icons/SvgFilter';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 
 const styles = StyleSheet.create({
   overAll: {
-    marginBottom: 20,
-    marginTop: 20,
+    marginVertical: 16,
   },
 });
 

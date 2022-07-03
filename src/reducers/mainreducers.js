@@ -8,6 +8,7 @@ import {getAddressReducers} from '../modules/mapmodule/store/mapReducer';
 import {
   getFoodItemsReducers,
   getCategoryListReducers,
+  getCartDetailsReducers,
 } from '../modules/hotelviewmodule/store/hotelListViewReducer';
 
 export const reducers = {
@@ -18,4 +19,5 @@ export const reducers = {
   getAddressReducers,
   getFoodItemsReducers,
   getCategoryListReducers,
+  getCartDetailsReducers,
 };

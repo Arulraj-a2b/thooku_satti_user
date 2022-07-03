@@ -12,6 +12,7 @@ export const GRAY_5 = '#F6F6F6';
 
 export const PRIMARY = '#e59722';
 export const SECONDARY = '#ffc929';
+export const SECONDARY_1='#FE724C'
 
 export const BORDER_COLOR = '#dfdfdf';
 

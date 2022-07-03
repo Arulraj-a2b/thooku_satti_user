@@ -30,3 +30,7 @@ export const getDateString = (value, format, isUnix, convertToLocal) => {
   }
   return "";
 };
+
+export const isFinancial = (x) => {
+  return Number.parseFloat(x).toFixed(2);
+};
