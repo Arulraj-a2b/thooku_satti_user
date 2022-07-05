@@ -146,7 +146,6 @@ const HotelListViewScreen = ({navigation}) => {
         data={finalFilter}
         handleOpen={handleOpen}
         userDetails={userDetails}
-        isUpdateLoader={isUpdateLoader}
       />
 
       {Array.isArray(getCartDetails) &&

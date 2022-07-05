@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 import {useSelector} from 'react-redux';
 import Flex from '../../uikit/Flex/Flex';
@@ -36,31 +36,24 @@ const MyCartScreen = () => {
     }
   };
 
-  const {getCartDetails, isLoading} = useSelector(
-    ({getCartDetailsReducers}) => {
+  const {getCartDetails, isLoading, addCartLoader} = useSelector(
+    ({getCartDetailsReducers, addCartReducers}) => {
       return {
         getCartDetails: getCartDetailsReducers.data,
         isLoading: getCartDetailsReducers.isLoading,
+        addCartLoader: addCartReducers.isLoading,
       };
     },
   );
 
-  const data = useMemo(() => {
-    const result =
-      Array.isArray(getCartDetails) &&
-      getCartDetails.length !== 0 &&
-      getCartDetails[0].OrdInfo;
-    return result;
-  }, [getCartDetails]);
-
   return (
     <Flex flex={1} overrideStyle={styles.overAll}>
-      {isLoading && <Loader />}
+      {(isLoading || addCartLoader) && <Loader />}
       {Array.isArray(getCartDetails) && getCartDetails.length !== 0 ? (
         <FlatList
           onEndReachedThreshold={0.1}
           style={styles.flatListoverAll}
-          data={data}
+          data={getCartDetails[0].OrdInfo}
           keyExtractor={(_item, index) => index.toString()}
           renderItem={({item}) => (
             <CartList item={item} userDetails={userDetails} />

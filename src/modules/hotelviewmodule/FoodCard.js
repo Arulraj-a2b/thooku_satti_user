@@ -92,18 +92,19 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: BORDER_COLOR,
   },
-  choiceStyle: {
-    position: 'absolute',
-    bottom: -20,
-  },
 });
 
-const FoodCard = ({index, totalLength, item, handleAddCart, userDetails,isUpdateLoader}) => {
+const FoodCard = ({index, totalLength, item, handleAddCart, userDetails}) => {
   const [isCount, setCount] = useState(0);
+  let filterTimeout;
 
   const handleSubmit = value => {
-    handleAddCart(item.HotelID, item.FoodID, value, userDetails?.UserID);
+    clearTimeout(filterTimeout);
+    filterTimeout = setTimeout(() => {
+      handleAddCart(item.HotelID, item.FoodID, value, userDetails?.UserID);
+    }, 1500);
   };
+
   return (
     <Flex
       overrideStyle={[
@@ -164,7 +165,6 @@ const FoodCard = ({index, totalLength, item, handleAddCart, userDetails,isUpdate
             value={isCount}
             onChange={setCount}
             onSubmit={handleSubmit}
-            isLoader={isUpdateLoader}
           />
         </Flex>
         <Text

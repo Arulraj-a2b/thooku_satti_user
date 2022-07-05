@@ -9,6 +9,7 @@ import {
   getFoodItemsReducers,
   getCategoryListReducers,
   getCartDetailsReducers,
+  addCartReducers
 } from '../modules/hotelviewmodule/store/hotelListViewReducer';
 
 export const reducers = {
@@ -20,4 +21,5 @@ export const reducers = {
   getFoodItemsReducers,
   getCategoryListReducers,
   getCartDetailsReducers,
+  addCartReducers
 };

@@ -1,7 +1,7 @@
 import React, {useMemo} from 'react';
 import {ActivityIndicator, Dimensions, StyleSheet} from 'react-native';
 import Flex from '../Flex/Flex';
-import {PRIMARY} from '../UikitUtils/colors';
+import {SECONDARY_1} from '../UikitUtils/colors';
 
 const {width} = Dimensions.get('window');
 
@@ -29,7 +29,11 @@ const Loader = () => {
   return (
     <Flex flex={1} middle center overrideStyle={memoisedStyle}>
       <Flex>
-        <ActivityIndicator size="large" style={styles.loader} color={PRIMARY} />
+        <ActivityIndicator
+          size="large"
+          style={styles.loader}
+          color={SECONDARY_1}
+        />
       </Flex>
     </Flex>
   );

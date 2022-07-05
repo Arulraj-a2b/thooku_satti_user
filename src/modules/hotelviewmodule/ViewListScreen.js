@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
 });
 
 const ViewListScreen = (
-  {data, handleOpen, handleAddCart, userDetails,isUpdateLoader},
+  {data, handleOpen, handleAddCart, userDetails},
   ref,
 ) => {
   return (
@@ -39,7 +39,6 @@ const ViewListScreen = (
           totalLength={data.length}
           item={item}
           userDetails={userDetails}
-          isUpdateLoader={isUpdateLoader}
         />
       )}
     />

@@ -1,4 +1,4 @@
-import React, {memo, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image, StyleSheet, View} from 'react-native';
 import {useDispatch} from 'react-redux';
 import SvgClose from '../../icons/SvgClose';
@@ -44,8 +44,12 @@ const styles = StyleSheet.create({
 
 const CartList = ({item, userDetails}) => {
   const [isCount, setCount] = useState(item.ItemCount);
-  const [isUpdateLoader, setUpdateLoader] = useState(false);
 
+  useEffect(() => {
+    setCount(item.ItemCount);
+  }, [item.ItemCount]);
+
+  const [isUpdateLoader, setUpdateLoader] = useState(false);
   const dispacth = useDispatch();
 
   const handleAddCart = value => {
@@ -71,7 +75,7 @@ const CartList = ({item, userDetails}) => {
       <Flex flex={1} overrideStyle={styles.rowContainer} between>
         <Flex row center between>
           <Text bold>{item.ItemName}</Text>
-          <SvgClose fill={ERROR} height={14} width={14} />
+          <SvgClose height={14} width={14} />
         </Flex>
         <Flex between row center overrideStyle={styles.stepperContainer}>
           <Text bold color="theme">
@@ -89,4 +93,4 @@ const CartList = ({item, userDetails}) => {
     </Flex>
   );
 };
-export default memo(CartList);
+export default CartList;
