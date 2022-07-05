@@ -6,6 +6,7 @@ import Flex from '../../uikit/Flex/Flex';
 import {WHITE} from '../../uikit/UikitUtils/colors';
 import CartList from './CartList';
 import CartPrice from './CartPrice';
+import EmptyCart from './EmptyCart';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -40,21 +41,28 @@ const MyCartScreen = () => {
     };
   });
 
-  const data = getCartDetails && getCartDetails[0].OrdInfo;
-
+  const data =
+    Array.isArray(getCartDetails) &&
+    getCartDetails.length !== 0 &&
+    getCartDetails[0].OrdInfo;
+    
   return (
     <Flex flex={1} overrideStyle={styles.overAll}>
-      <FlatList
-        onEndReachedThreshold={0.1}
-        style={styles.flatListoverAll}
-        data={data}
-        keyExtractor={(_item, index) => index.toString()}
-        renderItem={({item}) => (
-          <CartList item={item} userDetails={userDetails} />
-        )}
-        ListFooterComponent={<CartPrice />}
-        ListFooterComponentStyle={styles.footerStyle}
-      />
+      {Array.isArray(getCartDetails) && getCartDetails.length !== 0 ? (
+        <FlatList
+          onEndReachedThreshold={0.1}
+          style={styles.flatListoverAll}
+          data={data}
+          keyExtractor={(_item, index) => index.toString()}
+          renderItem={({item}) => (
+            <CartList item={item} userDetails={userDetails} />
+          )}
+          ListFooterComponent={<CartPrice getCartDetails={getCartDetails[0]} />}
+          ListFooterComponentStyle={styles.footerStyle}
+        />
+      ) : (
+        <EmptyCart />
+      )}
     </Flex>
   );
 };

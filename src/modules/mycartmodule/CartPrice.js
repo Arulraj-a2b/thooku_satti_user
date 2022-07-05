@@ -7,27 +7,24 @@ import {INDIAN_RUPEE} from '../../uikit/UikitUtils/constants';
 import {isFinancial} from '../../uikit/UikitUtils/helpers';
 
 const styles = StyleSheet.create({
-  overAll: {
-    // paddingHorizontal: 20,
-  },
   marginTop16: {
     marginTop: 12,
   },
   btn: {
     marginTop: 30,
     width: 250,
-    alignSelf:'center'
+    alignSelf: 'center',
   },
 });
 
-const CartPrice = () => {
+const CartPrice = ({getCartDetails}) => {
   return (
-    <Flex overrideStyle={styles.overAll}>
+    <Flex>
       <Flex row center between overrideStyle={styles.marginTop16}>
         <Text bold>Subtotal</Text>
         <Text bold>
           {INDIAN_RUPEE}
-          {isFinancial(26)}
+          {isFinancial(getCartDetails.GrandTotal)}
         </Text>
       </Flex>
       <Flex row center between overrideStyle={styles.marginTop16}>
@@ -47,10 +44,13 @@ const CartPrice = () => {
       <Flex row center between overrideStyle={styles.marginTop16}>
         <Flex row center>
           <Text bold>Total</Text>
+          <Text size={12} bold color="gray">
+            {` (${getCartDetails.CartCount} Item)`}
+          </Text>
         </Flex>
         <Text bold>
           {INDIAN_RUPEE}
-          {isFinancial(26)}
+          {isFinancial(getCartDetails.GrandTotal)}
         </Text>
       </Flex>
       <Button overrideStyle={styles.btn}>Checkout</Button>

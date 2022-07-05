@@ -18,7 +18,6 @@ const SideNavigation = () => {
       initialRouteName="BottomTab">
       <Drawer.Screen
         options={{
-          // header: props => <Header isLocation props={props} isBack isMenu />,
           headerShown: false,
         }}
         name="BottomTab"

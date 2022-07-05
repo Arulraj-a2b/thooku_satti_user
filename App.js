@@ -25,7 +25,7 @@ const App = () => {
   const handleToggleLogger = () => setShowLogger(!showLogger);
 
   const netInfo = useNetInfo();
-  const isProd = true;
+  const isProd = false;
   return netInfo.isConnected || netInfo.isConnected === null ? (
     <SafeAreaProvider>
       <RootSiblingParent>

@@ -20,8 +20,10 @@ const BottomTab = () => {
       getCartDetails: getCartDetailsReducers.data,
     };
   });
-  const getCartCount=getCartDetails && getCartDetails[0].OrdInfo.length;
-
+  const getCartCount =
+    getCartDetails &&
+    getCartDetails.length !== 0 &&
+    getCartDetails[0].CartCount;
   return (
     <Tab.Navigator>
       <Tab.Screen
@@ -41,12 +43,14 @@ const BottomTab = () => {
         options={{
           title: '',
           tabBarIcon: ({focused}) => (
-            <TabBarIcon icon={<CartIcon focused={focused} count={getCartCount} />} />
+            <TabBarIcon
+              icon={<CartIcon focused={focused} count={getCartCount} />}
+            />
           ),
           header: props => <Header props={props} isBack isMenu />,
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name={routesPath.FAVOURITE_SCREEN}
         component={FavouriteScreen}
         options={{
@@ -64,7 +68,7 @@ const BottomTab = () => {
           ),
           header: props => <Header props={props} isBack isMenu />,
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 };

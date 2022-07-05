@@ -11,7 +11,6 @@ import {
   addCartMiddleWare,
   getCartDetailsMiddleWare,
 } from '../hotelviewmodule/store/hotelListViewMiddleware';
-// import {addCartMiddleWare} from '../';
 
 const styles = StyleSheet.create({
   overAll: {marginVertical: 12},
@@ -47,18 +46,20 @@ const CartList = ({item, userDetails}) => {
   const [isCount, setCount] = useState(item.ItemCount);
   const dispacth = useDispatch();
 
-  const handleAddCart = (HotelID, ItemID, Qty, UserID) => {
+  const handleAddCart = (value) => {
+    console.log('isCount',value);
     dispacth(
       addCartMiddleWare({
         HotelID: item.HotelID,
         ItemID: item.ItemID,
-        Qty: isCount+1,
+        Qty: value,
         UserID: userDetails?.UserID,
       }),
     ).then(() => {
       dispacth(getCartDetailsMiddleWare({UserID: userDetails?.UserID}));
     });
   };
+
   return (
     <Flex overrideStyle={styles.overAll} row>
       <View style={styles.imgContainer}>
@@ -69,15 +70,16 @@ const CartList = ({item, userDetails}) => {
           <Text bold>{item.ItemName}</Text>
           <SvgClose fill={ERROR} height={14} width={14} />
         </Flex>
-        {/* <Text color="gray" size={12} overrideStyle={styles.des}>
-          {item}
-        </Text> */}
         <Flex between row center overrideStyle={styles.stepperContainer}>
           <Text bold color="theme">
             {INDIAN_RUPEE}
-            {item.ItemPrice}
+            {item.TotalPrice}
           </Text>
-          <Stepper onSubmit={handleAddCart} onChange={setCount} value={isCount} />
+          <Stepper
+            onSubmit={handleAddCart}
+            onChange={setCount}
+            value={isCount}
+          />
         </Flex>
       </Flex>
     </Flex>

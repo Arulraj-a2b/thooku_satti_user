@@ -121,9 +121,8 @@ const HotelListViewScreen = ({navigation}) => {
   const results = data.filter(
     option => option.CategoryName.toLowerCase() === isFilter.toLowerCase(),
   );
-  
-  const finalFilter = isEmpty(isFilter) ? data : results;
 
+  const finalFilter = isEmpty(isFilter) ? data : results;
   if (isLoader) {
     return <Loader />;
   }
@@ -146,23 +145,25 @@ const HotelListViewScreen = ({navigation}) => {
         userDetails={userDetails}
       />
 
-      {getCartDetails && getCartDetails[0].OrdInfo.length !== 0 && (
-        <Flex row center between overrideStyle={styles.footerContainer}>
-          <Flex>
-            <Text color="white" bold>
-              {getCartDetails && getCartDetails[0].OrdInfo.length} ITEM
-            </Text>
-            <Text color="white" bold overrideStyle={styles.rupeeStyle}>
-              {INDIAN_RUPEE}100
-            </Text>
+      {Array.isArray(getCartDetails) &&
+        getCartDetails.length !== 0 &&
+        getCartDetails[0].CartCount !== 0 && (
+          <Flex row center between overrideStyle={styles.footerContainer}>
+            <Flex>
+              <Text color="white" bold>
+                {getCartDetails && getCartDetails[0].CartCount} ITEM
+              </Text>
+              <Text color="white" bold overrideStyle={styles.rupeeStyle}>
+                {INDIAN_RUPEE}100
+              </Text>
+            </Flex>
+            <TouchableOpacity onPress={handleViewcart}>
+              <Text bold size={18} color="white">
+                View Cart
+              </Text>
+            </TouchableOpacity>
           </Flex>
-          <TouchableOpacity onPress={handleViewcart}>
-            <Text bold size={18} color="white">
-              View Cart
-            </Text>
-          </TouchableOpacity>
-        </Flex>
-      )}
+        )}
     </Flex>
   );
 };

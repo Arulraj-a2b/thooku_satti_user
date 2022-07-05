@@ -101,8 +101,8 @@ const styles = StyleSheet.create({
 const FoodCard = ({index, totalLength, item, handleAddCart, userDetails}) => {
   const [isCount, setCount] = useState(0);
 
-  const handleSubmit = () => {
-    handleAddCart(item.HotelID, item.FoodID, isCount + 1, userDetails?.UserID);
+  const handleSubmit = value => {
+    handleAddCart(item.HotelID, item.FoodID, value, userDetails?.UserID);
   };
   return (
     <Flex
@@ -160,7 +160,11 @@ const FoodCard = ({index, totalLength, item, handleAddCart, userDetails}) => {
               </Flex>
             )}
           </Flex>
-          <Stepper value={isCount} onChange={setCount} onSubmit={handleSubmit} />
+          <Stepper
+            value={isCount}
+            onChange={setCount}
+            onSubmit={handleSubmit}
+          />
         </Flex>
         <Text
           transform={'capitalize'}

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Pressable, StyleSheet} from 'react-native';
 import SvgDecrement from '../../icons/SvgDecrement';
 import SvgIncrement from '../../icons/SvgIncrement';
@@ -10,26 +10,23 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
 });
-const Stepper = ({onChange, onSubmit, value}) => {
-  // const [isValue, setValue] = useState(0);
 
+const Stepper = ({onChange, onSubmit, value}) => {
   const handleIncrement = () => {
-    // setValue(pre => pre + 1);
     if (typeof onChange !== 'undefined') {
+      if (typeof onSubmit !== 'undefined') {
+        onSubmit(value+1);
+      }
       onChange(pre => pre + 1);
-    }
-    if (typeof onSubmit !== 'undefined') {
-      onSubmit();
     }
   };
 
   const handleIDecrement = () => {
-    // setValue(pre => pre - 1);
     if (typeof onChange !== 'undefined') {
+      if (typeof onSubmit !== 'undefined') {
+        onSubmit(value-1);
+      }
       onChange(pre => pre - 1);
-    }
-    if (typeof onSubmit !== 'undefined') {
-      onSubmit();
     }
   };
 
