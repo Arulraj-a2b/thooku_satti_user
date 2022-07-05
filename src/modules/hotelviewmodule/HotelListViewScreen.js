@@ -49,6 +49,7 @@ const HotelListViewScreen = ({navigation}) => {
   const [isFilter, setFilter] = useState('');
   const flatListRef = useRef();
   const [userDetails, setUserDetails] = useState();
+  const [isUpdateLoader,setUpdateLoader]=useState(false);
 
   useEffect(() => {
     getUserData();
@@ -102,6 +103,7 @@ const HotelListViewScreen = ({navigation}) => {
   };
 
   const handleAddCart = (HotelID, ItemID, Qty, UserID) => {
+    setUpdateLoader(true)
     dispacth(
       addCartMiddleWare({
         HotelID,
@@ -110,6 +112,7 @@ const HotelListViewScreen = ({navigation}) => {
         UserID,
       }),
     ).then(() => {
+      setUpdateLoader(false)
       dispacth(getCartDetailsMiddleWare({UserID: userDetails?.UserID}));
     });
   };
@@ -143,6 +146,7 @@ const HotelListViewScreen = ({navigation}) => {
         data={finalFilter}
         handleOpen={handleOpen}
         userDetails={userDetails}
+        isUpdateLoader={isUpdateLoader}
       />
 
       {Array.isArray(getCartDetails) &&

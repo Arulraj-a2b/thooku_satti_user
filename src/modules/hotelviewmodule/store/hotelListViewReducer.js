@@ -78,22 +78,6 @@ const getCategoryListReducer = createSlice({
   },
 });
 
-// export interface Weather {
-//   HotelName: string;
-//   CartCount: number;
-//   GrandTotal: number;
-//   OrdInfo?: (OrdInfoEntity)[] | null;
-// }
-// export interface OrdInfoEntity {
-//   ItemName: string;
-//   ItemPrice: number;
-//   ItemCount: number;
-//   ItemImage: string;
-//   ItemID: number;
-//   HotelID: number;
-//   TotalPrice: number;
-// }
-
 const getCartDetailsState = {
   isLoading: false,
   error: '',

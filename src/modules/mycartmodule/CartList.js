@@ -44,10 +44,12 @@ const styles = StyleSheet.create({
 
 const CartList = ({item, userDetails}) => {
   const [isCount, setCount] = useState(item.ItemCount);
+  const [isUpdateLoader, setUpdateLoader] = useState(false);
+
   const dispacth = useDispatch();
 
-  const handleAddCart = (value) => {
-    console.log('isCount',value);
+  const handleAddCart = value => {
+    setUpdateLoader(true);
     dispacth(
       addCartMiddleWare({
         HotelID: item.HotelID,
@@ -56,6 +58,7 @@ const CartList = ({item, userDetails}) => {
         UserID: userDetails?.UserID,
       }),
     ).then(() => {
+      setUpdateLoader(false);
       dispacth(getCartDetailsMiddleWare({UserID: userDetails?.UserID}));
     });
   };
@@ -76,6 +79,7 @@ const CartList = ({item, userDetails}) => {
             {item.TotalPrice}
           </Text>
           <Stepper
+            isLoader={isUpdateLoader}
             onSubmit={handleAddCart}
             onChange={setCount}
             value={isCount}

@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const FoodCard = ({index, totalLength, item, handleAddCart, userDetails}) => {
+const FoodCard = ({index, totalLength, item, handleAddCart, userDetails,isUpdateLoader}) => {
   const [isCount, setCount] = useState(0);
 
   const handleSubmit = value => {
@@ -164,6 +164,7 @@ const FoodCard = ({index, totalLength, item, handleAddCart, userDetails}) => {
             value={isCount}
             onChange={setCount}
             onSubmit={handleSubmit}
+            isLoader={isUpdateLoader}
           />
         </Flex>
         <Text
