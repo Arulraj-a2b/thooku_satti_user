@@ -96,7 +96,7 @@ const LoginScreen = () => {
             'userData',
             JSON.stringify({...res.payload[0], loggedIn: true}),
           );
-          axios.defaults.headers.common['token'] = payload[0].SessionID;
+          axios.defaults.headers.common['token'] = res.payload[0].SessionID;
           formik.resetForm();
           navigation.navigate(routesPath.ALL_SCREEN);
         }
