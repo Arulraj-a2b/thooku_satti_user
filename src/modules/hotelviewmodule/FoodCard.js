@@ -16,7 +16,6 @@ import {isEmpty} from '../../uikit/UikitUtils/validators';
 const styles = StyleSheet.create({
   overAll: {
     borderRadius: 8,
-    width: '99%',
     marginVertical: 8,
     elevation: 2,
     shadowColor: BLACK,
@@ -24,9 +23,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.06,
     shadowRadius: 3,
     backgroundColor: WHITE,
-    marginHorizontal: 1,
-    borderTopColor: BORDER_COLOR,
-    borderTopWidth: 1,
+    marginHorizontal: 20,
   },
   imageStyle: {
     height: 136,
@@ -94,15 +91,16 @@ const styles = StyleSheet.create({
   },
 });
 
-const FoodCard = ({index, totalLength, item, handleAddCart, userDetails}) => {
+const FoodCard = ({index, totalLength, item, handleAddCart}) => {
   const [isCount, setCount] = useState(0);
-  let filterTimeout;
+  // let filterTimeout;
 
   const handleSubmit = value => {
-    clearTimeout(filterTimeout);
-    filterTimeout = setTimeout(() => {
-      handleAddCart(item.HotelID, item.FoodID, value, userDetails?.UserID);
-    }, 1500);
+    handleAddCart(item.HotelID, item.FoodID, value);
+    // clearTimeout(filterTimeout);
+    // filterTimeout = setTimeout(() => {
+    //   handleAddCart(item.HotelID, item.FoodID, value);
+    // }, 500);
   };
 
   return (

@@ -76,7 +76,7 @@ const LoginScreen = () => {
       isLoading: loginReducers.isLoading,
     };
   });
-
+  
   const handleSubmit = async value => {
     await AsyncStorage.getItem('fcmToken').then(tokenRes => {
       dispatch(

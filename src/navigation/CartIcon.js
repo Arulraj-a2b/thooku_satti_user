@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 const CartIcon = ({focused, count}) => {
   return (
     <Flex overrideStyle={styles.overAll}>
-      {!isEmpty(count) && (
+      {count && !isEmpty(count) && (
         <View style={styles.count}>
           <Text size={10} color="white" bold>
             {count}

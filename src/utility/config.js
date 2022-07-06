@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
+import axios from 'axios';
 import {useEffect} from 'react';
 import SplashScreen from 'react-native-splash-screen';
 import {useDispatch} from 'react-redux';
@@ -24,8 +25,10 @@ export const useAuthCheck = setLoader => {
         if (userData) {
           userData = JSON.parse(userData);
           if (userData.loggedIn) {
+            console.log('userData', userData.SessionID);
+            axios.defaults.headers.common['token'] = userData.SessionID;
             navigation.navigate(routesPath.ALL_SCREEN);
-            dispacth(getCartDetailsMiddleWare({UserID: userData.UserID}));
+            dispacth(getCartDetailsMiddleWare());
             setTimeout(() => {
               SplashScreen.hide();
             }, 1000);

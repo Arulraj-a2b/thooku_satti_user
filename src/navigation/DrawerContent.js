@@ -62,7 +62,7 @@ const DrawerContent = props => {
   const isDrawerOpen = useDrawerStatus() === 'open';
 
   const logout = () => {
-    AsyncStorage.clear();
+    AsyncStorage.removeItem('userData');
     props.navigation.navigate('LoginScreen');
   };
 

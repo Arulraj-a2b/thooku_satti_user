@@ -24,12 +24,16 @@ const SideNavigation = () => {
         component={BottomTab}
       />
       <Drawer.Screen
-        options={{header: props => <Header props={props} isMenu />}}
+        options={{header: props => <Header backPath={routesPath.HOME_SCREEN} props={props} isMenu />}}
         name={routesPath.MY_ORDER_SCREEN}
         component={MyOrderScreen}
       />
       <Drawer.Screen
-        options={{header: props => <Header props={props} isMenu />}}
+        options={{
+          header: props => (
+            <Header backPath={routesPath.HOME_SCREEN} props={props} isMenu />
+          ),
+        }}
         name={routesPath.MY_PROFILE_SCREEN}
         component={MyProfileScreen}
       />

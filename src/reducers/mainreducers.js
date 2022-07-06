@@ -9,8 +9,9 @@ import {
   getFoodItemsReducers,
   getCategoryListReducers,
   getCartDetailsReducers,
-  addCartReducers
+  addCartReducers,
 } from '../modules/hotelviewmodule/store/hotelListViewReducer';
+import {checkOutReducers} from '../modules/mycartmodule/store/myCartReducer';
 
 export const reducers = {
   loginReducers,
@@ -21,5 +22,6 @@ export const reducers = {
   getFoodItemsReducers,
   getCategoryListReducers,
   getCartDetailsReducers,
-  addCartReducers
+  addCartReducers,
+  checkOutReducers,
 };

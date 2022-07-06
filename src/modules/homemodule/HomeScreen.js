@@ -2,19 +2,21 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import Flex from '../../uikit/Flex/Flex';
-import Loader from '../../uikit/Loader/Loader';
-import {WHITE} from '../../uikit/UikitUtils/colors';
-import {getRestaurantListMiddleWare} from './store/homeMiddleware';
+import {GRAY_5} from '../../uikit/UikitUtils/colors';
+import {
+  getRestaurantListMiddleWare,
+} from './store/homeMiddleware';
 import HotelList from './HotelList';
+import HomePlaceHolder from './HomePlaceHolder';
 
 const styles = StyleSheet.create({
   overAll: {
-    backgroundColor: WHITE,
+    backgroundColor: GRAY_5,
     flex: 1,
   },
 });
 
-const HomeScreen = ({navigation}) => {
+const HomeScreen = () => {
   const dispacth = useDispatch();
   const [isAll, setAll] = useState(false);
   const [isSearch, setSearch] = useState('');
@@ -39,28 +41,25 @@ const HomeScreen = ({navigation}) => {
     setSearch(value);
   };
 
+
   const results = data.filter(option =>
     option.HotelName.toLowerCase().includes(isSearch.toLowerCase()),
   );
   const inputSearchCheck = isSearch.length === 0;
 
   return (
-    <>
-      {isLoading && <Loader />}
-      <Flex overrideStyle={styles.overAll}>
-        {!isLoading && (
-          <HotelList
-            isSearch={isSearch}
-            handleSearch={handleSearch}
-            data={
-              isAll ? results : inputSearchCheck ? data.slice(0, 5) : results
-            }
-            handleViewAll={handleViewAll}
-            isAll={isAll && inputSearchCheck}
-          />
-        )}
-      </Flex>
-    </>
+    <Flex overrideStyle={styles.overAll}>
+      {isLoading && <HomePlaceHolder />}
+      {!isLoading && (
+        <HotelList
+          isSearch={isSearch}
+          handleSearch={handleSearch}
+          data={isAll ? results : inputSearchCheck ? data.slice(0, 5) : results}
+          handleViewAll={handleViewAll}
+          isAll={isAll && inputSearchCheck}
+        />
+      )}
+    </Flex>
   );
 };
 

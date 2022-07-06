@@ -11,18 +11,30 @@ export const signInMiddleWare = createAsyncThunk(
     {rejectWithValue},
   ) => {
     try {
-      const {data} = await axios.post(signInApi, {
-        Name,
-        EmailAddress,
-        Mobileno,
-        WhatsappNo,
-        Address,
-        Password,
-        City,
-      });
+      const {data} = await axios.post(
+        signInApi,
+        {
+          Name,
+          EmailAddress,
+          Mobileno,
+          WhatsappNo,
+          Address,
+          Password,
+          City,
+        },
+        {
+          transformRequest: [
+            (data, headers) => {
+              delete headers.common.token;
+
+              return data;
+            },
+          ],
+        },
+      );
       return data;
     } catch (error) {
-      Toast(error.response.data[0].Message,'error');
+      Toast(error.response.data[0].Message, 'error');
       const typedError = error;
       return rejectWithValue(typedError);
     }

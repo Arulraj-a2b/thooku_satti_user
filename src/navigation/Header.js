@@ -12,6 +12,7 @@ import {routesPath} from '../routes/routesPath';
 import {getAddressMiddleWare} from '../modules/mapmodule/store/mapMiddleware';
 import {API_KEY} from '../uikit/UikitUtils/constants';
 import SvgLocation2 from '../icons/SvgLocation2';
+import {isEmpty} from '../uikit/UikitUtils/validators';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -37,7 +38,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Header = ({props, isBack, isMenu, isLocation}) => {
+const Header = ({props, isBack, isMenu, isLocation,backPath}) => {
   const dispatch = useDispatch();
 
   const {data} = useSelector(({getAddressReducers}) => {
@@ -81,7 +82,11 @@ const Header = ({props, isBack, isMenu, isLocation}) => {
   };
 
   const handleGoBack = () => {
-    props.navigation.goBack();
+    if (isEmpty(backPath)) {
+      props.navigation.goBack();
+    } else{
+      props.navigation.navigate(backPath)
+    }
   };
 
   return (

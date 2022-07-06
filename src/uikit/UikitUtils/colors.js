@@ -16,6 +16,6 @@ export const SECONDARY_1='#FE724C'
 
 export const BORDER_COLOR = '#dfdfdf';
 
-export const LINK = '#3A58FC';
+export const LINK = '#1890ff';
 export const SUCCESS = '#149f54';
 export const ERROR = '#fe2222';

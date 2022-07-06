@@ -1,9 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Flex from '../../uikit/Flex/Flex';
-import {BLACK, SUCCESS, WHITE} from '../../uikit/UikitUtils/colors';
+import {BLACK, GRAY_5, SUCCESS, WHITE} from '../../uikit/UikitUtils/colors';
 import ViewListScreen from './ViewListScreen';
 import {
   addCartMiddleWare,
@@ -12,16 +11,16 @@ import {
   getCartDetailsMiddleWare,
 } from './store/hotelListViewMiddleware';
 import {useRoute} from '@react-navigation/native';
-import Loader from '../../uikit/Loader/Loader';
 import FilterModal from './FilterModal';
 import {isEmpty} from '../../uikit/UikitUtils/validators';
 import Text from '../../uikit/Text/Text';
 import {INDIAN_RUPEE} from '../../uikit/UikitUtils/constants';
 import {routesPath} from '../../routes/routesPath';
+import HomePlaceHolder from '../homemodule/HomePlaceHolder';
 
 const styles = StyleSheet.create({
   overAll: {
-    backgroundColor: WHITE,
+    backgroundColor: GRAY_5,
     flex: 1,
   },
   footerContainer: {
@@ -48,19 +47,6 @@ const HotelListViewScreen = ({navigation}) => {
   const [isOpen, setOpen] = useState(false);
   const [isFilter, setFilter] = useState('');
   const flatListRef = useRef();
-  const [userDetails, setUserDetails] = useState();
-  const [isUpdateLoader,setUpdateLoader]=useState(false);
-
-  useEffect(() => {
-    getUserData();
-  }, []);
-
-  const getUserData = async () => {
-    const userData = await AsyncStorage.getItem('userData');
-    if (userData) {
-      setUserDetails(JSON.parse(userData));
-    }
-  };
 
   useEffect(() => {
     setLoader(true);
@@ -102,18 +88,15 @@ const HotelListViewScreen = ({navigation}) => {
     flatListRef.current.scrollToOffset({animated: true, offset: 0});
   };
 
-  const handleAddCart = (HotelID, ItemID, Qty, UserID) => {
-    setUpdateLoader(true)
+  const handleAddCart = (HotelID, ItemID, Qty) => {
     dispacth(
       addCartMiddleWare({
         HotelID,
         ItemID,
         Qty,
-        UserID,
       }),
     ).then(() => {
-      setUpdateLoader(false)
-      dispacth(getCartDetailsMiddleWare({UserID: userDetails?.UserID}));
+      dispacth(getCartDetailsMiddleWare());
     });
   };
 
@@ -127,7 +110,7 @@ const HotelListViewScreen = ({navigation}) => {
 
   const finalFilter = isEmpty(isFilter) ? data : results;
   if (isLoader) {
-    return <Loader />;
+    return <HomePlaceHolder />;
   }
 
   return (
@@ -145,7 +128,6 @@ const HotelListViewScreen = ({navigation}) => {
         ref={flatListRef}
         data={finalFilter}
         handleOpen={handleOpen}
-        userDetails={userDetails}
       />
 
       {Array.isArray(getCartDetails) &&

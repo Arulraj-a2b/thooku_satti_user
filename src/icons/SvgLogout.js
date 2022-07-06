@@ -1,9 +1,9 @@
 import React from 'react';
-import Svg, {Path, Circle} from 'react-native-svg';
+import Svg, {Path} from 'react-native-svg';
 
 const defaultProps = {
-  width: 20,
-  height: 20,
+  width: 18,
+  height: 18,
 };
 
 const SvgLogout = ({width, height}) => (

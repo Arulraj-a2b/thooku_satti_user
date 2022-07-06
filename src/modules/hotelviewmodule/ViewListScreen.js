@@ -6,20 +6,18 @@ import {BORDER_COLOR, WHITE} from '../../uikit/UikitUtils/colors';
 
 const styles = StyleSheet.create({
   overAll: {
-    paddingHorizontal: 20,
+    // paddingHorizontal: 20,
   },
   ListHeaderComponentStyle: {
     marginBottom: 8,
     borderBottomWidth: 1,
     borderBottomColor: BORDER_COLOR,
     backgroundColor: WHITE,
+    paddingHorizontal: 20,
   },
 });
 
-const ViewListScreen = (
-  {data, handleOpen, handleAddCart, userDetails},
-  ref,
-) => {
+const ViewListScreen = ({data, handleOpen, handleAddCart}, ref) => {
   return (
     <FlatList
       ref={ref}
@@ -38,7 +36,6 @@ const ViewListScreen = (
           index={index}
           totalLength={data.length}
           item={item}
-          userDetails={userDetails}
         />
       )}
     />

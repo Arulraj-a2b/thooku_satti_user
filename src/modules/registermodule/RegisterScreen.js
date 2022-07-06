@@ -32,7 +32,7 @@ import {isEmpty, isValidEmail} from '../../uikit/UikitUtils/validators';
 import ErrorMessage from '../../uikit/ErrorMessage/ErrorMessage';
 import PhoneInputText from '../../uikit/PhoneInputText/PhoneInputText';
 import {useDispatch} from 'react-redux';
-import {signInMiddleWare} from './store/registerScreenReducerMiddleware';
+import {signInMiddleWare} from './store/registerScreenMiddleware';
 import Toast from '../../uikit/Toast/Toast';
 import SvgEyeOutline from '../../icons/SvgEyleOutLine';
 import SvgEye from '../../icons/SvgEye';

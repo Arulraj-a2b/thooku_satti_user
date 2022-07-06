@@ -1,11 +1,11 @@
-import React, { memo, useState, useEffect } from "react";
-import { View, StyleSheet, ViewStyle } from "react-native";
-import Text from "../Text/Text";
-import { isEmpty } from "../UikitUtils/validators";
+import React, {memo, useState, useEffect} from 'react';
+import {View, StyleSheet, ViewStyle} from 'react-native';
+import Text from '../Text/Text';
+import {isEmpty} from '../UikitUtils/validators';
 
 const styles = StyleSheet.create({
   labelContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
   },
   required: {
     marginLeft: 4,
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
 });
-const LabelWrapper = ({ required, children, label }) => {
+const LabelWrapper = ({required, children, label}) => {
   const [style, setStyle] = useState();
   useEffect(() => {
     const styleArray = [styles.labelContainer];
@@ -32,16 +32,16 @@ const LabelWrapper = ({ required, children, label }) => {
   return !isEmpty(label) ? (
     <View>
       <View testID="labelStyle" style={style}>
-        <Text testID="label" size={14} overrideStyle={styles.labelColor}>
+        <Text bold testID="label" size={14} overrideStyle={styles.labelColor}>
           {label}
         </Text>
         {required && (
           <Text
+            bold
             testID="required"
             size={14}
             color="theme"
-            overrideStyle={styles.required}
-          >
+            overrideStyle={styles.required}>
             *
           </Text>
         )}
@@ -55,5 +55,5 @@ const LabelWrapper = ({ required, children, label }) => {
 
 export default memo(
   LabelWrapper,
-  (prevProps, nextProps) => prevProps.children === nextProps.children
+  (prevProps, nextProps) => prevProps.children === nextProps.children,
 );

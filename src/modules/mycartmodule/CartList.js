@@ -1,27 +1,23 @@
 import React, {useEffect, useState} from 'react';
-import {Image, StyleSheet, View} from 'react-native';
+import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {useDispatch} from 'react-redux';
 import SvgClose from '../../icons/SvgClose';
 import Flex from '../../uikit/Flex/Flex';
 import Stepper from '../../uikit/Stepper/Stepper';
 import Text from '../../uikit/Text/Text';
-import {BLACK, BORDER_COLOR, ERROR, WHITE} from '../../uikit/UikitUtils/colors';
+import {BLACK, BORDER_COLOR, WHITE} from '../../uikit/UikitUtils/colors';
 import {INDIAN_RUPEE} from '../../uikit/UikitUtils/constants';
 import {
   addCartMiddleWare,
   getCartDetailsMiddleWare,
 } from '../hotelviewmodule/store/hotelListViewMiddleware';
+import {deleteCartListMiddleWare} from './store/myCartMiddleware';
 
 const styles = StyleSheet.create({
   overAll: {marginVertical: 12},
   imgStyle: {
     height: 80,
     width: 80,
-    borderRadius: 8,
-    borderWidth: 0.5,
-    borderColor: BORDER_COLOR,
-    borderRadius: 8,
-    backgroundColor: WHITE,
   },
   stepperContainer: {
     marginTop: 16,
@@ -33,16 +29,20 @@ const styles = StyleSheet.create({
     marginLeft: 16,
   },
   imgContainer: {
+    // borderRadius: 8,
+    // elevation: 2,
+    // shadowColor: BLACK,
+    // shadowOffset: {width: 0, height: 3},
+    // shadowOpacity: 0.06,
+    // shadowRadius: 3,
+    borderWidth: 0.5,
+    borderColor: BORDER_COLOR,
     borderRadius: 8,
-    elevation: 2,
-    shadowColor: BLACK,
-    shadowOffset: {width: 0, height: 3},
-    shadowOpacity: 0.06,
-    shadowRadius: 3,
+    backgroundColor: WHITE,
   },
 });
 
-const CartList = ({item, userDetails}) => {
+const CartList = ({item, index}) => {
   const [isCount, setCount] = useState(item.ItemCount);
 
   useEffect(() => {
@@ -52,6 +52,14 @@ const CartList = ({item, userDetails}) => {
   const [isUpdateLoader, setUpdateLoader] = useState(false);
   const dispacth = useDispatch();
 
+  const handleDelete = () => {
+    dispacth(
+      deleteCartListMiddleWare({HotelID: item.HotelID, ItemID: item.ItemID}),
+    ).then(() => {
+      dispacth(getCartDetailsMiddleWare());
+    });
+  };
+
   const handleAddCart = value => {
     setUpdateLoader(true);
     dispacth(
@@ -59,23 +67,26 @@ const CartList = ({item, userDetails}) => {
         HotelID: item.HotelID,
         ItemID: item.ItemID,
         Qty: value,
-        UserID: userDetails?.UserID,
       }),
     ).then(() => {
       setUpdateLoader(false);
-      dispacth(getCartDetailsMiddleWare({UserID: userDetails?.UserID}));
+      dispacth(getCartDetailsMiddleWare());
     });
   };
 
   return (
-    <Flex overrideStyle={styles.overAll} row>
+    <Flex
+      overrideStyle={[styles.overAll, {marginTop: index === 0 ? 30 : 12}]}
+      row>
       <View style={styles.imgContainer}>
         <Image style={styles.imgStyle} source={{uri: item.ItemImage}} />
       </View>
       <Flex flex={1} overrideStyle={styles.rowContainer} between>
         <Flex row center between>
           <Text bold>{item.ItemName}</Text>
-          <SvgClose height={14} width={14} />
+          <TouchableOpacity onPress={handleDelete}>
+            <SvgClose height={14} width={14} />
+          </TouchableOpacity>
         </Flex>
         <Flex between row center overrideStyle={styles.stepperContainer}>
           <Text bold color="theme">
