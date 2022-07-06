@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
 const OrderSuccessModal = ({open, close, navigation, checkOutData}) => {
   const handleCancel = () => {
     close();
-    navigation.navigate(routesPath.HOME_SCREEN);
+    navigation.push(routesPath.HOME_SCREEN);
   };
   const handleMyOrder = () => {
     close();

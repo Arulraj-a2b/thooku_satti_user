@@ -1,4 +1,3 @@
-import {useNavigation} from '@react-navigation/native';
 import {useFormik} from 'formik';
 import React, {useState} from 'react';
 import {FlatList, StyleSheet} from 'react-native';
@@ -26,9 +25,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const MyCartScreen = () => {
+const MyCartScreen = ({navigation}) => {
   const dispatch = useDispatch();
-  const navigation = useNavigation();
   const [isSuccess, setSuccess] = useState(false);
 
   let listViewRef;

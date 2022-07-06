@@ -19,3 +19,6 @@ export const CHECK_CART = 'my_cart/CHECK_CART';
 export const CHECK_OUT = 'my_cart/CHECK_OUT';
 
 
+export const MY_ORDER_UP_COMINNG='my_order/MY_ORDER_UP_COMINNG'
+
+
