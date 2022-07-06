@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Pressable} from 'react-native';
+import { TouchableOpacity} from 'react-native';
 import Text from '../Text/Text';
 import {buttonHelper} from './buttonHelper';
 import {buttonStyles} from './buttonStyles';
@@ -38,13 +38,13 @@ const Button = ({
       height,
       types,
       disabled,
-      normal
+      normal,
     });
     setStyleContainer(styleContainerArray);
   };
 
   return (
-    <Pressable
+    <TouchableOpacity
       style={[styleContainer, overrideStyle]}
       onPress={onClick}
       disabled={disabled}>
@@ -55,7 +55,7 @@ const Button = ({
       ) : (
         children
       )}
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 

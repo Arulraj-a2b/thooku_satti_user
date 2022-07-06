@@ -12,17 +12,11 @@ import {
 } from '../../uikit/UikitUtils/colors';
 import Stepper from '../../uikit/Stepper/Stepper';
 import {isEmpty} from '../../uikit/UikitUtils/validators';
+import Card from '../../uikit/Card/Card';
 
 const styles = StyleSheet.create({
   overAll: {
-    borderRadius: 8,
     marginVertical: 8,
-    elevation: 2,
-    shadowColor: BLACK,
-    shadowOffset: {width: 0, height: 3},
-    shadowOpacity: 0.06,
-    shadowRadius: 3,
-    backgroundColor: WHITE,
     marginHorizontal: 20,
   },
   imageStyle: {
@@ -55,11 +49,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     paddingHorizontal: 12,
     height: 30,
-    elevation: 2,
-    shadowColor: BLACK,
-    shadowOffset: {width: 0, height: 3},
-    shadowOpacity: 0.06,
-    shadowRadius: 3,
+    justifyContent: 'center',
   },
   countStyle: {
     marginLeft: 2,
@@ -71,11 +61,6 @@ const styles = StyleSheet.create({
     width: 36,
     alignItems: 'center',
     justifyContent: 'center',
-    elevation: 2,
-    shadowColor: BLACK,
-    shadowOffset: {width: 0, height: 3},
-    shadowOpacity: 0.06,
-    shadowRadius: 3,
   },
   svgSuccess: {
     marginLeft: 4,
@@ -104,75 +89,82 @@ const FoodCard = ({index, totalLength, item, handleAddCart}) => {
   };
 
   return (
-    <Flex
+    <Card
       overrideStyle={[
         styles.overAll,
         {marginBottom: index + 1 === totalLength ? 50 : 8},
       ]}>
-      <Flex overrideStyle={styles.imageContainer}>
-        {!isEmpty(item.FoodImage) && (
-          <Image
-            resizeMode="contain"
-            source={{uri: item.FoodImage}}
-            style={styles.imageStyle}
-          />
-        )}
+      <Flex>
+        <Flex overrideStyle={styles.imageContainer}>
+          {!isEmpty(item.FoodImage) && (
+            <Image
+              resizeMode="contain"
+              source={{uri: item.FoodImage}}
+              style={styles.imageStyle}
+            />
+          )}
 
-        <View style={styles.priceContainer}>
-          <Flex row center between>
-            <Flex center middle overrideStyle={styles.ratingBox}>
-              <Text size={14} bold>
-                ₹ {item.Price}
-              </Text>
+          <View style={styles.priceContainer}>
+            <Flex row center between>
+              <Card overrideStyle={styles.ratingBox}>
+                <Flex center middle>
+                  <Text size={14} bold>
+                    ₹ {item.Price}
+                  </Text>
+                </Flex>
+              </Card>
+
+              <Card overrideStyle={styles.svgFavStye}>
+                <SvgFav fill={WHITE} />
+              </Card>
             </Flex>
-            <View style={styles.svgFavStye}>
-              <SvgFav fill={WHITE} />
-            </View>
-          </Flex>
-        </View>
-        <View style={styles.ratingContainer}>
-          <Flex row center middle overrideStyle={styles.ratingBox}>
-            <SvgStar />
-            <Text bold overrideStyle={{marginLeft: 4}}>
-              {item.Rating}
-            </Text>
-          </Flex>
-        </View>
-      </Flex>
-
-      <Flex middle overrideStyle={styles.nameListContainer}>
-        <Flex row center between>
-          <Flex row center>
-            <Text bold size={14}>
-              {item.FoodName}
-            </Text>
-            {item.IsRecommand !== 'N' && (
-              <Flex row center overrideStyle={{marginLeft: 4}}>
-                <SvgStar fill={PRIMARY} />
-                <Text
-                  bold
-                  size={12}
-                  color="theme"
-                  overrideStyle={{marginLeft: 4, marginBottom: 2}}>
-                  Bestseller
+          </View>
+          <View style={styles.ratingContainer}>
+            <Card overrideStyle={styles.ratingBox}>
+              <Flex row center middle>
+                <SvgStar />
+                <Text bold overrideStyle={{marginLeft: 4}}>
+                  {item.Rating}
                 </Text>
               </Flex>
-            )}
-          </Flex>
-          <Stepper
-            value={isCount}
-            onChange={setCount}
-            onSubmit={handleSubmit}
-          />
+            </Card>
+          </View>
         </Flex>
-        <Text
-          transform={'capitalize'}
-          color="gray"
-          overrideStyle={{marginTop: 2}}>
-          {item.CategoryName}
-        </Text>
+
+        <Flex middle overrideStyle={styles.nameListContainer}>
+          <Flex row center between>
+            <Flex row center>
+              <Text bold size={14}>
+                {item.FoodName}
+              </Text>
+              {item.IsRecommand !== 'N' && (
+                <Flex row center overrideStyle={{marginLeft: 4}}>
+                  <SvgStar fill={PRIMARY} />
+                  <Text
+                    bold
+                    size={12}
+                    color="theme"
+                    overrideStyle={{marginLeft: 4, marginBottom: 2}}>
+                    Bestseller
+                  </Text>
+                </Flex>
+              )}
+            </Flex>
+            <Stepper
+              value={isCount}
+              onChange={setCount}
+              onSubmit={handleSubmit}
+            />
+          </Flex>
+          <Text
+            transform={'capitalize'}
+            color="gray"
+            overrideStyle={{marginTop: 2}}>
+            {item.CategoryName}
+          </Text>
+        </Flex>
       </Flex>
-    </Flex>
+    </Card>
   );
 };
 

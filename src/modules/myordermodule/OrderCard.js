@@ -1,10 +1,12 @@
 import React from 'react';
-import {Image, StyleSheet} from 'react-native';
+import {Image, StyleSheet, TouchableOpacity} from 'react-native';
 import Card from '../../uikit/Card/Card';
 import Flex from '../../uikit/Flex/Flex';
 import Button from '../../uikit/Button/Button';
 import Text from '../../uikit/Text/Text';
 import {GRAY_5} from '../../uikit/UikitUtils/colors';
+import {useNavigation} from '@react-navigation/native';
+import {routesPath} from '../../routes/routesPath';
 
 const styles = StyleSheet.create({
   imgStyle: {
@@ -23,6 +25,7 @@ const styles = StyleSheet.create({
   },
   overAll: {
     marginVertical: 8,
+    marginHorizontal: 1,
   },
   statusFlex: {
     marginTop: 8,
@@ -31,25 +34,36 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   btnContainer: {
-    marginTop: 20,
+    marginTop: 16,
   },
 });
 
 const OrderCard = ({item}) => {
+  const navigation = useNavigation();
+
+  const handleViewDetails = orderId => {
+    navigation.navigate(routesPath.ORDER_DETAILS_SCREEN, {
+      orderId,
+    });
+  };
   return (
     <Card overrideStyle={styles.overAll}>
       <Flex overrideStyle={styles.cardFlex}>
         <Flex row>
           <Image style={styles.imgStyle} source={{uri: item.HotelImage}} />
           <Flex flex={1}>
-            <Text align={'right'} color="theme">
-              #{item.OrderID}
-            </Text>
             <Flex overrideStyle={styles.itemFlex}>
-              <Text color="gray">2 Item</Text>
               <Text bold size={16} numberOfLines={1}>
                 {item.HotelName}
               </Text>
+              <Text size={12} color="theme" overrideStyle={{marginTop: 4}}>
+                #{item.OrderID}
+              </Text>
+              <TouchableOpacity onPress={() => handleViewDetails(item.OrderID)}>
+                <Text bold color="link">
+                  View Bill Details
+                </Text>
+              </TouchableOpacity>
             </Flex>
           </Flex>
         </Flex>

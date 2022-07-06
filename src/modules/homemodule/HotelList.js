@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useCallback, useRef} from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 import Flex from '../../uikit/Flex/Flex';
 import Button from '../../uikit/Button/Button';
 import HotalCard from './HotalCard';
 import HotelSearch from './HotelSearch';
 import ListEmpty from './ListEmpty';
+import {useFocusEffect} from '@react-navigation/native';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -17,8 +18,17 @@ const styles = StyleSheet.create({
 });
 
 const HotelList = ({data, handleViewAll, isAll, handleSearch, isSearch}) => {
+  const flatListRef = useRef();
+
+  useFocusEffect(
+    useCallback(() => {
+      flatListRef.current.scrollToOffset({animated: true, offset: 0});
+    }, []),
+  );
+  
   return (
     <FlatList
+      ref={flatListRef}
       onEndReachedThreshold={0.1}
       ListEmptyComponent={<ListEmpty />}
       style={styles.overAll}

@@ -16,6 +16,8 @@ export const routesPath = {
   MY_PROFILE_SCREEN: 'MyProfileScreen',
   ADDRESS_SCREEN: 'AddressScreen',
   FAVOURITE_SCREEN: 'FavouriteScreen',
+  ORDER_DETAILS_SCREEN: 'OrderDetailsScreen',
+
 };
 
 export const stacks = {

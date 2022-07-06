@@ -17,3 +17,5 @@ export const checkCartExistApi = fetchUrl('Mobapi/CheckCartExist');
 export const checkOutApi = fetchUrl('Mobapi/CheckOut');
 
 export const getUpComingOrderApi = fetchUrl('Mobapi/GetUpcomingOrders');
+export const getOrderDetailsApi = fetchUrl('Mobapi/GetOrderDetails');
+export const getHistoryOrdersApi = fetchUrl('Mobapi/GetHistoryOrders');

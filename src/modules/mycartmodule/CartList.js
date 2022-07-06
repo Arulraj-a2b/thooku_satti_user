@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, TouchableOpacity} from 'react-native';
 import {useDispatch} from 'react-redux';
 import SvgClose from '../../icons/SvgClose';
+import Card from '../../uikit/Card/Card';
 import Flex from '../../uikit/Flex/Flex';
 import Stepper from '../../uikit/Stepper/Stepper';
 import Text from '../../uikit/Text/Text';
-import {BLACK, BORDER_COLOR, WHITE} from '../../uikit/UikitUtils/colors';
 import {INDIAN_RUPEE} from '../../uikit/UikitUtils/constants';
+import {isFinancial} from '../../uikit/UikitUtils/helpers';
 import {
   addCartMiddleWare,
   getCartDetailsMiddleWare,
@@ -14,7 +15,12 @@ import {
 import {deleteCartListMiddleWare} from './store/myCartMiddleware';
 
 const styles = StyleSheet.create({
-  overAll: {marginVertical: 12},
+  overAll: {
+    marginVertical: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    marginHorizontal: 1,
+  },
   imgStyle: {
     height: 80,
     width: 80,
@@ -27,18 +33,6 @@ const styles = StyleSheet.create({
   },
   rowContainer: {
     marginLeft: 16,
-  },
-  imgContainer: {
-    // borderRadius: 8,
-    // elevation: 2,
-    // shadowColor: BLACK,
-    // shadowOffset: {width: 0, height: 3},
-    // shadowOpacity: 0.06,
-    // shadowRadius: 3,
-    borderWidth: 0.5,
-    borderColor: BORDER_COLOR,
-    borderRadius: 8,
-    backgroundColor: WHITE,
   },
 });
 
@@ -75,33 +69,33 @@ const CartList = ({item, index}) => {
   };
 
   return (
-    <Flex
-      overrideStyle={[styles.overAll, {marginTop: index === 0 ? 30 : 12}]}
-      row>
-      <View style={styles.imgContainer}>
+    <Card overrideStyle={[styles.overAll, {marginTop: index === 0 ? 30 : 12}]}>
+      <Flex row>
+        {/* <Card> */}
         <Image style={styles.imgStyle} source={{uri: item.ItemImage}} />
-      </View>
-      <Flex flex={1} overrideStyle={styles.rowContainer} between>
-        <Flex row center between>
-          <Text bold>{item.ItemName}</Text>
-          <TouchableOpacity onPress={handleDelete}>
-            <SvgClose height={14} width={14} />
-          </TouchableOpacity>
-        </Flex>
-        <Flex between row center overrideStyle={styles.stepperContainer}>
-          <Text bold color="theme">
-            {INDIAN_RUPEE}
-            {item.TotalPrice}
-          </Text>
-          <Stepper
-            isLoader={isUpdateLoader}
-            onSubmit={handleAddCart}
-            onChange={setCount}
-            value={isCount}
-          />
+        {/* </Card> */}
+        <Flex flex={1} overrideStyle={styles.rowContainer} between>
+          <Flex row center between>
+            <Text bold>{item.ItemName}</Text>
+            <TouchableOpacity onPress={handleDelete}>
+              <SvgClose height={14} width={14} />
+            </TouchableOpacity>
+          </Flex>
+          <Flex between row center overrideStyle={styles.stepperContainer}>
+            <Text bold color="theme">
+              {INDIAN_RUPEE}
+              {isFinancial(item.TotalPrice)}
+            </Text>
+            <Stepper
+              isLoader={isUpdateLoader}
+              onSubmit={handleAddCart}
+              onChange={setCount}
+              value={isCount}
+            />
+          </Flex>
         </Flex>
       </Flex>
-    </Flex>
+    </Card>
   );
 };
 export default CartList;

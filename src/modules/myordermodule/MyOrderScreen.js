@@ -1,19 +1,15 @@
-import React, { useState} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
+import React, {useCallback, useState} from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
-import {
-  BORDER_COLOR,
-  GRAY_5,
-  SECONDARY,
-  WHITE,
-} from '../../uikit/UikitUtils/colors';
+import {BORDER_COLOR, SECONDARY, WHITE} from '../../uikit/UikitUtils/colors';
 import HistoryOrder from './HistoryOrder';
 import UpComingOrder from './UpComingOrder';
 
 const styles = StyleSheet.create({
   overAll: {
-    backgroundColor: GRAY_5,
+    backgroundColor: WHITE,
     flex: 1,
   },
   tabContainer: {
@@ -41,6 +37,12 @@ const MyOrderScreen = () => {
   const [isTab, setTab] = useState(false);
   const [isLoader, setLoader] = useState(true);
 
+  useFocusEffect(
+    useCallback(() => {
+      setTab(false);
+      setLoader(true);
+    }, []),
+  );
   const handleUpComing = () => {
     setLoader(true);
     setTab(false);
@@ -67,7 +69,7 @@ const MyOrderScreen = () => {
       {!isTab ? (
         <UpComingOrder isLoader={isLoader} setLoader={setLoader} />
       ) : (
-        <HistoryOrder />
+        <HistoryOrder isLoader={isLoader} setLoader={setLoader} />
       )}
     </Flex>
   );

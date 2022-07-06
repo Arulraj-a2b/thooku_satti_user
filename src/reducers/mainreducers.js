@@ -12,7 +12,11 @@ import {
   addCartReducers,
 } from '../modules/hotelviewmodule/store/hotelListViewReducer';
 import {checkOutReducers} from '../modules/mycartmodule/store/myCartReducer';
-import {getUpComingOrderReducers} from '../modules/myordermodule/store/myOrderReducer';
+import {
+  getUpComingOrderReducers,
+  getOrderDetailsReducers,
+  getHistoryOrdersReducers
+} from '../modules/myordermodule/store/myOrderReducer';
 
 export const reducers = {
   loginReducers,
@@ -25,5 +29,7 @@ export const reducers = {
   getCartDetailsReducers,
   addCartReducers,
   checkOutReducers,
-  getUpComingOrderReducers
+  getUpComingOrderReducers,
+  getOrderDetailsReducers,
+  getHistoryOrdersReducers
 };

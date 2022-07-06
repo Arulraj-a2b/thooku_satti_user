@@ -29,6 +29,7 @@ import SvgEye from '../../icons/SvgEye';
 import SvgEyeOutline from '../../icons/SvgEyleOutLine';
 import {useAuthCheck} from '../../utility/config';
 import {routesPath} from '../../routes/routesPath';
+import axios from 'axios';
 
 const styles = StyleSheet.create({
   logoContainer: {
@@ -76,7 +77,7 @@ const LoginScreen = () => {
       isLoading: loginReducers.isLoading,
     };
   });
-  
+
   const handleSubmit = async value => {
     await AsyncStorage.getItem('fcmToken').then(tokenRes => {
       dispatch(
@@ -95,6 +96,7 @@ const LoginScreen = () => {
             'userData',
             JSON.stringify({...res.payload[0], loggedIn: true}),
           );
+          axios.defaults.headers.common['token'] = payload[0].SessionID;
           formik.resetForm();
           navigation.navigate(routesPath.ALL_SCREEN);
         }

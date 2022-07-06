@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import Flex from '../../uikit/Flex/Flex';
-import {BLACK, GRAY_5, SUCCESS, WHITE} from '../../uikit/UikitUtils/colors';
+import {SUCCESS, WHITE} from '../../uikit/UikitUtils/colors';
 import ViewListScreen from './ViewListScreen';
 import {
   addCartMiddleWare,
@@ -10,17 +10,18 @@ import {
   getFoodItemsMiddleWare,
   getCartDetailsMiddleWare,
 } from './store/hotelListViewMiddleware';
-import {useRoute} from '@react-navigation/native';
+import { useRoute} from '@react-navigation/native';
 import FilterModal from './FilterModal';
 import {isEmpty} from '../../uikit/UikitUtils/validators';
 import Text from '../../uikit/Text/Text';
 import {INDIAN_RUPEE} from '../../uikit/UikitUtils/constants';
 import {routesPath} from '../../routes/routesPath';
 import HomePlaceHolder from '../homemodule/HomePlaceHolder';
+import Card from '../../uikit/Card/Card';
 
 const styles = StyleSheet.create({
   overAll: {
-    backgroundColor: GRAY_5,
+    backgroundColor: WHITE,
     flex: 1,
   },
   footerContainer: {
@@ -28,12 +29,6 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 20,
     marginHorizontal: 20,
-    borderRadius: 8,
-    elevation: 2,
-    shadowColor: BLACK,
-    shadowOffset: {width: 0, height: 3},
-    shadowOpacity: 0.06,
-    shadowRadius: 3,
   },
   rupeeStyle: {
     marginTop: 8,
@@ -47,6 +42,7 @@ const HotelListViewScreen = ({navigation}) => {
   const [isOpen, setOpen] = useState(false);
   const [isFilter, setFilter] = useState('');
   const flatListRef = useRef();
+
 
   useEffect(() => {
     setLoader(true);
@@ -133,21 +129,23 @@ const HotelListViewScreen = ({navigation}) => {
       {Array.isArray(getCartDetails) &&
         getCartDetails.length !== 0 &&
         getCartDetails[0].CartCount !== 0 && (
-          <Flex row center between overrideStyle={styles.footerContainer}>
-            <Flex>
-              <Text color="white" bold>
-                {getCartDetails && getCartDetails[0].CartCount} ITEM
-              </Text>
-              <Text color="white" bold overrideStyle={styles.rupeeStyle}>
-                {INDIAN_RUPEE}100
-              </Text>
+          <Card overrideStyle={styles.footerContainer}>
+            <Flex row center between>
+              <Flex>
+                <Text color="white" bold>
+                  {getCartDetails && getCartDetails[0].CartCount} ITEM
+                </Text>
+                <Text color="white" bold overrideStyle={styles.rupeeStyle}>
+                  {INDIAN_RUPEE}100
+                </Text>
+              </Flex>
+              <TouchableOpacity onPress={handleViewcart}>
+                <Text bold size={18} color="white">
+                  View Cart
+                </Text>
+              </TouchableOpacity>
             </Flex>
-            <TouchableOpacity onPress={handleViewcart}>
-              <Text bold size={18} color="white">
-                View Cart
-              </Text>
-            </TouchableOpacity>
-          </Flex>
+          </Card>
         )}
     </Flex>
   );

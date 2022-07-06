@@ -7,6 +7,7 @@ import BottomTab from './BottomTab';
 import DrawerContent from './DrawerContent';
 import Header from './Header';
 import AddressScreen from '../modules/addressmodule/AddressScreen';
+import OrderDetailsScreen from '../modules/myordermodule/OrderDetailsScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -24,7 +25,11 @@ const SideNavigation = () => {
         component={BottomTab}
       />
       <Drawer.Screen
-        options={{header: props => <Header backPath={routesPath.HOME_SCREEN} props={props} isMenu />}}
+        options={{
+          header: props => (
+            <Header backPath={routesPath.HOME_SCREEN} props={props} isMenu />
+          ),
+        }}
         name={routesPath.MY_ORDER_SCREEN}
         component={MyOrderScreen}
       />
@@ -41,6 +46,19 @@ const SideNavigation = () => {
         options={{header: props => <Header props={props} isMenu />}}
         name={routesPath.ADDRESS_SCREEN}
         component={AddressScreen}
+      />
+      <Drawer.Screen
+        options={{
+          header: props => (
+            <Header
+              backPath={routesPath.MY_ORDER_SCREEN}
+              props={props}
+              isMenu
+            />
+          ),
+        }}
+        name={routesPath.ORDER_DETAILS_SCREEN}
+        component={OrderDetailsScreen}
       />
     </Drawer.Navigator>
   );

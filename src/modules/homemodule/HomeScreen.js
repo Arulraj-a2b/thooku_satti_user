@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import Flex from '../../uikit/Flex/Flex';
-import {GRAY_5} from '../../uikit/UikitUtils/colors';
+import { WHITE} from '../../uikit/UikitUtils/colors';
 import {
   getRestaurantListMiddleWare,
 } from './store/homeMiddleware';
@@ -11,7 +11,7 @@ import HomePlaceHolder from './HomePlaceHolder';
 
 const styles = StyleSheet.create({
   overAll: {
-    backgroundColor: GRAY_5,
+    backgroundColor: WHITE,
     flex: 1,
   },
 });
@@ -20,6 +20,7 @@ const HomeScreen = () => {
   const dispacth = useDispatch();
   const [isAll, setAll] = useState(false);
   const [isSearch, setSearch] = useState('');
+
 
   useEffect(() => {
     dispacth(getRestaurantListMiddleWare({LocationID: '1'}));

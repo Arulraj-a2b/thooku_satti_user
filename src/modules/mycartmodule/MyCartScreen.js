@@ -1,10 +1,12 @@
+import {useFocusEffect} from '@react-navigation/native';
 import {useFormik} from 'formik';
-import React, {useState} from 'react';
+import React, {createRef, useCallback, useState} from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import Flex from '../../uikit/Flex/Flex';
 import Loader from '../../uikit/Loader/Loader';
-import {GRAY_5} from '../../uikit/UikitUtils/colors';
+import {WHITE} from '../../uikit/UikitUtils/colors';
+import {getCartDetailsMiddleWare} from '../hotelviewmodule/store/hotelListViewMiddleware';
 import CartList from './CartList';
 import CartPrice from './CartPrice';
 import EmptyCart from './EmptyCart';
@@ -14,7 +16,7 @@ import {checkOutMiddleWare} from './store/myCartMiddleware';
 
 const styles = StyleSheet.create({
   overAll: {
-    backgroundColor: GRAY_5,
+    backgroundColor: WHITE,
   },
   flatListoverAll: {
     paddingHorizontal: 20,
@@ -28,8 +30,15 @@ const styles = StyleSheet.create({
 const MyCartScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const [isSuccess, setSuccess] = useState(false);
+  const listViewRef = createRef();
 
-  let listViewRef;
+  useFocusEffect(
+    useCallback(() => {
+      if (listViewRef && listViewRef.current) {
+        listViewRef.current.scrollToOffset({animated: true, offset: 0});
+      }
+    }, []),
+  );
 
   const {
     getCartDetails,
@@ -48,8 +57,9 @@ const MyCartScreen = ({navigation}) => {
       };
     },
   );
+
   const downButtonHandler = () => {
-    listViewRef.scrollToEnd({animated: true});
+    listViewRef.current.scrollToEnd({animated: true});
   };
 
   const formik = useFormik({
@@ -62,6 +72,7 @@ const MyCartScreen = ({navigation}) => {
       if (res.payload && res.payload[0].OrderID) {
         setSuccess(true);
         formik.resetForm();
+        dispatch(getCartDetailsMiddleWare());
       }
     });
   };
@@ -83,9 +94,7 @@ const MyCartScreen = ({navigation}) => {
       {Array.isArray(getCartDetails) && getCartDetails.length !== 0 ? (
         <Flex between flex={1}>
           <FlatList
-            ref={ref => {
-              listViewRef = ref;
-            }}
+            ref={listViewRef}
             onEndReachedThreshold={0.1}
             style={styles.flatListoverAll}
             data={getCartDetails[0].OrdInfo}

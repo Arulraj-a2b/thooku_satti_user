@@ -1,4 +1,5 @@
-import React, {useEffect} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
+import React, {useCallback} from 'react';
 import {StyleSheet, FlatList} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import Flex from '../../uikit/Flex/Flex';
@@ -20,11 +21,13 @@ const styles = StyleSheet.create({
 });
 const UpComingOrder = ({setLoader, isLoader}) => {
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getUpComingOrderMiddleWare()).then(() => {
-      setLoader(false);
-    });
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(getUpComingOrderMiddleWare()).then(() => {
+        setLoader(false);
+      });
+    }, []),
+  );
 
   const {data} = useSelector(({getUpComingOrderReducers}) => {
     return {
@@ -33,14 +36,16 @@ const UpComingOrder = ({setLoader, isLoader}) => {
     };
   });
 
+  if (isLoader) {
+    return <HomePlaceHolder />;
+  }
+  
   return (
     <Flex flex={1}>
-      {isLoader && <HomePlaceHolder />}
-
       <FlatList
         onEndReachedThreshold={0.1}
         style={styles.flatListOverAll}
-        data={data}
+        data={data && data.length !== 0 ? data[0].Ordrs : []}
         keyExtractor={(item, index) =>
           item.OrderID.toString() + index.toString()
         }
