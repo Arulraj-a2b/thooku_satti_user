@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Provider} from 'react-redux';
-import {TouchableOpacity} from 'react-native';
+import {StatusBar, TouchableOpacity} from 'react-native';
 import {useNetInfo} from '@react-native-community/netinfo';
 import {RootSiblingParent} from 'react-native-root-siblings';
 import 'react-native-gesture-handler';
@@ -12,7 +12,7 @@ import {requestUserPermission} from './src/utility/notificationService';
 import OfflineScreen from './src/modules/offlinemodule/OfflineScreen';
 import Logger, {startNetworkLogging} from 'react-native-network-logger';
 import Text from './src/uikit/Text/Text';
-
+import {PRIMARY} from './src/uikit/UikitUtils/colors';
 const App = () => {
   const [showLogger, setShowLogger] = useState(false);
 
@@ -30,6 +30,7 @@ const App = () => {
     <SafeAreaProvider>
       <RootSiblingParent>
         <Provider store={store}>
+          <StatusBar backgroundColor={PRIMARY} />
           <NavigationContainer>
             {isProd ? (
               <AppLayout />
