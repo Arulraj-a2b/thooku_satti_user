@@ -1,27 +1,32 @@
-import { StyleSheet } from "react-native";
-import { BORDER_COLOR, ERROR, PRIMARY, WHITE } from "../UikitUtils/colors";
-import { ZINDEX } from "../UikitUtils/constants";
+import {StyleSheet} from 'react-native';
+import {
+  BORDER_COLOR,
+  ERROR,
+  GRAY_5,
+  PRIMARY,
+  WHITE,
+} from '../UikitUtils/colors';
+import {ZINDEX} from '../UikitUtils/constants';
 
 export const inputTextStyles = StyleSheet.create({
   common: {
     borderWidth: 1,
-    borderRadius: 20,
     backgroundColor: WHITE,
     paddingHorizontal: 16,
-    width: "100%",
+    width: '100%',
   },
   viewContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    position: "relative",
+    flexDirection: 'row',
+    alignItems: 'center',
+    position: 'relative',
   },
   actionLeftStyle: {
-    position: "absolute",
+    position: 'absolute',
     left: 16,
     zIndex: ZINDEX,
   },
   actionRightStyle: {
-    position: "absolute",
+    position: 'absolute',
     right: 16,
     zIndex: ZINDEX,
   },
@@ -34,21 +39,28 @@ export const inputTextStyles = StyleSheet.create({
     paddingRight: 40,
   },
   alignCenter: {
-    textAlign: "center",
+    textAlign: 'center',
   },
   alignRight: {
-    textAlign: "right",
+    textAlign: 'right',
   },
   selected: {
     borderColor: PRIMARY,
   },
-  error:{
-    borderColor:ERROR
+  error: {
+    borderColor: ERROR,
   },
-  commonBorder:{
+  commonBorder: {
     borderColor: BORDER_COLOR,
   },
-  normal:{
-    borderRadius:4
-  }
+  normal: {
+    borderRadius: 8,
+  },
+  round: {
+    borderRadius: 20,
+  },
+  disabled: {
+    backgroundColor: GRAY_5,
+    borderStyle: 'dashed',
+  },
 });

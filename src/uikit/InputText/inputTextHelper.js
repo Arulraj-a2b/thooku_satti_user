@@ -8,6 +8,7 @@ export const inptTextHelper = ({
   types,
   textAlign,
   error,
+  disabled
 }) => {
   if (!isEmpty(height)) {
     styleArray.push({height});
@@ -17,8 +18,10 @@ export const inptTextHelper = ({
   }
 
   if (!isEmpty(types)) {
-    if (types === "normal") {
+    if (types === 'normal') {
       styleArray.push(inputTextStyles.normal);
+    } else if (types === 'round') {
+      styleArray.push(inputTextStyles.round);
     }
   }
   if (error) {
@@ -33,5 +36,9 @@ export const inptTextHelper = ({
     } else if (textAlign === 'right') {
       styleArray.push(inputTextStyles.alignRight);
     }
+  }
+
+  if(disabled){
+    styleArray.push(inputTextStyles.disabled);
   }
 };

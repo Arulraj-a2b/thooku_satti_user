@@ -13,7 +13,7 @@ const InputText = (
     height = 40,
     actionLeft,
     actionRight,
-    types,
+    types='round',
     textAlign,
     value,
     onChange,
@@ -39,6 +39,7 @@ const InputText = (
     touched,
     errors,
     name,
+    disabled
   },
   ref,
 ) => {
@@ -47,7 +48,7 @@ const InputText = (
 
   useEffect(() => {
     handleStyleContainer();
-  }, [error]);
+  }, [error,disabled]);
 
   const handleStyleContainer = () => {
     const styleContainerArray = [inputTextStyles.common];
@@ -58,6 +59,7 @@ const InputText = (
       types,
       textAlign,
       error,
+      disabled
     });
     if (overrideStyle) {
       styleContainerArray.push(overrideStyle);

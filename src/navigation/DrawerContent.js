@@ -14,7 +14,7 @@ import SvgCart from '../icons/SvgCart';
 import SvgProfile from '../icons/SvgProfile';
 import SvgContacts from '../icons/SvgContacts';
 import SvgHelp from '../icons/SvgHelp';
-import SvgLocation1 from '../icons/SvgLocation1';
+import SvgLocation3 from '../icons/SvgLocation3';
 import {routesPath} from '../routes/routesPath';
 import SvgLogout from '../icons/SvgLogout';
 import {WHITE} from '../uikit/UikitUtils/colors';
@@ -91,19 +91,19 @@ const DrawerContent = props => {
       title: 'My Cart',
       icon: <SvgCart />,
     },
-    {
-      route: () => {
-        props.navigation.navigate(routesPath.MY_PROFILE_SCREEN);
-      },
-      title: 'My Profile',
-      icon: <SvgProfile />,
-    },
+    // {
+    //   route: () => {
+    //     props.navigation.navigate(routesPath.MY_PROFILE_SCREEN);
+    //   },
+    //   title: 'My Profile',
+    //   icon: <SvgProfile />,
+    // },
     {
       route: () => {
         props.navigation.navigate(routesPath.ADDRESS_SCREEN);
       },
       title: 'Delivery Address',
-      icon: <SvgLocation1 />,
+      icon: <SvgLocation3 />,
     },
     // {
     //   route: () => {
