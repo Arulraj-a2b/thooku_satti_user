@@ -85,13 +85,13 @@ const DrawerContent = props => {
       title: 'My Orders',
       icon: <SvgMyorder />,
     },
-    {
-      route: () => {
-        props.navigation.navigate(routesPath.BOOKING_TABLE_SCREEN);
-      },
-      title: 'Book Your Table',
-      icon: <SvgBook />,
-    },
+    // {
+    //   route: () => {
+    //     props.navigation.navigate(routesPath.BOOKING_TABLE_SCREEN);
+    //   },
+    //   title: 'Book Your Table',
+    //   icon: <SvgBook />,
+    // },
     {
       route: () => {
         props.navigation.navigate(routesPath.MY_CART_SCREEN);
