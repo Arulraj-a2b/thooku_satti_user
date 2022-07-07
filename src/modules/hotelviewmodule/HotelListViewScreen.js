@@ -10,7 +10,7 @@ import {
   getFoodItemsMiddleWare,
   getCartDetailsMiddleWare,
 } from './store/hotelListViewMiddleware';
-import { useRoute} from '@react-navigation/native';
+import {useRoute} from '@react-navigation/native';
 import FilterModal from './FilterModal';
 import {isEmpty} from '../../uikit/UikitUtils/validators';
 import Text from '../../uikit/Text/Text';
@@ -18,6 +18,7 @@ import {INDIAN_RUPEE} from '../../uikit/UikitUtils/constants';
 import {routesPath} from '../../routes/routesPath';
 import HomePlaceHolder from '../homemodule/HomePlaceHolder';
 import Card from '../../uikit/Card/Card';
+import {isFinancial} from '../../uikit/UikitUtils/helpers';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -42,7 +43,6 @@ const HotelListViewScreen = ({navigation}) => {
   const [isOpen, setOpen] = useState(false);
   const [isFilter, setFilter] = useState('');
   const flatListRef = useRef();
-
 
   useEffect(() => {
     setLoader(true);
@@ -136,7 +136,7 @@ const HotelListViewScreen = ({navigation}) => {
                   {getCartDetails && getCartDetails[0].CartCount} ITEM
                 </Text>
                 <Text color="white" bold overrideStyle={styles.rupeeStyle}>
-                  {INDIAN_RUPEE}100
+                  {INDIAN_RUPEE} {isFinancial(getCartDetails[0].GrandTotal)}
                 </Text>
               </Flex>
               <TouchableOpacity onPress={handleViewcart}>

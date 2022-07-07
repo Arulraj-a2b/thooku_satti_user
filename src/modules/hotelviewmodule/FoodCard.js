@@ -5,7 +5,6 @@ import SvgStar from '../../icons/SvgStar';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import {
-  BLACK,
   BORDER_COLOR,
   PRIMARY,
   WHITE,
@@ -13,6 +12,7 @@ import {
 import Stepper from '../../uikit/Stepper/Stepper';
 import {isEmpty} from '../../uikit/UikitUtils/validators';
 import Card from '../../uikit/Card/Card';
+import {isFinancial} from '../../uikit/UikitUtils/helpers';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -109,7 +109,7 @@ const FoodCard = ({index, totalLength, item, handleAddCart}) => {
               <Card overrideStyle={styles.ratingBox}>
                 <Flex center middle>
                   <Text size={14} bold>
-                    ₹ {item.Price}
+                    ₹ {isFinancial(item.Price)}
                   </Text>
                 </Flex>
               </Card>
@@ -132,23 +132,23 @@ const FoodCard = ({index, totalLength, item, handleAddCart}) => {
         </Flex>
 
         <Flex middle overrideStyle={styles.nameListContainer}>
-          <Flex row center between>
-            <Flex row center>
-              <Text bold size={14}>
-                {item.FoodName}
+          {item.IsRecommand !== 'N' && (
+            <Flex row center overrideStyle={{marginLeft: 4}}>
+              <SvgStar fill={PRIMARY} />
+              <Text
+                bold
+                size={12}
+                color="theme"
+                overrideStyle={{marginLeft: 4, marginBottom: 2}}>
+                Bestseller
               </Text>
-              {item.IsRecommand !== 'N' && (
-                <Flex row center overrideStyle={{marginLeft: 4}}>
-                  <SvgStar fill={PRIMARY} />
-                  <Text
-                    bold
-                    size={12}
-                    color="theme"
-                    overrideStyle={{marginLeft: 4, marginBottom: 2}}>
-                    Bestseller
-                  </Text>
-                </Flex>
-              )}
+            </Flex>
+          )}
+          <Flex row center between>
+            <Flex flex={8}>
+              <Text bold size={14}>
+                {item.FoodName} {item.FoodName}
+              </Text>
             </Flex>
             <Stepper
               value={isCount}

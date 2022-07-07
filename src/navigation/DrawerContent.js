@@ -21,6 +21,7 @@ import {WHITE} from '../uikit/UikitUtils/colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDrawerStatus} from '@react-navigation/drawer';
 import SvgClose from '../icons/SvgClose';
+import SvgBook from '../icons/SvgBook';
 
 const styles = StyleSheet.create({
   listStyle: {
@@ -86,6 +87,13 @@ const DrawerContent = props => {
     },
     {
       route: () => {
+        props.navigation.navigate(routesPath.BOOKING_TABLE_SCREEN);
+      },
+      title: 'Book Your Table',
+      icon: <SvgBook />,
+    },
+    {
+      route: () => {
         props.navigation.navigate(routesPath.MY_CART_SCREEN);
       },
       title: 'My Cart',
@@ -98,13 +106,13 @@ const DrawerContent = props => {
     //   title: 'My Profile',
     //   icon: <SvgProfile />,
     // },
-    {
-      route: () => {
-        props.navigation.navigate(routesPath.ADDRESS_SCREEN);
-      },
-      title: 'Delivery Address',
-      icon: <SvgLocation3 />,
-    },
+    // {
+    //   route: () => {
+    //     props.navigation.navigate(routesPath.ADDRESS_SCREEN);
+    //   },
+    //   title: 'Delivery Address',
+    //   icon: <SvgLocation3 />,
+    // },
     // {
     //   route: () => {
     //     props.navigation.navigate(routesPath.HOME_SCREEN);

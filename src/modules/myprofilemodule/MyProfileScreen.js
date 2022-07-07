@@ -39,6 +39,8 @@ const styles = StyleSheet.create({
 const MyProfileScreen = () => {
   const [isEditName, setEditName] = useState(false);
   const [isEditPhone, setEditPhone] = useState(false);
+  const [isEditWhatsApp, setEditWhatsApp] = useState(false);
+
   const [userDetails, setUserDetails] = useState();
 
   useEffect(() => {
@@ -125,17 +127,17 @@ const MyProfileScreen = () => {
       <View>
         <InputText
           value={formik.values?.whatsapp}
-          disabled={!isEditPhone}
+          disabled={!isEditWhatsApp}
           height={50}
           types="normal"
           label={'Whatsapp Number'}
           actionRight={() =>
-            !isEditPhone ? (
-              <TouchableOpacity onPress={() => setEditPhone(true)}>
+            !isEditWhatsApp ? (
+              <TouchableOpacity onPress={() => setEditWhatsApp(true)}>
                 <SvgEdit fill={BLACK} />
               </TouchableOpacity>
             ) : (
-              <TouchableOpacity onPress={() => setEditPhone(false)}>
+              <TouchableOpacity onPress={() => setEditWhatsApp(false)}>
                 <SvgTick fill={SUCCESS} />
               </TouchableOpacity>
             )

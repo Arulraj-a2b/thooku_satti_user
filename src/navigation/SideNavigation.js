@@ -8,6 +8,7 @@ import DrawerContent from './DrawerContent';
 import Header from './Header';
 import AddressScreen from '../modules/addressmodule/AddressScreen';
 import OrderDetailsScreen from '../modules/myordermodule/OrderDetailsScreen';
+import TableBookingScreen from '../modules/bookingmodule/TableBookingScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -63,6 +64,19 @@ const SideNavigation = () => {
         }}
         name={routesPath.ORDER_DETAILS_SCREEN}
         component={OrderDetailsScreen}
+      />
+      <Drawer.Screen
+        options={{
+          header: props => (
+            <Header
+              backPath={routesPath.MY_ORDER_SCREEN}
+              props={props}
+              isMenu
+            />
+          ),
+        }}
+        name={routesPath.BOOKING_TABLE_SCREEN}
+        component={TableBookingScreen}
       />
     </Drawer.Navigator>
   );
