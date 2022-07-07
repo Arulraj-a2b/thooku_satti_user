@@ -7,6 +7,7 @@ import Text from '../../uikit/Text/Text';
 import {GRAY_5} from '../../uikit/UikitUtils/colors';
 import {useNavigation} from '@react-navigation/native';
 import {routesPath} from '../../routes/routesPath';
+import {isEmpty} from '../../uikit/UikitUtils/validators';
 
 const styles = StyleSheet.create({
   imgStyle: {
@@ -46,6 +47,7 @@ const OrderCard = ({item}) => {
       orderId,
     });
   };
+
   return (
     <Card overrideStyle={styles.overAll}>
       <Flex overrideStyle={styles.cardFlex}>
@@ -69,7 +71,11 @@ const OrderCard = ({item}) => {
         </Flex>
         <Flex row center overrideStyle={styles.statusFlex}>
           <Text>Status: </Text>
-          <Text color="gray">Food on the way</Text>
+          {isEmpty(item.LiveStatus) ? (
+            <Text color="gray">Waiting for accepet</Text>
+          ) : (
+            <Text color="gray">Food on the way</Text>
+          )}
         </Flex>
         <Flex row overrideStyle={styles.btnContainer}>
           <Button flex={6} types="secondary" overrideStyle={styles.cancelBtn}>

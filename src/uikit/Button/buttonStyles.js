@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {GRAY_3, SECONDARY} from '../UikitUtils/colors';
+import {SECONDARY} from '../UikitUtils/colors';
 
 export const buttonStyles = StyleSheet.create({
   smallHeight: {
@@ -12,14 +12,15 @@ export const buttonStyles = StyleSheet.create({
     height: 50,
   },
   common: {
-    borderRadius: 20,
+    borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 20,
   },
   secondaryBtn: {
     borderWidth: 1,
-    borderColor: GRAY_3,
+    borderColor: SECONDARY,
+    backgroundColor: 'rgba(255, 202, 41, 0.1)',
   },
   primaryBtn: {
     backgroundColor: SECONDARY,
@@ -27,7 +28,10 @@ export const buttonStyles = StyleSheet.create({
   disabled: {
     opacity: 0.5,
   },
-  normal:{
-    borderRadius: 4
+  normal: {
+    borderRadius: 4,
+  },
+  round: {
+    borderRadius: 20,
   },
 });

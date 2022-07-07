@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
   title: {
     height: 50,
     width: '100%',
-    marginTop: 16
+    marginTop: 16,
   },
   search: {
     height: 40,
@@ -32,7 +32,16 @@ const styles = StyleSheet.create({
 });
 
 const HomePlaceHolder = () => {
-  const data = [{name: ''}, {name: ''}, {name: ''}];
+  const data = [
+    {name: ''},
+    {name: ''},
+    {name: ''},
+    {name: ''},
+    {name: ''},
+    {name: ''},
+    {name: ''},
+    {name: ''},
+  ];
   return (
     <Flex overrideStyle={styles.overAll}>
       {data.map((_list, index) => {

@@ -6,7 +6,7 @@ import Text from '../../uikit/Text/Text';
 
 const styles = StyleSheet.create({
   overAll: {
-    marginVertical: 16,
+    marginVertical: 10,
   },
 });
 

@@ -17,7 +17,16 @@ const styles = StyleSheet.create({
   },
 });
 
-const HotelList = ({data, handleViewAll, isAll, handleSearch, isSearch}) => {
+const HotelList = ({
+  data,
+  handleViewAll,
+  isAll,
+  handleSearch,
+  isSearch,
+  getCartDetails,
+  setSelectHotelName,
+  setCheckCart
+}) => {
   const flatListRef = useRef();
 
   useFocusEffect(
@@ -25,7 +34,7 @@ const HotelList = ({data, handleViewAll, isAll, handleSearch, isSearch}) => {
       flatListRef.current.scrollToOffset({animated: true, offset: 0});
     }, []),
   );
-  
+
   return (
     <FlatList
       ref={flatListRef}
@@ -52,6 +61,9 @@ const HotelList = ({data, handleViewAll, isAll, handleSearch, isSearch}) => {
           item={item}
           index={index}
           totalLength={data.length}
+          getCartDetails={getCartDetails}
+          setSelectHotelName={setSelectHotelName}
+          setCheckCart={setCheckCart}
         />
       )}
       ListFooterComponent={() => {

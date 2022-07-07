@@ -5,9 +5,6 @@ import FiterSection from './FiterSection';
 import {BORDER_COLOR, WHITE} from '../../uikit/UikitUtils/colors';
 
 const styles = StyleSheet.create({
-  overAll: {
-    // paddingHorizontal: 20,
-  },
   ListHeaderComponentStyle: {
     marginBottom: 8,
     borderBottomWidth: 1,
@@ -23,7 +20,6 @@ const ViewListScreen = ({data, handleOpen, handleAddCart}, ref) => {
       ref={ref}
       stickyHeaderIndices={[0]}
       onEndReachedThreshold={0.1}
-      style={styles.overAll}
       ListHeaderComponentStyle={styles.ListHeaderComponentStyle}
       ListHeaderComponent={<FiterSection handleOpen={handleOpen} />}
       data={data}

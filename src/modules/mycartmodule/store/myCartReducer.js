@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {checkOutMiddleWare} from './myCartMiddleware';
+import {checkCartExistMiddleWare, checkOutMiddleWare} from './myCartMiddleware';
 
 const checkOutState = {
   isLoading: false,
@@ -29,4 +29,31 @@ const checkOutReducer = createSlice({
   },
 });
 
+const checkCartExistState = {
+  isLoading: false,
+  error: '',
+};
+
+const checkCartExistReducer = createSlice({
+  name: 'checkCartExist',
+  initialState: checkCartExistState,
+  reducers: {},
+  extraReducers: builder => {
+    builder.addCase(checkCartExistMiddleWare.pending, state => {
+      state.isLoading = true;
+      state.error = '';
+    });
+    builder.addCase(checkCartExistMiddleWare.fulfilled, (state, action) => {
+      state.isLoading = false;
+    });
+    builder.addCase(checkCartExistMiddleWare.rejected, (state, action) => {
+      state.isLoading = false;
+      if (typeof action.payload === 'string') {
+        state.error = action.payload;
+      }
+    });
+  },
+});
+
 export const checkOutReducers = checkOutReducer.reducer;
+export const checkCartExistReducers = checkCartExistReducer.reducer;

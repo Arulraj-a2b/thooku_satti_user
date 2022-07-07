@@ -30,12 +30,12 @@ const styles = StyleSheet.create({
 
 const OrderSuccessModal = ({open, close, navigation, checkOutData}) => {
   const handleCancel = () => {
+    navigation.navigate(routesPath.HOME_SCREEN);
     close();
-    navigation.push(routesPath.HOME_SCREEN);
   };
   const handleMyOrder = () => {
-    close();
     navigation.navigate(routesPath.MY_ORDER_SCREEN);
+    close();
   };
   return (
     <Modal animationInTiming={0} animationIn="slideInDown" isVisible={open}>

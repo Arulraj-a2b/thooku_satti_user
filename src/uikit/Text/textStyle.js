@@ -8,7 +8,8 @@ import {
   PRIMARY_TEXT,
   SUCCESS,
   WHITE,
-  GARY_3
+  GARY_3,
+  SECONDARY
 } from "../UikitUtils/colors";
 
 export const textStyles = StyleSheet.create({
@@ -54,4 +55,7 @@ export const textStyles = StyleSheet.create({
   errorColor: {
     color: ERROR,
   },
+  secondaryColor:{
+    color:SECONDARY
+  }
 });

@@ -39,6 +39,8 @@ export const textHelper = ({
       styleArray.push(textStyles.linkColor);
     } else if (color === 'error') {
       styleArray.push(textStyles.errorColor);
+    }else if (color === 'secondary') {
+      styleArray.push(textStyles.secondaryColor);
     }
   }
   if (!isEmpty(align)) {

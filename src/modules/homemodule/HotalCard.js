@@ -12,15 +12,13 @@ import SvgStar from '../../icons/SvgStar';
 import Flex from '../../uikit/Flex/Flex';
 import Card from '../../uikit/Card/Card';
 import Text from '../../uikit/Text/Text';
-import {
-  BORDER_COLOR,
-  PRIMARY,
-  WHITE,
-} from '../../uikit/UikitUtils/colors';
+import {BORDER_COLOR, PRIMARY, WHITE} from '../../uikit/UikitUtils/colors';
 import SvgSuccess from '../../icons/SvgSccess';
 import SvgClock from '../../icons/SvgClock';
 import {routesPath} from '../../routes/routesPath';
 import {isEmpty} from '../../uikit/UikitUtils/validators';
+import {useDispatch} from 'react-redux';
+import {checkCartExistMiddleWare} from '../mycartmodule/store/myCartMiddleware';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -74,13 +72,38 @@ const styles = StyleSheet.create({
   },
 });
 
-const HotalCard = ({item, index, totalLength, isAll}) => {
+const HotalCard = ({
+  item,
+  index,
+  totalLength,
+  isAll,
+  getCartDetails,
+  setCheckCart,
+  setSelectHotelName,
+}) => {
   const navigation = useNavigation();
+  const dispacth = useDispatch();
+  const checkIsCart = getCartDetails.length === 0;
+
   const handleNavigate = () => {
-    navigation.navigate(routesPath.HOTEL_LIST_VIEW_SCREEN, {
-      hotelId: item.HotelID,
-    });
+    if (checkIsCart) {
+      navigation.navigate(routesPath.HOTEL_LIST_VIEW_SCREEN, {
+        hotelId: item.HotelID,
+      });
+    } else {
+      dispacth(checkCartExistMiddleWare({HotelID: item.HotelID})).then(res => {
+        if (res.payload && res.payload[0].StatusCode === 6000) {
+          navigation.navigate(routesPath.HOTEL_LIST_VIEW_SCREEN, {
+            hotelId: item.HotelID,
+          });
+        } else {
+          setSelectHotelName({name:item.HotelName,id:item.HotelID});
+          setCheckCart(true);
+        }
+      });
+    }
   };
+
   return (
     <Pressable onPress={handleNavigate}>
       <Card

@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import { TouchableOpacity} from 'react-native';
+import {ActivityIndicator, TouchableOpacity} from 'react-native';
+import Flex from '../Flex/Flex';
 import Text from '../Text/Text';
+import {BLACK} from '../UikitUtils/colors';
 import {buttonHelper} from './buttonHelper';
 import {buttonStyles} from './buttonStyles';
 
@@ -18,17 +20,19 @@ const Button = ({
   onClick,
   disabled,
   normal,
+  round,
+  isLoader,
 }) => {
   const [styleContainer, setStyleContainer] = useState([]);
-  let textColor = 'primary';
+  let textColor = 'gray_1';
 
   if (types === 'secondary') {
-    textColor = 'gray_1';
+    textColor = 'secondary';
   }
 
   useEffect(() => {
     handleStyleContainer();
-  }, [disabled]);
+  }, []);
 
   const handleStyleContainer = () => {
     const styleContainerArray = [buttonStyles.common];
@@ -37,24 +41,33 @@ const Button = ({
       styleArray: styleContainerArray,
       height,
       types,
-      disabled,
       normal,
+      round,
     });
     setStyleContainer(styleContainerArray);
   };
 
   return (
     <TouchableOpacity
-      style={[styleContainer, overrideStyle]}
+      style={[styleContainer, overrideStyle, {opacity: disabled ? 0.5 : 1}]}
       onPress={onClick}
       disabled={disabled}>
-      {typeof children === 'string' || typeof children === 'number' ? (
-        <Text bold size={16} color={textColor}>
-          {children}
-        </Text>
-      ) : (
-        children
-      )}
+      <Flex row center middle>
+        {typeof children === 'string' || typeof children === 'number' ? (
+          <Text bold size={16} color={textColor}>
+            {children}
+          </Text>
+        ) : (
+          children
+        )}
+        {isLoader && (
+          <ActivityIndicator
+            color={BLACK}
+            size="small"
+            style={{marginLeft: 8}}
+          />
+        )}
+      </Flex>
     </TouchableOpacity>
   );
 };

@@ -156,7 +156,7 @@ const DrawerContent = props => {
           );
         })}
       </Flex>
-      <Button overrideStyle={styles.btnStyle} onClick={logout}>
+      <Button round overrideStyle={styles.btnStyle} onClick={logout}>
         <Flex row center>
           <View style={styles.svgLogout}>
             <SvgLogout />

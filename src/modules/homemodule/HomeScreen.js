@@ -2,12 +2,12 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import Flex from '../../uikit/Flex/Flex';
-import { WHITE} from '../../uikit/UikitUtils/colors';
-import {
-  getRestaurantListMiddleWare,
-} from './store/homeMiddleware';
+import Loader from '../../uikit/Loader/Loader';
+import {WHITE} from '../../uikit/UikitUtils/colors';
+import {getRestaurantListMiddleWare} from './store/homeMiddleware';
 import HotelList from './HotelList';
 import HomePlaceHolder from './HomePlaceHolder';
+import ReplaceModal from './ReplaceModal';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -16,22 +16,31 @@ const styles = StyleSheet.create({
   },
 });
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
   const dispacth = useDispatch();
   const [isAll, setAll] = useState(false);
   const [isSearch, setSearch] = useState('');
-
+  const [isSelectHotelName, setSelectHotelName] = useState({name: '', id: ''});
+  const [isCheckCart, setCheckCart] = useState(false);
 
   useEffect(() => {
     dispacth(getRestaurantListMiddleWare({LocationID: '1'}));
   }, []);
 
-  const {isLoading, data} = useSelector(({getRestaurantListReducers}) => {
-    return {
-      isLoading: getRestaurantListReducers.isLoading,
-      data: getRestaurantListReducers.data,
-    };
-  });
+  const {isLoading, data, getCartDetails, checkCartLoading} = useSelector(
+    ({
+      getRestaurantListReducers,
+      getCartDetailsReducers,
+      checkCartExistReducers,
+    }) => {
+      return {
+        isLoading: getRestaurantListReducers.isLoading,
+        data: getRestaurantListReducers.data,
+        getCartDetails: getCartDetailsReducers.data,
+        checkCartLoading: checkCartExistReducers.isLoading,
+      };
+    },
+  );
 
   const handleViewAll = () => {
     setAll(true);
@@ -42,15 +51,26 @@ const HomeScreen = () => {
     setSearch(value);
   };
 
-
   const results = data.filter(option =>
     option.HotelName.toLowerCase().includes(isSearch.toLowerCase()),
   );
   const inputSearchCheck = isSearch.length === 0;
 
+  if (isLoading) {
+    return <HomePlaceHolder />;
+  }
   return (
     <Flex overrideStyle={styles.overAll}>
-      {isLoading && <HomePlaceHolder />}
+      {checkCartLoading && <Loader />}
+      {getCartDetails.length !== 0 && (
+        <ReplaceModal
+          open={isCheckCart}
+          getCartDetails={getCartDetails}
+          isSelectHotelName={isSelectHotelName}
+          close={() => setCheckCart(false)}
+          navigation={navigation}
+        />
+      )}
       {!isLoading && (
         <HotelList
           isSearch={isSearch}
@@ -58,6 +78,9 @@ const HomeScreen = () => {
           data={isAll ? results : inputSearchCheck ? data.slice(0, 5) : results}
           handleViewAll={handleViewAll}
           isAll={isAll && inputSearchCheck}
+          getCartDetails={getCartDetails}
+          setSelectHotelName={setSelectHotelName}
+          setCheckCart={setCheckCart}
         />
       )}
     </Flex>

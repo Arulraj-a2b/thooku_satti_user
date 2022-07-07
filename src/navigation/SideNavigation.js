@@ -43,7 +43,11 @@ const SideNavigation = () => {
         component={MyProfileScreen}
       />
       <Drawer.Screen
-        options={{header: props => <Header props={props} isMenu />}}
+        options={{
+          header: props => (
+            <Header backPath={routesPath.HOME_SCREEN} props={props} isMenu />
+          ),
+        }}
         name={routesPath.ADDRESS_SCREEN}
         component={AddressScreen}
       />
