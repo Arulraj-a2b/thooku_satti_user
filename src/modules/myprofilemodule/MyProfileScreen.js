@@ -1,21 +1,19 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {Image, ScrollView, StyleSheet, View} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useFormik} from 'formik';
+import {useFocusEffect} from '@react-navigation/native';
 import SvgProfileCamera from '../../icons/SvgProfileCamera';
 import Flex from '../../uikit/Flex/Flex';
 import InputText from '../../uikit/InputText/InputText';
 import Card from '../../uikit/Card/Card';
-import {BLACK, SUCCESS, WHITE} from '../../uikit/UikitUtils/colors';
-import SvgEdit from '../../icons/SvgEdit';
-import SvgTick from '../../icons/SvgTick';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useFormik} from 'formik';
-import {useFocusEffect} from '@react-navigation/native';
+import {BORDER_COLOR, WHITE} from '../../uikit/UikitUtils/colors';
+import Button from '../../uikit/Button/Button';
 
 const styles = StyleSheet.create({
   overAll: {
     backgroundColor: WHITE,
     flex: 1,
-    paddingHorizontal: 20,
   },
   imageStyle: {
     height: 100,
@@ -35,11 +33,15 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     right: 10,
   },
+  btnContainer: {
+    paddingVertical: 20,
+    borderTopColor: BORDER_COLOR,
+    borderTopWidth: 1,
+    paddingHorizontal: 40,
+  },
 });
 const MyProfileScreen = () => {
-  const [isEditName, setEditName] = useState(false);
-  const [isEditPhone, setEditPhone] = useState(false);
-  const [isEditWhatsApp, setEditWhatsApp] = useState(false);
+  const [isEdit, setEdit] = useState(false);
 
   const [userDetails, setUserDetails] = useState();
 
@@ -70,80 +72,57 @@ const MyProfileScreen = () => {
     }, [userDetails]),
   );
 
+  const btnText = !isEdit ? 'Edit Profile' : 'Save Profile';
+
+  const handleSubmit = () => {
+    setEdit(!isEdit);
+  };
   return (
     <Flex overrideStyle={styles.overAll}>
-      <Flex>
-        <Flex middle center overrideStyle={styles.imageContainer}>
-          <Card overrideStyle={styles.svgProfileCamera}>
-            <SvgProfileCamera />
-          </Card>
-          <Image
-            source={require('../../assests/image/profile.png')}
-            style={styles.imageStyle}
-          />
+      <ScrollView style={{paddingHorizontal: 20}}>
+        <Flex>
+          <Flex middle center overrideStyle={styles.imageContainer}>
+            <Card overrideStyle={styles.svgProfileCamera}>
+              <SvgProfileCamera />
+            </Card>
+            <Image
+              source={require('../../assests/image/profile.png')}
+              style={styles.imageStyle}
+            />
+          </Flex>
         </Flex>
-      </Flex>
 
-      <View style={{marginBottom: 30}}>
-        <InputText
-          disabled={!isEditName}
-          value={formik.values.name}
-          height={50}
-          types="normal"
-          label={'Full name'}
-          actionRight={() =>
-            !isEditName ? (
-              <TouchableOpacity onPress={() => setEditName(true)}>
-                <SvgEdit fill={BLACK} />
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity onPress={() => setEditName(false)}>
-                <SvgTick fill={SUCCESS} />
-              </TouchableOpacity>
-            )
-          }
-        />
-      </View>
-      <View style={{marginBottom: 30}}>
-        <InputText
-          value={formik.values.phone}
-          disabled={!isEditPhone}
-          height={50}
-          types="normal"
-          label={'Phone Number'}
-          actionRight={() =>
-            !isEditPhone ? (
-              <TouchableOpacity onPress={() => setEditPhone(true)}>
-                <SvgEdit fill={BLACK} />
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity onPress={() => setEditPhone(false)}>
-                <SvgTick fill={SUCCESS} />
-              </TouchableOpacity>
-            )
-          }
-        />
-      </View>
-      <View>
-        <InputText
-          value={formik.values?.whatsapp}
-          disabled={!isEditWhatsApp}
-          height={50}
-          types="normal"
-          label={'Whatsapp Number'}
-          actionRight={() =>
-            !isEditWhatsApp ? (
-              <TouchableOpacity onPress={() => setEditWhatsApp(true)}>
-                <SvgEdit fill={BLACK} />
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity onPress={() => setEditWhatsApp(false)}>
-                <SvgTick fill={SUCCESS} />
-              </TouchableOpacity>
-            )
-          }
-        />
-      </View>
+        <View style={{marginBottom: 30}}>
+          <InputText
+            disabled={!isEdit}
+            value={formik.values.name}
+            height={50}
+            types="normal"
+            label={'Full name'}
+          />
+        </View>
+        <View style={{marginBottom: 30}}>
+          <InputText
+            value={formik.values.phone}
+            disabled={!isEdit}
+            height={50}
+            types="normal"
+            label={'Phone Number'}
+          />
+        </View>
+        <View>
+          <InputText
+            value={formik.values?.whatsapp}
+            disabled={!isEdit}
+            height={50}
+            types="normal"
+            label={'Whatsapp Number'}
+          />
+        </View>
+      </ScrollView>
+      <Flex overrideStyle={styles.btnContainer}>
+        <Button onClick={handleSubmit}>{btnText}</Button>
+      </Flex>
     </Flex>
   );
 };

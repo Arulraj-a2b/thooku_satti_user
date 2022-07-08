@@ -83,7 +83,11 @@ const DrawerContent = props => {
         props.navigation.navigate(routesPath.MY_ORDER_SCREEN);
       },
       title: 'My Orders',
-      icon: <SvgMyorder />,
+      icon: (
+        <View style={{position: 'relative', right: 3}}>
+          <SvgMyorder />
+        </View>
+      ),
     },
     // {
     //   route: () => {
@@ -111,7 +115,7 @@ const DrawerContent = props => {
     //     props.navigation.navigate(routesPath.ADDRESS_SCREEN);
     //   },
     //   title: 'Delivery Address',
-    //   icon: <SvgLocation3 />,
+    //   icon: <SvgLocation3 height={24}/>,
     // },
     // {
     //   route: () => {
