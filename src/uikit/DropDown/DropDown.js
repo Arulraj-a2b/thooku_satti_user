@@ -13,12 +13,21 @@ const styles = StyleSheet.create({
   searchContainerStyle: {borderBottomColor: BORDER_COLOR},
 });
 
-const DropDown = ({value, setValue, setData, data, label, required}) => {
+const DropDown = ({
+  value,
+  setValue,
+  setData,
+  data,
+  label,
+  required,
+  placeholder,
+}) => {
   const [open, setOpen] = useState(false);
 
   return (
     <LabelWrapper label={label} required={required}>
       <DropDownPicker
+        placeholder={placeholder}
         style={styles.overAll}
         open={open}
         value={value}
