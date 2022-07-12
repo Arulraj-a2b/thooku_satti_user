@@ -1,14 +1,10 @@
-import React, {memo, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {Image, StyleSheet, View} from 'react-native';
 import SvgFav from '../../icons/SvgFav';
 import SvgStar from '../../icons/SvgStar';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
-import {
-  BORDER_COLOR,
-  PRIMARY,
-  WHITE,
-} from '../../uikit/UikitUtils/colors';
+import {BORDER_COLOR, PRIMARY, WHITE} from '../../uikit/UikitUtils/colors';
 import Stepper from '../../uikit/Stepper/Stepper';
 import {isEmpty} from '../../uikit/UikitUtils/validators';
 import Card from '../../uikit/Card/Card';
@@ -77,15 +73,14 @@ const styles = StyleSheet.create({
 });
 
 const FoodCard = ({index, totalLength, item, handleAddCart}) => {
-  const [isCount, setCount] = useState(0);
-  // let filterTimeout;
+  const [isCount, setCount] = useState(item.CartValue);
+
+  useEffect(() => {
+    setCount(item.CartValue);
+  }, [item.CartValue]);
 
   const handleSubmit = value => {
     handleAddCart(item.HotelID, item.FoodID, value);
-    // clearTimeout(filterTimeout);
-    // filterTimeout = setTimeout(() => {
-    //   handleAddCart(item.HotelID, item.FoodID, value);
-    // }, 500);
   };
 
   return (

@@ -1,18 +1,22 @@
 import {useFocusEffect} from '@react-navigation/native';
 import {useFormik} from 'formik';
-import React, {createRef, useCallback, useState} from 'react';
+import React, {createRef, useCallback, useEffect, useState} from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import Flex from '../../uikit/Flex/Flex';
 import Loader from '../../uikit/Loader/Loader';
-import {WHITE} from '../../uikit/UikitUtils/colors';
+import Text from '../../uikit/Text/Text';
+import {BORDER_COLOR, WHITE} from '../../uikit/UikitUtils/colors';
 import {getCartDetailsMiddleWare} from '../hotelviewmodule/store/hotelListViewMiddleware';
 import CartList from './CartList';
 import CartPrice from './CartPrice';
 import EmptyCart from './EmptyCart';
 import MyCartFooter from './MyCartFooter';
 import OrderSuccessModal from './OrderSuccessModal';
-import {checkOutMiddleWare} from './store/myCartMiddleware';
+import {
+  checkOutMiddleWare,
+  getTNCSMiddleWare,
+} from './store/myCartMiddleware';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -25,6 +29,12 @@ const styles = StyleSheet.create({
     marginTop: 20,
     paddingBottom: 50,
   },
+  listHeaderComponentStyle: {
+    paddingVertical: 16,
+    backgroundColor: WHITE,
+    borderBottomColor: BORDER_COLOR,
+    borderBottomWidth: 1,
+  },
 });
 
 const MyCartScreen = ({navigation}) => {
@@ -32,6 +42,9 @@ const MyCartScreen = ({navigation}) => {
   const [isSuccess, setSuccess] = useState(false);
   const listViewRef = createRef();
 
+  useEffect(() => {
+    dispatch(getTNCSMiddleWare());
+  }, []);
   useFocusEffect(
     useCallback(() => {
       if (listViewRef && listViewRef.current) {
@@ -46,18 +59,24 @@ const MyCartScreen = ({navigation}) => {
     addCartLoader,
     checkOutData,
     isCheckoutLoader,
+    getTNCData,
   } = useSelector(
-    ({getCartDetailsReducers, addCartReducers, checkOutReducers}) => {
+    ({
+      getCartDetailsReducers,
+      addCartReducers,
+      checkOutReducers,
+      getTNCReducers,
+    }) => {
       return {
         getCartDetails: getCartDetailsReducers.data,
         isLoading: getCartDetailsReducers.isLoading,
         addCartLoader: addCartReducers.isLoading,
         checkOutData: checkOutReducers.data,
         isCheckoutLoader: checkOutReducers.isLoading,
+        getTNCData: getTNCReducers.data,
       };
     },
   );
-
   const downButtonHandler = () => {
     listViewRef.current.scrollToEnd({animated: true});
   };
@@ -94,16 +113,25 @@ const MyCartScreen = ({navigation}) => {
       {Array.isArray(getCartDetails) && getCartDetails.length !== 0 ? (
         <Flex between flex={1}>
           <FlatList
+            ListHeaderComponentStyle={styles.listHeaderComponentStyle}
+            stickyHeaderIndices={[0]}
+            ListHeaderComponent={
+              <Text size={22} bold>
+                {getCartDetails && getCartDetails[0].HotelName}
+              </Text>
+            }
             ref={listViewRef}
             onEndReachedThreshold={0.1}
             style={styles.flatListoverAll}
             data={getCartDetails[0].OrdInfo}
             keyExtractor={(_item, index) => index.toString()}
-            renderItem={({item, index}) => (
-              <CartList item={item} index={index} />
-            )}
+            renderItem={({item, index}) => <CartList item={item} />}
             ListFooterComponent={
-              <CartPrice getCartDetails={getCartDetails[0]} formik={formik} />
+              <CartPrice
+                getTNCData={getTNCData}
+                getCartDetails={getCartDetails[0]}
+                formik={formik}
+              />
             }
             ListFooterComponentStyle={styles.footerStyle}
           />

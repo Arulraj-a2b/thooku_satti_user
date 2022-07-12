@@ -28,9 +28,13 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top',
     borderRadius: 4,
   },
+  terms: {
+    marginTop: 16,
+    marginBottom: 4,
+  },
 });
 
-const CartPrice = ({getCartDetails, formik}) => {
+const CartPrice = ({getCartDetails, formik, getTNCData}) => {
   return (
     <Flex>
       <Text
@@ -79,7 +83,7 @@ const CartPrice = ({getCartDetails, formik}) => {
       </Card>
       <View style={{marginTop: 20}}>
         <InputText
-          placeholder={`Enter your note's`}
+          placeholder={`Add your rquest`}
           overrideStyle={styles.inputStyles}
           label={'Notes'}
           height={70}
@@ -89,6 +93,18 @@ const CartPrice = ({getCartDetails, formik}) => {
           onChange={formik.handleChange('notes')}
         />
       </View>
+      <Text bold size={20} overrideStyle={styles.terms}>
+        Terms and condition
+      </Text>
+      <Text size={12} color="gray">
+        {getTNCData[0].TNCMsg}
+      </Text>
+      <Text bold size={20} overrideStyle={styles.terms}>
+        Note*
+      </Text>
+      <Text size={12} color="gray">
+        {getTNCData[0].NoteMsg}
+      </Text>
     </Flex>
   );
 };

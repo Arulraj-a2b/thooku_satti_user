@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const CartList = ({item, index}) => {
+const CartList = ({item}) => {
   const [isCount, setCount] = useState(item.ItemCount);
 
   useEffect(() => {
@@ -69,7 +69,7 @@ const CartList = ({item, index}) => {
   };
 
   return (
-    <Card overrideStyle={[styles.overAll, {marginTop: index === 0 ? 30 : 12}]}>
+    <Card overrideStyle={[styles.overAll, {marginTop: 12}]}>
       <Flex row>
         {/* <Card> */}
         <Image style={styles.imgStyle} source={{uri: item.ItemImage}} />

@@ -39,7 +39,7 @@ const UpComingOrder = ({setLoader, isLoader}) => {
   if (isLoader) {
     return <HomePlaceHolder />;
   }
-  
+
   return (
     <Flex flex={1}>
       <FlatList
@@ -56,7 +56,7 @@ const UpComingOrder = ({setLoader, isLoader}) => {
             </Text>
           </Flex>
         }
-        renderItem={({item}) => <OrderCard item={item} />}
+        renderItem={({item}) => <OrderCard isTrack item={item} />}
       />
     </Flex>
   );

@@ -22,6 +22,7 @@ const Button = ({
   normal,
   round,
   isLoader,
+  width,
 }) => {
   const [styleContainer, setStyleContainer] = useState([]);
   let textColor = 'gray_1';
@@ -49,7 +50,11 @@ const Button = ({
 
   return (
     <TouchableOpacity
-      style={[styleContainer, overrideStyle, {opacity: disabled ? 0.5 : 1}]}
+      style={[
+        styleContainer,
+        overrideStyle,
+        {opacity: disabled ? 0.5 : 1, width},
+      ]}
       onPress={onClick}
       disabled={disabled}>
       <Flex row center middle>

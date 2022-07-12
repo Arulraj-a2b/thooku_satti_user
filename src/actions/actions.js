@@ -17,6 +17,7 @@ export const DELETE_CART_LIST = 'my_cart/DELETE_CART_LIST';
 export const DELETE_CART = 'my_cart/DELETE_CART';
 export const CHECK_CART = 'my_cart/CHECK_CART';
 export const CHECK_OUT = 'my_cart/CHECK_OUT';
+export const GET_TNC = 'my_cart/GET_TNC';
 
 export const MY_ORDER_UP_COMINNG = 'my_order/MY_ORDER_UP_COMINNG';
 export const MY_ORDER_HISTORY = 'my_order/getHistoryOrdersApi';

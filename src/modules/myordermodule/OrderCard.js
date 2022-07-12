@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const OrderCard = ({item}) => {
+const OrderCard = ({item, isTrack}) => {
   const navigation = useNavigation();
 
   const handleViewDetails = orderId => {
@@ -47,7 +47,7 @@ const OrderCard = ({item}) => {
       orderId,
     });
   };
-
+  // console.log('item',item);
   return (
     <Card overrideStyle={styles.overAll}>
       <Flex overrideStyle={styles.cardFlex}>
@@ -77,12 +77,14 @@ const OrderCard = ({item}) => {
             <Text color="gray">Food on the way</Text>
           )}
         </Flex>
-        <Flex row overrideStyle={styles.btnContainer}>
-          <Button flex={6} types="secondary" overrideStyle={styles.cancelBtn}>
-            Cancel
-          </Button>
-          <Button flex={6}>Track Order</Button>
-        </Flex>
+        {isTrack && (
+          <Flex center overrideStyle={styles.btnContainer}>
+            {/* <Button flex={6} types="secondary" overrideStyle={styles.cancelBtn}>
+        Cancel
+      </Button> */}
+            <Button>Track Order</Button>
+          </Flex>
+        )}
       </Flex>
     </Card>
   );

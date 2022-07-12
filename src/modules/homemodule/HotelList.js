@@ -31,7 +31,7 @@ const HotelList = ({
 
   useFocusEffect(
     useCallback(() => {
-      flatListRef.current.scrollToOffset({animated: true, offset: 0});
+      // flatListRef.current.scrollToOffset({animated: true, offset: 0});
     }, []),
   );
 

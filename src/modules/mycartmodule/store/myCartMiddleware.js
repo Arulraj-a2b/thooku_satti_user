@@ -5,12 +5,14 @@ import {
   CHECK_OUT,
   DELETE_CART,
   DELETE_CART_LIST,
+  GET_TNC,
 } from '../../../actions/actions';
 import {
   checkCartExistApi,
   checkOutApi,
   deleteCartApi,
   deleteCartListApi,
+  getTNCApi,
 } from '../../../routes/apiRoutes';
 import Toast from '../../../uikit/Toast/Toast';
 
@@ -70,6 +72,20 @@ export const checkOutMiddleWare = createAsyncThunk(
       const {data} = await axios.post(checkOutApi, {
         ExtraNotes,
       });
+      return data;
+    } catch (error) {
+      Toast(error.response.data[0].Message, 'error');
+      const typedError = error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+export const getTNCSMiddleWare = createAsyncThunk(
+  GET_TNC,
+  async (_a, {rejectWithValue}) => {
+    try {
+      const {data} = await axios.get(getTNCApi);
       return data;
     } catch (error) {
       Toast(error.response.data[0].Message, 'error');

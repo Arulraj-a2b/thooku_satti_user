@@ -129,23 +129,23 @@ const HotelListViewScreen = ({navigation}) => {
       {Array.isArray(getCartDetails) &&
         getCartDetails.length !== 0 &&
         getCartDetails[0].CartCount !== 0 && (
-          <Card overrideStyle={styles.footerContainer}>
-            <Flex row center between>
-              <Flex>
-                <Text color="white" bold>
-                  {getCartDetails && getCartDetails[0].CartCount} ITEM
-                </Text>
-                <Text color="white" bold overrideStyle={styles.rupeeStyle}>
-                  {INDIAN_RUPEE} {isFinancial(getCartDetails[0].GrandTotal)}
-                </Text>
-              </Flex>
-              <TouchableOpacity onPress={handleViewcart}>
+          <TouchableOpacity activeOpacity={1} onPress={handleViewcart}>
+            <Card overrideStyle={styles.footerContainer}>
+              <Flex row center between>
+                <Flex>
+                  <Text color="white" bold>
+                    {getCartDetails && getCartDetails[0].CartCount} ITEM
+                  </Text>
+                  <Text color="white" bold overrideStyle={styles.rupeeStyle}>
+                    {INDIAN_RUPEE} {isFinancial(getCartDetails[0].GrandTotal)}
+                  </Text>
+                </Flex>
                 <Text bold size={18} color="white">
                   View Cart
                 </Text>
-              </TouchableOpacity>
-            </Flex>
-          </Card>
+              </Flex>
+            </Card>
+          </TouchableOpacity>
         )}
     </Flex>
   );

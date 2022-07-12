@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import Flex from '../../uikit/Flex/Flex';
-import Button from '../../uikit/Button/Button';
+// import Button from '../../uikit/Button/Button';
 import Text from '../../uikit/Text/Text';
 import {useRoute} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
@@ -69,7 +69,7 @@ const OrderDetailsScreen = () => {
       data: getOrderDetailsReducers.data,
     };
   });
-
+console.log('data[0]',data[0]);
   if (isLoading) {
     return <HomePlaceHolder />;
   }
@@ -154,9 +154,9 @@ const OrderDetailsScreen = () => {
             </Text>
           </Flex>
           <View style={styles.hrLineOne} />
-          <Button types={'secondary'} overrideStyle={styles.btnStyle}>
+          {/* <Button types={'secondary'} overrideStyle={styles.btnStyle}>
             Re-Order
-          </Button>
+          </Button> */}
         </Flex>
       </ScrollView>
     )

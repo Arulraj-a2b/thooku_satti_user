@@ -14,6 +14,7 @@ import {
 import {
   checkOutReducers,
   checkCartExistReducers,
+  getTNCReducers
 } from '../modules/mycartmodule/store/myCartReducer';
 import {
   getUpComingOrderReducers,
@@ -36,4 +37,5 @@ export const reducers = {
   getOrderDetailsReducers,
   getHistoryOrdersReducers,
   checkCartExistReducers,
+  getTNCReducers
 };
