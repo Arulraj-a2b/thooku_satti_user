@@ -67,10 +67,11 @@ export const checkCartExistMiddleWare = createAsyncThunk(
 
 export const checkOutMiddleWare = createAsyncThunk(
   CHECK_OUT,
-  async ({ExtraNotes}, {rejectWithValue}) => {
+  async ({ExtraNotes, DeliveryAddress}, {rejectWithValue}) => {
     try {
       const {data} = await axios.post(checkOutApi, {
         ExtraNotes,
+        DeliveryAddress,
       });
       return data;
     } catch (error) {

@@ -97,7 +97,12 @@ const MyCartScreen = ({navigation}) => {
   });
 
   const handleCheckOut = value => {
-    dispatch(checkOutMiddleWare({ExtraNotes: value.notes})).then(res => {
+    dispatch(
+      checkOutMiddleWare({
+        ExtraNotes: value.notes,
+        DeliveryAddress: value.address,
+      }),
+    ).then(res => {
       if (res.payload && res.payload[0].OrderID) {
         setSuccess(true);
         formik.resetForm();
