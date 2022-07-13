@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
 });
 
 const CartPrice = ({getCartDetails, formik, getTNCData}) => {
+  console.log('getCartDetails', getCartDetails);
   return (
     <Flex>
       <Text
@@ -54,19 +55,19 @@ const CartPrice = ({getCartDetails, formik, getTNCData}) => {
             </Text>
           </Flex>
           {/* <Flex row center between overrideStyle={styles.marginTop16}>
-        <Text bold>Tax and Fees</Text>
-        <Text bold>
-          {INDIAN_RUPEE}
-          {isFinancial(26)}
-        </Text>
-      </Flex> */}
-          {/* <Flex row center between overrideStyle={styles.marginTop16}>
-        <Text bold>Delivery</Text>
-        <Text bold>
-          {INDIAN_RUPEE}
-          {isFinancial(26)}
-        </Text>
-      </Flex> */}
+            <Text bold>Tax and Fees</Text>
+            <Text bold>
+              {INDIAN_RUPEE}
+              {isFinancial(getCartDetails.DelliveryCharge)}
+            </Text>
+          </Flex> */}
+          <Flex row center between overrideStyle={styles.marginTop16}>
+            <Text bold>Delivery</Text>
+            <Text bold>
+              {INDIAN_RUPEE}
+              {isFinancial(getCartDetails.DelliveryCharge)}
+            </Text>
+          </Flex>
           <Flex row center between overrideStyle={styles.marginTop16}>
             <Flex row center>
               <Text bold>Total</Text>

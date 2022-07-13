@@ -22,3 +22,7 @@ export const GET_TNC = 'my_cart/GET_TNC';
 export const MY_ORDER_UP_COMINNG = 'my_order/MY_ORDER_UP_COMINNG';
 export const MY_ORDER_HISTORY = 'my_order/getHistoryOrdersApi';
 export const GET_ORDER_DETAILS = 'my_order/GET_ORDER_DETAILS';
+
+
+export const DINININ_BOOKING = 'table/DINININ_BOOKING';
+

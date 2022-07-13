@@ -5,7 +5,7 @@ import Text from '../uikit/Text/Text';
 const defaultProps = {
   width: 29,
   height: 29,
-  fill: '#979797',
+  fill: '#E59722',
 };
 
 const SvgDecrement = ({width, height, fill}) => (
@@ -16,14 +16,14 @@ const SvgDecrement = ({width, height, fill}) => (
       width="27.2803"
       height="27.2803"
       rx="13.6402"
-      stroke="#E59722"
+      stroke={fill}
     />
     <Line
       x1="9.89954"
       y1="13.8437"
       x2="18.3808"
       y2="13.8437"
-      stroke="#E59722"
+      stroke={fill}
       stroke-width="1.5"
       stroke-linecap="round"
     />

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {StyleSheet} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-import {BORDER_COLOR} from '../../uikit/UikitUtils/colors';
+import {BORDER_COLOR, GARY_2} from '../../uikit/UikitUtils/colors';
 import LabelWrapper from '../InputText/LabelWrapper';
 
 const styles = StyleSheet.create({
@@ -21,12 +21,17 @@ const DropDown = ({
   label,
   required,
   placeholder,
+  valueKey = 'value',
+  labelKey = 'label',
 }) => {
   const [open, setOpen] = useState(false);
 
   return (
     <LabelWrapper label={label} required={required}>
       <DropDownPicker
+        listMode="MODAL"
+        placeholderStyle={GARY_2}
+        schema={{label: labelKey, value: valueKey}}
         placeholder={placeholder}
         style={styles.overAll}
         open={open}

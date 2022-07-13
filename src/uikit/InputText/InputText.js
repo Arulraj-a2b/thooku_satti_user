@@ -1,6 +1,7 @@
 import React, {useState, useEffect, forwardRef} from 'react';
 import {TextInput, View} from 'react-native';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import {GARY_2} from '../UikitUtils/colors';
 import {isEmpty} from '../UikitUtils/validators';
 import {inptTextHelper} from './inputTextHelper';
 import {inputTextStyles} from './InputTextStyles';
@@ -26,7 +27,7 @@ const InputText = (
     selectionColor,
     secureTextEntry,
     editable,
-    placeholderTextColor,
+    placeholderTextColor = GARY_2,
     onKeyPress,
     label,
     numberOfLines,

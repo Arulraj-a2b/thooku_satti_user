@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     backgroundColor: WHITE,
     borderRadius: 100,
     padding: 4,
-    marginRight: 4,
+    marginRight: 8,
   },
   btnStyle: {
     width: 130,
@@ -89,13 +89,13 @@ const DrawerContent = props => {
         </View>
       ),
     },
-    // {
-    //   route: () => {
-    //     props.navigation.navigate(routesPath.BOOKING_TABLE_SCREEN);
-    //   },
-    //   title: 'Book Your Table',
-    //   icon: <SvgBook />,
-    // },
+    {
+      route: () => {
+        props.navigation.navigate(routesPath.BOOKING_TABLE_SCREEN);
+      },
+      title: 'Book Your Table',
+      icon: <SvgBook />,
+    },
     {
       route: () => {
         props.navigation.navigate(routesPath.MY_CART_SCREEN);
@@ -168,7 +168,11 @@ const DrawerContent = props => {
           );
         })}
       </Flex>
-      <Button round overrideStyle={styles.btnStyle} onClick={logout}>
+      <Button
+        width={150}
+        round
+        overrideStyle={styles.btnStyle}
+        onClick={logout}>
         <Flex row center>
           <View style={styles.svgLogout}>
             <SvgLogout />

@@ -20,3 +20,4 @@ export const getTNCApi = fetchUrl('Mobapi/GetTNC');
 export const getUpComingOrderApi = fetchUrl('Mobapi/GetUpcomingOrders');
 export const getOrderDetailsApi = fetchUrl('Mobapi/GetOrderDetails');
 export const getHistoryOrdersApi = fetchUrl('Mobapi/GetHistoryOrders');
+export const diningBookingApi = fetchUrl('Mobapi/DiningBooking');

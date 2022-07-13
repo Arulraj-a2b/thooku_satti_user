@@ -5,7 +5,7 @@ import Text from '../uikit/Text/Text';
 const defaultProps = {
   width: 29,
   height: 29,
-  fill: '#979797',
+  fill: '#E59722',
 };
 
 const SvgIncrement = ({width, height, fill}) => (
@@ -16,7 +16,7 @@ const SvgIncrement = ({width, height, fill}) => (
       width="28.2803"
       height="28.2803"
       rx="14.1402"
-      fill="#E59722"
+      fill={fill}
     />
     <Line
       x1="15.1566"

@@ -125,7 +125,7 @@ const MyCartScreen = ({navigation}) => {
             style={styles.flatListoverAll}
             data={getCartDetails[0].OrdInfo}
             keyExtractor={(_item, index) => index.toString()}
-            renderItem={({item, index}) => <CartList item={item} />}
+            renderItem={({item}) => <CartList item={item} />}
             ListFooterComponent={
               <CartPrice
                 getTNCData={getTNCData}
