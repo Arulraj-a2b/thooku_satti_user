@@ -68,11 +68,7 @@ const SideNavigation = () => {
       <Drawer.Screen
         options={{
           header: props => (
-            <Header
-              backPath={routesPath.MY_ORDER_SCREEN}
-              props={props}
-              isMenu
-            />
+            <Header backPath={routesPath.HOME_SCREEN} props={props} isMenu />
           ),
         }}
         name={routesPath.BOOKING_TABLE_SCREEN}

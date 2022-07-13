@@ -27,6 +27,8 @@ import {
 } from '../../uikit/UikitUtils/constants';
 import ErrorMessage from '../../uikit/ErrorMessage/ErrorMessage';
 import {diningBookingMiddleWare} from './store/tableBookingMiddleware';
+import SuccessModal from './SuccessModal';
+import Toast from '../../uikit/Toast/Toast';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -56,6 +58,8 @@ const TableBookingScreen = () => {
   const [isTime, setTime] = useState(new Date(1598051730000));
   const [value, setValue] = useState(null);
   const [isLoader, setLoader] = useState(false);
+  const [isSuccess, setSuccess] = useState(false);
+  const [isData, setData] = useState();
 
   const dispatch = useDispatch();
   const {isLoading, data} = useSelector(({getRestaurantListReducers}) => {
@@ -144,7 +148,13 @@ const TableBookingScreen = () => {
     )
       .then(res => {
         setLoader(false);
-        console.log('formik.values.adult', res);
+        console.log('res.payload', res.payload);
+        if (res.payload && res.payload[0].StatusCode === 5999) {
+          setData(res.payload[0]);
+          setSuccess(true);
+        } else if (res.payload && res.payload[0].Message) {
+          Toast(res.payload[0].Message, 'error');
+        }
       })
       .catch(() => {
         setLoader(false);
@@ -187,209 +197,221 @@ const TableBookingScreen = () => {
     formik.setFieldValue('restaurants', value);
   }, [value]);
 
+  const resetData = () => {
+    setValue('');
+    formik.resetForm();
+  };
   return (
-    <Flex overrideStyle={styles.overAll}>
-      {(isLoading || isLoader) && <Loader />}
-      <ScrollView style={styles.scrollStyle}>
-        <View style={styles.inputTop}>
-          <DropDown
-            valueKey="HotelID"
-            labelKey="HotelName"
-            placeholder={'Select Restaurants'}
-            label={'Restaurants'}
-            required
-            value={value}
-            setValue={setValue}
-            data={data}
-          />
-          <ErrorMessage
-            touched={formik.touched}
-            errors={formik.errors}
-            name="restaurants"
-          />
-        </View>
-        <View style={styles.inputTop}>
-          <InputText
-            placeholder={'Enter guest name'}
-            height={50}
-            types="normal"
-            label={'Guest Name'}
-            required
-            value={formik.values.guestName}
-            onChange={formik.handleChange('guestName')}
-          />
-          <ErrorMessage
-            touched={formik.touched}
-            errors={formik.errors}
-            name="guestName"
-          />
-        </View>
-        <View style={styles.inputTop}>
-          <InputText
-            onChange={formik.handleChange('contactno')}
-            label={'Contact Number'}
-            value={formik.values.contactno}
-            height={50}
-            types="normal"
-            placeholder={'Please enter your contact number'}
-            keyboardType={'phone-pad'}
-            maxLength={10}
-          />
-          <ErrorMessage
-            touched={formik.touched}
-            errors={formik.errors}
-            name="contactno"
-          />
-        </View>
-        <View style={styles.inputTop}>
-          <LabelWrapper label={'Date'} required>
-            <TouchableOpacity
-              onPress={showDate}
-              style={{
-                height: 50,
-                borderWidth: 1,
-                borderColor: BORDER_COLOR,
-                borderRadius: 8,
-                justifyContent: 'center',
-                paddingHorizontal: 16,
-              }}>
-              {isEmpty(formik.values.date) ? (
-                <Text color="gray">Please select your date</Text>
-              ) : (
-                <Text>{getDateString(formik.values.date, 'LL')}</Text>
-              )}
-            </TouchableOpacity>
-          </LabelWrapper>
-          <ErrorMessage
-            touched={formik.touched}
-            errors={formik.errors}
-            name="date"
-          />
-        </View>
-        <View style={styles.inputTop}>
-          <LabelWrapper label={'Time'} required>
-            <TouchableOpacity
-              onPress={showTime}
-              style={{
-                height: 50,
-                borderWidth: 1,
-                borderColor: BORDER_COLOR,
-                borderRadius: 8,
-                justifyContent: 'center',
-                paddingHorizontal: 16,
-              }}>
-              {isEmpty(formik.values.time) ? (
-                <Text color="gray">Please select your time</Text>
-              ) : (
-                <Text>{getDateString(formik.values.time, 'LT')}</Text>
-              )}
-            </TouchableOpacity>
-          </LabelWrapper>
-          <ErrorMessage
-            touched={formik.touched}
-            errors={formik.errors}
-            name="time"
-          />
-        </View>
-        <View style={styles.inputTop}>
-          <Flex between row center>
-            <Flex row center>
-              <Text bold>Adult *</Text>
-              <Text size={12} color="gray">
-                {' (12+ Years)'}
-              </Text>
-            </Flex>
-            <Stepper
-              onChange={formik.setFieldValue}
-              name="adult"
-              value={formik.values.adult}
+    <>
+      <Flex overrideStyle={styles.overAll}>
+        {(isLoading || isLoader) && <Loader />}
+        <SuccessModal
+          resetData={resetData}
+          isData={isData}
+          open={isSuccess}
+          close={() => setSuccess(false)}
+        />
+        <ScrollView style={styles.scrollStyle}>
+          <View style={styles.inputTop}>
+            <DropDown
+              valueKey="HotelID"
+              labelKey="HotelName"
+              placeholder={'Select Restaurants'}
+              label={'Restaurants'}
+              required
+              value={value}
+              setValue={setValue}
+              data={data}
             />
-          </Flex>
-          <ErrorMessage
-            touched={formik.touched}
-            errors={formik.errors}
-            name="adult"
-          />
-        </View>
-        <View style={styles.inputTop}>
-          <Flex between row center>
-            <Flex row center>
-              <Text bold>Children *</Text>
-              <Text size={12} color="gray">
-                {' (2 - 12 Years)'}
-              </Text>
+            <ErrorMessage
+              touched={formik.touched}
+              errors={formik.errors}
+              name="restaurants"
+            />
+          </View>
+          <View style={styles.inputTop}>
+            <InputText
+              placeholder={'Enter guest name'}
+              height={50}
+              types="normal"
+              label={'Guest Name'}
+              required
+              value={formik.values.guestName}
+              onChange={formik.handleChange('guestName')}
+            />
+            <ErrorMessage
+              touched={formik.touched}
+              errors={formik.errors}
+              name="guestName"
+            />
+          </View>
+          <View style={styles.inputTop}>
+            <InputText
+              onChange={formik.handleChange('contactno')}
+              label={'Contact Number'}
+              value={formik.values.contactno}
+              height={50}
+              types="normal"
+              placeholder={'Please enter your contact number'}
+              keyboardType={'phone-pad'}
+              maxLength={10}
+            />
+            <ErrorMessage
+              touched={formik.touched}
+              errors={formik.errors}
+              name="contactno"
+            />
+          </View>
+          <View style={styles.inputTop}>
+            <LabelWrapper label={'Date'} required>
+              <TouchableOpacity
+                onPress={showDate}
+                style={{
+                  height: 50,
+                  borderWidth: 1,
+                  borderColor: BORDER_COLOR,
+                  borderRadius: 8,
+                  justifyContent: 'center',
+                  paddingHorizontal: 16,
+                }}>
+                {isEmpty(formik.values.date) ? (
+                  <Text color="gray">Please select your date</Text>
+                ) : (
+                  <Text>{getDateString(formik.values.date, 'LL')}</Text>
+                )}
+              </TouchableOpacity>
+            </LabelWrapper>
+            <ErrorMessage
+              touched={formik.touched}
+              errors={formik.errors}
+              name="date"
+            />
+          </View>
+          <View style={styles.inputTop}>
+            <LabelWrapper label={'Time'} required>
+              <TouchableOpacity
+                onPress={showTime}
+                style={{
+                  height: 50,
+                  borderWidth: 1,
+                  borderColor: BORDER_COLOR,
+                  borderRadius: 8,
+                  justifyContent: 'center',
+                  paddingHorizontal: 16,
+                }}>
+                {isEmpty(formik.values.time) ? (
+                  <Text color="gray">Please select your time</Text>
+                ) : (
+                  <Text>{getDateString(formik.values.time, 'LT')}</Text>
+                )}
+              </TouchableOpacity>
+            </LabelWrapper>
+            <ErrorMessage
+              touched={formik.touched}
+              errors={formik.errors}
+              name="time"
+            />
+          </View>
+          <View style={styles.inputTop}>
+            <Flex between row center>
+              <Flex row center>
+                <Text bold>Adult *</Text>
+                <Text size={12} color="gray">
+                  {' (12+ Years)'}
+                </Text>
+              </Flex>
+              <Stepper
+                onChange={formik.setFieldValue}
+                name="adult"
+                value={formik.values.adult}
+              />
             </Flex>
-            <Stepper
-              value={formik.values.child}
-              onChange={formik.setFieldValue}
+            <ErrorMessage
+              touched={formik.touched}
+              errors={formik.errors}
+              name="adult"
+            />
+          </View>
+          <View style={styles.inputTop}>
+            <Flex between row center>
+              <Flex row center>
+                <Text bold>Children *</Text>
+                <Text size={12} color="gray">
+                  {' (2 - 12 Years)'}
+                </Text>
+              </Flex>
+              <Stepper
+                value={formik.values.child}
+                onChange={formik.setFieldValue}
+                name="child"
+              />
+            </Flex>
+            <ErrorMessage
+              touched={formik.touched}
+              errors={formik.errors}
               name="child"
             />
-          </Flex>
-          <ErrorMessage
-            touched={formik.touched}
-            errors={formik.errors}
-            name="child"
-          />
-        </View>
+          </View>
 
-        <View style={styles.inputTop}>
-          <InputText
-            onChange={formik.handleChange('gpay')}
-            label={'Google Pay Number'}
-            value={formik.values.gpay}
-            height={50}
-            types="normal"
-            placeholder={'Please enter your google pay number'}
-            maxLength={10}
-            keyboardType={'phone-pad'}
-          />
-          <ErrorMessage
-            touched={formik.touched}
-            errors={formik.errors}
-            name="gpay"
-          />
-        </View>
-        <View style={styles.inputTop}>
-          <InputText
-            onChange={formik.handleChange('phonepe')}
-            label={'Phone Pay Number'}
-            value={formik.values.phonepe}
-            height={50}
-            types="normal"
-            placeholder={'Please enter your phone pay number'}
-            maxLength={10}
-            keyboardType={'phone-pad'}
-          />
-          <ErrorMessage
-            touched={formik.touched}
-            errors={formik.errors}
-            name="phonepe"
-          />
-        </View>
-        <View style={[styles.inputTop, {marginBottom: 70}]}>
-          <InputText
-            placeholder={`Add your rquest`}
-            overrideStyle={styles.inputStyles}
-            label={'Notes'}
-            height={120}
-            maxLength={1000}
-            numberOfLines={4}
-            multiline
-            value={formik.values.notes}
-            onChange={formik.handleChange('notes')}
-            types="normal"
-          />
-          <ErrorMessage
-            touched={formik.touched}
-            errors={formik.errors}
-            name="notes"
-          />
-        </View>
-      </ScrollView>
-      <Flex overrideStyle={styles.btnContainer}>
-        <Button onClick={formik.handleSubmit}>Book</Button>
+          <View style={styles.inputTop}>
+            <InputText
+              onChange={formik.handleChange('gpay')}
+              label={'Google Pay Number'}
+              value={formik.values.gpay}
+              height={50}
+              types="normal"
+              placeholder={'Please enter your google pay number'}
+              maxLength={10}
+              keyboardType={'phone-pad'}
+            />
+            <ErrorMessage
+              touched={formik.touched}
+              errors={formik.errors}
+              name="gpay"
+            />
+          </View>
+          <View style={styles.inputTop}>
+            <InputText
+              onChange={formik.handleChange('phonepe')}
+              label={'Phone Pay Number'}
+              value={formik.values.phonepe}
+              height={50}
+              types="normal"
+              placeholder={'Please enter your phone pay number'}
+              maxLength={10}
+              keyboardType={'phone-pad'}
+            />
+            <ErrorMessage
+              touched={formik.touched}
+              errors={formik.errors}
+              name="phonepe"
+            />
+          </View>
+          <View style={[styles.inputTop, {marginBottom: 70}]}>
+            <InputText
+              placeholder={`Add your rquest`}
+              overrideStyle={styles.inputStyles}
+              label={'Notes'}
+              height={120}
+              maxLength={1000}
+              numberOfLines={4}
+              multiline
+              value={formik.values.notes}
+              onChange={formik.handleChange('notes')}
+              types="normal"
+            />
+            <ErrorMessage
+              touched={formik.touched}
+              errors={formik.errors}
+              name="notes"
+            />
+          </View>
+        </ScrollView>
+        <Flex overrideStyle={styles.btnContainer}>
+          <Button onClick={formik.handleSubmit}>Book</Button>
+        </Flex>
       </Flex>
-    </Flex>
+    </>
   );
 };
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {StyleSheet, View} from 'react-native';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
@@ -6,6 +6,8 @@ import {INDIAN_RUPEE} from '../../uikit/UikitUtils/constants';
 import {isFinancial} from '../../uikit/UikitUtils/helpers';
 import InputText from '../../uikit/InputText/InputText';
 import Card from '../../uikit/Card/Card';
+import ErrorMessage from '../../uikit/ErrorMessage/ErrorMessage';
+import {isEmpty} from '../../uikit/UikitUtils/validators';
 
 const styles = StyleSheet.create({
   marginTop16: {
@@ -32,10 +34,19 @@ const styles = StyleSheet.create({
     marginTop: 16,
     marginBottom: 4,
   },
+  note: {
+    marginTop: 6,
+    marginBottom: 4,
+  },
 });
 
 const CartPrice = ({getCartDetails, formik, getTNCData}) => {
-  console.log('getCartDetails', getCartDetails);
+  const myRef = useRef();
+  useEffect(() => {
+    if (!isEmpty(formik.errors.address) && myRef && myRef.current) {
+      myRef.current.focus();
+    }
+  }, [formik]);
   return (
     <Flex>
       <Text
@@ -84,6 +95,24 @@ const CartPrice = ({getCartDetails, formik, getTNCData}) => {
       </Card>
       <View style={{marginTop: 20}}>
         <InputText
+          ref={myRef}
+          placeholder={`Enter your address`}
+          overrideStyle={styles.inputStyles}
+          label={'Address'}
+          height={70}
+          numberOfLines={4}
+          multiline
+          value={formik.values.address}
+          onChange={formik.handleChange('address')}
+        />
+        <ErrorMessage
+          touched={formik.touched}
+          errors={formik.errors}
+          name="address"
+        />
+      </View>
+      <View style={{marginTop: 20}}>
+        <InputText
           placeholder={`Add your rquest`}
           overrideStyle={styles.inputStyles}
           label={'Notes'}
@@ -94,13 +123,13 @@ const CartPrice = ({getCartDetails, formik, getTNCData}) => {
           onChange={formik.handleChange('notes')}
         />
       </View>
-      <Text bold size={20} overrideStyle={styles.terms}>
+      <Text bold size={16} overrideStyle={styles.terms}>
         Terms and condition
       </Text>
       <Text size={12} color="gray">
         {getTNCData[0].TNCMsg}
       </Text>
-      <Text bold size={20} overrideStyle={styles.terms}>
+      <Text bold size={16} overrideStyle={styles.note}>
         Note*
       </Text>
       <Text size={12} color="gray">

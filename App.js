@@ -6,13 +6,14 @@ import {RootSiblingParent} from 'react-native-root-siblings';
 import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import Logger, {startNetworkLogging} from 'react-native-network-logger';
 import store from './store';
 import AppLayout from './src/navigation/AppLayout';
 import {requestUserPermission} from './src/utility/notificationService';
 import OfflineScreen from './src/modules/offlinemodule/OfflineScreen';
-import Logger, {startNetworkLogging} from 'react-native-network-logger';
 import Text from './src/uikit/Text/Text';
 import {PRIMARY} from './src/uikit/UikitUtils/colors';
+
 const App = () => {
   const [showLogger, setShowLogger] = useState(false);
 
