@@ -68,18 +68,76 @@ export const useAuthCheck = setLoader => {
               );
             }
           } else {
-            navigation.navigate(routesPath.LOGIN_SCREEN);
-            setLoader(false);
-            setTimeout(() => {
-              SplashScreen.hide();
-            }, 1000);
+            if (res === 'granted') {
+              await Geolocation.getCurrentPosition(
+                ({coords}) => {
+                  dispatch(
+                    calculateLocationDistanceMiddleWare({
+                      Latitude: coords.latitude,
+                      Longtitude: coords.longitude,
+                    }),
+                  ).then(res => {
+                    if (res.payload && res.payload[0]) {
+                      dispatch(
+                        getRestaurantListMiddleWare({
+                          LocationID: res.payload[0].LocationID,
+                        }),
+                      ).then(() => {
+                        setLoader(false);
+                        setTimeout(() => {
+                          SplashScreen.hide();
+                          navigation.navigate(routesPath.LOGIN_SCREEN);
+                        }, 1000);
+                      });
+                    }
+                  });
+                },
+                _error => {
+                  // Alert.alert(error.code,error.message)
+                },
+                {
+                  enableHighAccuracy: true,
+                  timeout: 15000,
+                  maximumAge: 10000,
+                },
+              );
+            }
           }
         } else {
-          navigation.navigate(routesPath.LOGIN_SCREEN);
-          setLoader(false);
-          setTimeout(() => {
-            SplashScreen.hide();
-          }, 1000);
+          if (res === 'granted') {
+            await Geolocation.getCurrentPosition(
+              ({coords}) => {
+                dispatch(
+                  calculateLocationDistanceMiddleWare({
+                    Latitude: coords.latitude,
+                    Longtitude: coords.longitude,
+                  }),
+                ).then(res => {
+                  if (res.payload && res.payload[0]) {
+                    dispatch(
+                      getRestaurantListMiddleWare({
+                        LocationID: res.payload[0].LocationID,
+                      }),
+                    ).then(() => {
+                      setLoader(false);
+                      setTimeout(() => {
+                        SplashScreen.hide();
+                        navigation.navigate(routesPath.LOGIN_SCREEN);
+                      }, 1000);
+                    });
+                  }
+                });
+              },
+              _error => {
+                // Alert.alert(error.code,error.message)
+              },
+              {
+                enableHighAccuracy: true,
+                timeout: 15000,
+                maximumAge: 10000,
+              },
+            );
+          }
         }
       } else {
         navigation.navigate(routesPath.GOOGLE_PLACES_SEARCH_SCREEN);
@@ -89,11 +147,40 @@ export const useAuthCheck = setLoader => {
         }, 1000);
       }
     } catch (error) {
-      navigation.navigate(routesPath.LOGIN_SCREEN);
-      setLoader(false);
-      setTimeout(() => {
-        SplashScreen.hide();
-      }, 1000);
+      if (res === 'granted') {
+        await Geolocation.getCurrentPosition(
+          ({coords}) => {
+            dispatch(
+              calculateLocationDistanceMiddleWare({
+                Latitude: coords.latitude,
+                Longtitude: coords.longitude,
+              }),
+            ).then(res => {
+              if (res.payload && res.payload[0]) {
+                dispatch(
+                  getRestaurantListMiddleWare({
+                    LocationID: res.payload[0].LocationID,
+                  }),
+                ).then(() => {
+                  setLoader(false);
+                  setTimeout(() => {
+                    SplashScreen.hide();
+                    navigation.navigate(routesPath.LOGIN_SCREEN);
+                  }, 1000);
+                });
+              }
+            });
+          },
+          _error => {
+            // Alert.alert(error.code,error.message)
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 15000,
+            maximumAge: 10000,
+          },
+        );
+      }
     }
   };
   useEffect(() => {
