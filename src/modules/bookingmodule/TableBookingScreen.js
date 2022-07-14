@@ -131,7 +131,6 @@ const TableBookingScreen = () => {
 
   const handleSubmit = () => {
     setLoader(true);
-    Keyboard.dismiss();
     dispatch(
       diningBookingMiddleWare({
         HotleID: formik.values.restaurants,
@@ -408,7 +407,13 @@ const TableBookingScreen = () => {
           </View>
         </ScrollView>
         <Flex overrideStyle={styles.btnContainer}>
-          <Button onClick={formik.handleSubmit}>Book</Button>
+          <Button
+            onClick={() => {
+              Keyboard.dismiss();
+              formik.handleSubmit();
+            }}>
+            Book
+          </Button>
         </Flex>
       </Flex>
     </>
