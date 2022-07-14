@@ -1,4 +1,7 @@
-import {loginReducers} from '../modules/loginmodule/store/loginReducer';
+import {
+  loginReducers,
+  calculateLocationDistanceReducers,
+} from '../modules/loginmodule/store/loginReducer';
 import {
   forgotEamilOtpReducers,
   emailOtpVerifyReducers,
@@ -14,7 +17,7 @@ import {
 import {
   checkOutReducers,
   checkCartExistReducers,
-  getTNCReducers
+  getTNCReducers,
 } from '../modules/mycartmodule/store/myCartReducer';
 import {
   getUpComingOrderReducers,
@@ -37,5 +40,6 @@ export const reducers = {
   getOrderDetailsReducers,
   getHistoryOrdersReducers,
   checkCartExistReducers,
-  getTNCReducers
+  getTNCReducers,
+  calculateLocationDistanceReducers,
 };

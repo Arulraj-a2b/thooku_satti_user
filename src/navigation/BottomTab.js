@@ -15,15 +15,20 @@ import {useSelector} from 'react-redux';
 const Tab = createBottomTabNavigator();
 
 const BottomTab = () => {
-  const {getCartDetails} = useSelector(({getCartDetailsReducers}) => {
-    return {
-      getCartDetails: getCartDetailsReducers.data,
-    };
-  });
+  const {getCartDetails, getRestaurantList} = useSelector(
+    ({getCartDetailsReducers, getRestaurantListReducers}) => {
+      return {
+        getCartDetails: getCartDetailsReducers.data,
+        getRestaurantList: getRestaurantListReducers.data,
+      };
+    },
+  );
+
   const getCartCount =
     getCartDetails &&
     getCartDetails.length !== 0 &&
     getCartDetails[0].CartCount;
+
   return (
     <Tab.Navigator>
       <Tab.Screen
@@ -44,7 +49,16 @@ const BottomTab = () => {
           title: '',
           tabBarIcon: ({focused}) => (
             <TabBarIcon
-              icon={<CartIcon focused={focused} count={getCartCount} />}
+              icon={
+                <CartIcon
+                  focused={focused}
+                  isCount={
+                    Array.isArray(getRestaurantList) &&
+                    getRestaurantList.length !== 0
+                  }
+                  count={getCartCount}
+                />
+              }
             />
           ),
           header: props => <Header props={props} isBack isMenu />,

@@ -1,4 +1,5 @@
 export const LOGIN = 'login/LOGIN';
+export const CALCULATE_LOCATION = 'login/CALCULATE_LOCATION';
 
 export const SIGNIN = 'signin/SIGNIN';
 
@@ -23,6 +24,4 @@ export const MY_ORDER_UP_COMINNG = 'my_order/MY_ORDER_UP_COMINNG';
 export const MY_ORDER_HISTORY = 'my_order/getHistoryOrdersApi';
 export const GET_ORDER_DETAILS = 'my_order/GET_ORDER_DETAILS';
 
-
 export const DINININ_BOOKING = 'table/DINININ_BOOKING';
-

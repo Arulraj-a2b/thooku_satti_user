@@ -21,6 +21,8 @@ import {
 import {API_KEY} from '../../uikit/UikitUtils/constants';
 import {mapStyle} from './mock';
 import {getAddressMiddleWare} from './store/mapMiddleware';
+import {calculateLocationDistanceMiddleWare} from '../loginmodule/store/loginScreenMiddleware';
+import {getRestaurantListMiddleWare} from '../homemodule/store/homeMiddleware';
 
 const styles = StyleSheet.create({
   body: {
@@ -132,6 +134,20 @@ const MapView = () => {
         longitude: route.params.location.lng,
       });
       dispatch(
+        calculateLocationDistanceMiddleWare({
+          Latitude: route.params.location.lat,
+          Longtitude: route.params.location.lng,
+        }),
+      ).then(res => {
+        if (res.payload && res.payload[0]) {
+          dispatch(
+            getRestaurantListMiddleWare({
+              LocationID: res.payload[0].LocationID,
+            }),
+          );
+        }
+      });
+      dispatch(
         getAddressMiddleWare({
           address: `${route.params.location.lat},${route.params.location.lng}`,
           key: API_KEY,
@@ -155,7 +171,20 @@ const MapView = () => {
             latitude: coords.latitude,
             longitude: coords.longitude,
           });
-
+          dispatch(
+            calculateLocationDistanceMiddleWare({
+              Latitude: coords.latitude,
+              Longtitude: coords.longitude,
+            }),
+          ).then(res => {
+            if (res.payload && res.payload[0]) {
+              dispatch(
+                getRestaurantListMiddleWare({
+                  LocationID: res.payload[0].LocationID,
+                }),
+              );
+            }
+          });
           dispatch(
             getAddressMiddleWare({
               address: `${coords.latitude},${coords.longitude}`,
@@ -187,6 +216,20 @@ const MapView = () => {
       latitude: event.latitude,
       longitude: event.longitude,
     });
+
+    dispatch(
+      calculateLocationDistanceMiddleWare({
+        Latitude: event.latitude,
+        Longtitude: event.longitude,
+      }),
+    ).then(res => {
+      if (res.payload && res.payload[0]) {
+        dispatch(
+          getRestaurantListMiddleWare({LocationID: res.payload[0].LocationID}),
+        );
+      }
+    });
+
     dispatch(
       getAddressMiddleWare({
         address: `${event.latitude},${event.longitude}`,

@@ -37,7 +37,7 @@ const SuccessModal = ({open, close, isData, resetData}) => {
   };
   const handleMyOrder = () => {
     resetData();
-    navigation.navigate(routesPath.BOOKING_TABLE_SCREEN);
+    navigation.navigate(routesPath.MY_ORDER_SCREEN);
     close();
   };
   return (
@@ -58,7 +58,7 @@ const SuccessModal = ({open, close, isData, resetData}) => {
             Go to Home
           </Button>
           <Button overrideStyle={{width: 130}} onClick={handleMyOrder}>
-            Book Again
+            View Details
           </Button>
         </Flex>
       </Card>

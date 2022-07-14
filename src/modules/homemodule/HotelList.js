@@ -67,8 +67,7 @@ const HotelList = ({
         />
       )}
       ListFooterComponent={() => {
-        return (
-          !isAll && (
+        return !isAll && data.length !== 0 &&(
             <Flex center>
               <Button
                 types={'secondary'}
@@ -77,7 +76,7 @@ const HotelList = ({
                 View All
               </Button>
             </Flex>
-          )
+          
         );
       }}
     />

@@ -59,12 +59,14 @@ const MyCartScreen = ({navigation}) => {
     checkOutData,
     isCheckoutLoader,
     getTNCData,
+    getRestaurantList,
   } = useSelector(
     ({
       getCartDetailsReducers,
       addCartReducers,
       checkOutReducers,
       getTNCReducers,
+      getRestaurantListReducers,
     }) => {
       return {
         getCartDetails: getCartDetailsReducers.data,
@@ -73,11 +75,16 @@ const MyCartScreen = ({navigation}) => {
         checkOutData: checkOutReducers.data,
         isCheckoutLoader: checkOutReducers.isLoading,
         getTNCData: getTNCReducers.data,
+        getRestaurantList: getRestaurantListReducers.data,
       };
     },
   );
   const downButtonHandler = () => {
-    listViewRef.current.scrollToEnd({animated: true});
+    listViewRef.current.scrollToIndex({
+      index: getCartDetails && getCartDetails[0].OrdInfo.length - 1,
+      animated: true,
+      // viewPosition: 2,
+    });
   };
 
   const handleValidate = values => {
@@ -125,7 +132,10 @@ const MyCartScreen = ({navigation}) => {
         checkOutData={checkOutData}
       />
       {isCheckoutLoader && <Loader />}
-      {Array.isArray(getCartDetails) && getCartDetails.length !== 0 ? (
+      {Array.isArray(getRestaurantList) &&
+      getRestaurantList.length !== 0 &&
+      Array.isArray(getCartDetails) &&
+      getCartDetails.length !== 0 ? (
         <Flex between flex={1}>
           <FlatList
             ListHeaderComponentStyle={styles.listHeaderComponentStyle}

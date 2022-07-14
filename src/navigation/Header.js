@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Header = ({props, isBack, isMenu, isLocation,backPath}) => {
+const Header = ({props, isBack, isMenu, isLocation, backPath}) => {
   const dispatch = useDispatch();
 
   const {data} = useSelector(({getAddressReducers}) => {
@@ -84,8 +84,8 @@ const Header = ({props, isBack, isMenu, isLocation,backPath}) => {
   const handleGoBack = () => {
     if (isEmpty(backPath)) {
       props.navigation.goBack();
-    } else{
-      props.navigation.navigate(backPath)
+    } else {
+      props.navigation.navigate(backPath);
     }
   };
 

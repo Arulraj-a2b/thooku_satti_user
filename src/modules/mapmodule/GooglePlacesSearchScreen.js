@@ -60,7 +60,7 @@ const GooglePlacesSearchScreen = ({navigation}) => {
     } else if (res === 'blocked') {
       Alert.alert(
         'Permission',
-        'Device location permission blocked. Enable the location manually',
+        'Device location permission blocked. Enable the location permission manually',
         [
           {
             text: 'Cancel',
