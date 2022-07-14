@@ -78,13 +78,7 @@ export const notificationListener = async navigation => {
         if (res.data) {
           if (res.data?.route) {
             const routePath = res.data?.route;
-            if (res && res.data && res.data?.booking_id) {
-              navigation.navigate(routePath, {
-                booking_id: res.data?.booking_id,
-              });
-            } else {
-              navigation.navigate(routePath);
-            }
+            navigation.navigate(routePath);
           }
         }
       }
