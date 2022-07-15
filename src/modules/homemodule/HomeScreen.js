@@ -7,11 +7,16 @@ import {WHITE} from '../../uikit/UikitUtils/colors';
 import HotelList from './HotelList';
 import HomePlaceHolder from './HomePlaceHolder';
 import ReplaceModal from './ReplaceModal';
+import Text from '../../uikit/Text/Text';
 
 const styles = StyleSheet.create({
   overAll: {
     backgroundColor: WHITE,
     flex: 1,
+  },
+  emptyText: {
+    width: 300,
+    lineHeight: 22,
   },
 });
 
@@ -44,7 +49,6 @@ const HomeScreen = ({navigation}) => {
     },
   );
 
-
   const handleViewAll = () => {
     setAll(true);
     handleSearch('');
@@ -76,7 +80,7 @@ const HomeScreen = ({navigation}) => {
           navigation={navigation}
         />
       )}
-      {!isLoading && (
+      {!isLoading && data.length !== 0 ? (
         <HotelList
           isSearch={isSearch}
           handleSearch={handleSearch}
@@ -87,6 +91,18 @@ const HomeScreen = ({navigation}) => {
           setSelectHotelName={setSelectHotelName}
           setCheckCart={setCheckCart}
         />
+      ) : (
+        <Flex flex={1} center middle>
+          <Text
+            align={'center'}
+            bold
+            size={16}
+            color="gray"
+            overrideStyle={styles.emptyText}>
+            Sorry! Restaurants are unavailable at the moment. Please revisit
+            after a while.
+          </Text>
+        </Flex>
       )}
     </Flex>
   );
