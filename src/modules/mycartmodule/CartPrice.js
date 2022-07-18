@@ -47,7 +47,7 @@ const CartPrice = ({getCartDetails, formik, getTNCData}) => {
       myRef.current.focus();
     }
   }, [formik]);
-  console.log('getCartDetails',getCartDetails);
+  // console.log('getCartDetails',getCartDetails);
   return (
     <Flex>
       <Text
