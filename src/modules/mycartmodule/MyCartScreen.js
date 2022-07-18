@@ -117,7 +117,6 @@ const MyCartScreen = ({navigation}) => {
       }
     });
   };
-
   return (
     <Flex
       flex={1}

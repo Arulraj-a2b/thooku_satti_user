@@ -13,20 +13,19 @@ import {requestUserPermission} from './src/utility/notificationService';
 import OfflineScreen from './src/modules/offlinemodule/OfflineScreen';
 import Text from './src/uikit/Text/Text';
 import {PRIMARY} from './src/uikit/UikitUtils/colors';
+const isProd = true;
 
 const App = () => {
   const [showLogger, setShowLogger] = useState(false);
 
   useEffect(() => {
     startNetworkLogging();
-    // AsyncStorage.removeItem('geoLocationDone');
     requestUserPermission();
   }, []);
 
   const handleToggleLogger = () => setShowLogger(!showLogger);
 
   const netInfo = useNetInfo();
-  const isProd = true;
   return netInfo.isConnected || netInfo.isConnected === null ? (
     <SafeAreaProvider>
       <RootSiblingParent>

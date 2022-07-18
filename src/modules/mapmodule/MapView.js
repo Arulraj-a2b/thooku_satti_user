@@ -102,13 +102,13 @@ const MapView = () => {
   });
 
   const handleSubmit = async () => {
-    AsyncStorage.setItem('geoLocationDone', 'true');
+    AsyncStorage.setItem('geoLocationDone',JSON.stringify(isGetLocation));
     try {
       let userData = await AsyncStorage.getItem('userData');
       if (userData) {
         userData = JSON.parse(userData);
         if (userData.loggedIn) {
-          navigation.navigate(stacks.HomeStack);
+          navigation.navigate(routesPath.ALL_SCREEN);
         } else {
           navigation.navigate(routesPath.LOGIN_SCREEN);
         }
