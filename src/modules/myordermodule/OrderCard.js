@@ -47,7 +47,6 @@ const OrderCard = ({item, isTrack}) => {
       orderId,
     });
   };
-  // console.log('item',item);
   return (
     <Card overrideStyle={styles.overAll}>
       <Flex overrideStyle={styles.cardFlex}>
