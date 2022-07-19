@@ -47,7 +47,8 @@ const CartPrice = ({getCartDetails, formik, getTNCData}) => {
       myRef.current.focus();
     }
   }, [formik]);
-  // console.log('getCartDetails',getCartDetails);
+  const grandTotal =
+    Number(getCartDetails.GrandTotal) + Number(getCartDetails.DelliveryCharge);
   return (
     <Flex>
       <Text
@@ -89,7 +90,7 @@ const CartPrice = ({getCartDetails, formik, getTNCData}) => {
             </Flex>
             <Text bold>
               {INDIAN_RUPEE}
-              {isFinancial(getCartDetails.GrandTotal)}
+              {isFinancial(grandTotal)}
             </Text>
           </Flex>
         </Flex>
