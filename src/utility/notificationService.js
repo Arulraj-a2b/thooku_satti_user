@@ -3,6 +3,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import PushNotification from 'react-native-push-notification';
 import {useNavigation} from '@react-navigation/native';
 import {routesPath} from '../routes/routesPath';
+import {navigationRef} from '../../App';
+import {getUpComingOrderMiddleWare} from '../modules/myordermodule/store/myOrderMiddleware';
 
 export const handleNotification = message => {
   PushNotification.cancelAllLocalNotifications();
@@ -88,7 +90,7 @@ export const notificationListener = async navigation => {
     });
 };
 
-export const localNotificationNavigate = navigation => {
+export const localNotificationNavigate = (navigation, dispatch) => {
   PushNotification.configure({
     onNotification: function (notification) {
       if (notification && notification.userInteraction) {
@@ -96,6 +98,12 @@ export const localNotificationNavigate = navigation => {
           screen: routesPath.ORDER_DETAILS_SCREEN,
           params: {orderId: notification.data?.booking_id},
         });
+      } else if (
+        navigationRef.current.getCurrentRoute().name === 'MyOrderScreen' &&
+        notification &&
+        notification.userInteraction === false
+      ) {
+        dispatch(getUpComingOrderMiddleWare());
       }
     },
     permissions: {

@@ -1,8 +1,6 @@
 import React, {useEffect} from 'react';
 import {Pressable, StyleSheet, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {PERMISSIONS, request} from 'react-native-permissions';
-import Geolocation from 'react-native-geolocation-service';
 import SvgBack from '../icons/SvgBack';
 import SvgHamburger from '../icons/SvgHamburger';
 import Flex from '../uikit/Flex/Flex';
@@ -13,6 +11,7 @@ import {getAddressMiddleWare} from '../modules/mapmodule/store/mapMiddleware';
 import {API_KEY} from '../uikit/UikitUtils/constants';
 import SvgLocation2 from '../icons/SvgLocation2';
 import {isEmpty} from '../uikit/UikitUtils/validators';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -54,27 +53,42 @@ const Header = ({props, isBack, isMenu, isLocation, backPath}) => {
   }, []);
 
   async function requestLocationPermission() {
-    var res = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
-    if (res === 'granted') {
-      await Geolocation.getCurrentPosition(
-        ({coords}) => {
-          dispatch(
-            getAddressMiddleWare({
-              address: `${coords.latitude},${coords.longitude}`,
-              key: API_KEY,
-            }),
-          );
-        },
-        _error => {
-          // Alert.alert(error.code,error.message)
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 15000,
-          maximumAge: 10000,
-        },
-      );
+    let geoLocation = await AsyncStorage.getItem('geoLocationDone');
+    geoLocation = JSON.parse(geoLocation);
+    // console.log('geoLocation',geoLocation);
+    try {
+      if (geoLocation) {
+        dispatch(
+          getAddressMiddleWare({
+            address: `${geoLocation.latitude},${geoLocation.longitude}`,
+            key: API_KEY,
+          }),
+        );
+      }
+    } catch {
+
     }
+    // var res = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
+    // if (res === 'granted') {
+    //   await Geolocation.getCurrentPosition(
+    //     ({coords}) => {
+    //       dispatch(
+    //         getAddressMiddleWare({
+    //           address: `${coords.latitude},${coords.longitude}`,
+    //           key: API_KEY,
+    //         }),
+    //       );
+    //     },
+    //     _error => {
+    //       // Alert.alert(error.code,error.message)
+    //     },
+    //     {
+    //       enableHighAccuracy: true,
+    //       timeout: 15000,
+    //       maximumAge: 10000,
+    //     },
+    //   );
+    // }
   }
 
   const handleOpenDrawer = () => {

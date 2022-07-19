@@ -14,6 +14,7 @@ import OfflineScreen from './src/modules/offlinemodule/OfflineScreen';
 import Text from './src/uikit/Text/Text';
 import {PRIMARY} from './src/uikit/UikitUtils/colors';
 const isProd = true;
+export const navigationRef = React.createRef(); // we will access all navigation props by importing this in any of the component
 
 const App = () => {
   const [showLogger, setShowLogger] = useState(false);
@@ -31,7 +32,7 @@ const App = () => {
       <RootSiblingParent>
         <Provider store={store}>
           <StatusBar backgroundColor={PRIMARY} />
-          <NavigationContainer>
+          <NavigationContainer ref={navigationRef}>
             {isProd ? (
               <AppLayout />
             ) : (
