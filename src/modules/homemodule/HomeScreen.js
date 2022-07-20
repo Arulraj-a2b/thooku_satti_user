@@ -40,7 +40,6 @@ const HomeScreen = ({navigation}) => {
         }),
       )
         .then(res => {
-          console.log('res',res);
           setLoader(false);
           Alert.alert('Update', res.payload[0].Message, [
             {
