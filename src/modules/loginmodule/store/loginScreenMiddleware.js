@@ -1,20 +1,22 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import axios from 'axios';
-import {CALCULATE_LOCATION, LOGIN} from '../../../actions/actions';
+import {CALCULATE_LOCATION, LOGIN,GET_CURRENT_VERSION} from '../../../actions/actions';
 import {
   calculateLocationDistanceApi,
+  getVersionApi,
   loginApi,
 } from '../../../routes/apiRoutes';
 import Toast from '../../../uikit/Toast/Toast';
 
 export const loginMiddleWare = createAsyncThunk(
   LOGIN,
-  async ({Username, Password, DeviceToken}, {rejectWithValue}) => {
+  async ({Username, Password, DeviceToken,CurrentAppVersion}, {rejectWithValue}) => {
     try {
       const {data} = await axios.post(loginApi, {
         Username,
         Password,
         DeviceToken,
+        CurrentAppVersion
       });
       return data;
     } catch (error) {
@@ -39,6 +41,20 @@ export const calculateLocationDistanceMiddleWare = createAsyncThunk(
     } catch (error) {
       Toast(error.response.data[0].Message, 'error');
       const typedError = error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+
+export const getCurrentVersionMiddleWare = createAsyncThunk(
+  GET_CURRENT_VERSION,
+  async (_a, {rejectWithValue}) => {
+    try {
+      const {data} = await axios.get(getVersionApi);
+      return data;
+    } catch (error) {
+      const typedError = error ;
       return rejectWithValue(typedError);
     }
   },

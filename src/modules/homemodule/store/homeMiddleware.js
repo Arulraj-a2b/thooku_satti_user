@@ -1,7 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import axios from 'axios';
-import {GET_RESTAURANT_LIST} from '../../../actions/actions';
-import {getRestaurantListApi} from '../../../routes/apiRoutes';
+import {GET_RESTAURANT_LIST,CHECK_LATEST_VERSION} from '../../../actions/actions';
+import {checkVersionApi, getRestaurantListApi} from '../../../routes/apiRoutes';
 import Toast from '../../../uikit/Toast/Toast';
 
 export const getRestaurantListMiddleWare = createAsyncThunk(
@@ -17,6 +17,24 @@ export const getRestaurantListMiddleWare = createAsyncThunk(
     } catch (error) {
       Toast(error.response.data[0].Message, 'error');
       const typedError = error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+
+export const checkLatestVersionMiddleWare = createAsyncThunk(
+  CHECK_LATEST_VERSION,
+  async ({UserId}, {rejectWithValue}) => {
+    try {
+      const {data} = await axios.get(checkVersionApi, {
+        params: {
+          UserId,
+        },
+      });
+      return data;
+    } catch (error) {
+      const typedError = error ;
       return rejectWithValue(typedError);
     }
   },

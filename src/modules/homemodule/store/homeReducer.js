@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {getRestaurantListMiddleWare} from './homeMiddleware';
+import {checkLatestVersionMiddleWare, getRestaurantListMiddleWare} from './homeMiddleware';
 
 const getRestaurantListState = {
   isLoading: false,
@@ -38,4 +38,40 @@ const getRestaurantListReducer = createSlice({
   },
 });
 
+
+const checkLatestInitialState = {
+  isLoading: false,
+  error: '',
+  data: [
+    {
+      VersionNo: '',
+      Message: '',
+    },
+  ],
+};
+
+const checkLatestVersionReducer = createSlice({
+  name: 'home_version_check',
+  initialState:checkLatestInitialState,
+  reducers: {},
+  extraReducers: builder => {
+    builder.addCase(checkLatestVersionMiddleWare.pending, state => {
+      state.isLoading = true;
+      state.error = '';
+    });
+    builder.addCase(checkLatestVersionMiddleWare.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.data = action.payload;
+    });
+    builder.addCase(checkLatestVersionMiddleWare.rejected, (state, action) => {
+      state.isLoading = false;
+      if (typeof action.payload === 'string') {
+        state.error = action.payload;
+      }
+    });
+  },
+});
+
+
 export const getRestaurantListReducers = getRestaurantListReducer.reducer;
+export const checkLatestVersionReducers = checkLatestVersionReducer.reducer;

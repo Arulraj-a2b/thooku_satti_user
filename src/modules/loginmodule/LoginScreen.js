@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Keyboard,
   ScrollView,
@@ -7,6 +7,7 @@ import {
   View,
 } from 'react-native';
 import {useFormik} from 'formik';
+// import Clipboard from '@react-native-community/clipboard';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -23,7 +24,10 @@ import {
   THIS_FIELD_REQUIRED,
 } from '../../uikit/UikitUtils/constants';
 import {isEmpty, isValidEmail} from '../../uikit/UikitUtils/validators';
-import {loginMiddleWare} from './store/loginScreenMiddleware';
+import {
+  getCurrentVersionMiddleWare,
+  loginMiddleWare,
+} from './store/loginScreenMiddleware';
 import Loader from '../../uikit/Loader/Loader';
 import SvgEye from '../../icons/SvgEye';
 import SvgEyeOutline from '../../icons/SvgEyleOutLine';
@@ -72,11 +76,18 @@ const LoginScreen = () => {
 
   useAuthCheck(setLoader);
 
-  const {isLoading} = useSelector(({loginReducers}) => {
-    return {
-      isLoading: loginReducers.isLoading,
-    };
-  });
+  useEffect(() => {
+    dispatch(getCurrentVersionMiddleWare());
+  }, []);
+
+  const {isLoading, getCurrentVersionData, getCurrentVersionLoading} =
+    useSelector(({loginReducers, getCurrentVersionReducers}) => {
+      return {
+        isLoading: loginReducers.isLoading,
+        getCurrentVersionData: getCurrentVersionReducers.data,
+        getCurrentVersionLoading: getCurrentVersionReducers.isLoading,
+      };
+    });
 
   const handleSubmit = async value => {
     await AsyncStorage.getItem('fcmToken').then(tokenRes => {
@@ -85,6 +96,8 @@ const LoginScreen = () => {
           Username: value.email,
           Password: value.password,
           DeviceToken: tokenRes,
+          CurrentAppVersion:
+            getCurrentVersionData && getCurrentVersionData[0].VersionNo,
         }),
       ).then(res => {
         if (
@@ -104,6 +117,12 @@ const LoginScreen = () => {
     });
   };
 
+  // const handleToken = async () => {
+  //   await AsyncStorage.getItem('fcmToken').then(tokenRes => {
+  //     Clipboard.setString(tokenRes);
+  //   });
+  // };
+
   const handleValidate = values => {
     const errors = {};
     if (isEmpty(values.email)) {
@@ -122,18 +141,21 @@ const LoginScreen = () => {
     onSubmit: handleSubmit,
     validate: handleValidate,
   });
+
   if (isLoader) {
     return <Loader />;
   }
+  
   return (
     <Flex flex={1}>
-      {isLoading && <Loader />}
+      {(isLoading || getCurrentVersionLoading) && <Loader />}
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}>
         <Flex center middle overrideStyle={styles.logoContainer}>
           <SvgLogo width={350} height={130} />
         </Flex>
+        {/* <TouchableOpacity onPress={handleToken}><Text>Copy Token</Text></TouchableOpacity> */}
         <Flex flex={1} between>
           <Flex overrideStyle={[styles.inputContainer]}>
             <Text size={20} bold overrideStyle={styles.loginText}>

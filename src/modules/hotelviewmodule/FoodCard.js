@@ -1,6 +1,5 @@
 import React, {memo, useEffect, useState} from 'react';
-import {Image, StyleSheet, View} from 'react-native';
-import SvgFav from '../../icons/SvgFav';
+import {Image, StyleSheet} from 'react-native';
 import SvgStar from '../../icons/SvgStar';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
@@ -67,6 +66,8 @@ const styles = StyleSheet.create({
     paddingTop: 24,
     borderBottomRightRadius: 8,
     borderBottomLeftRadius: 8,
+  },
+  borderTop: {
     borderTopWidth: 1,
     borderTopColor: BORDER_COLOR,
   },
@@ -83,6 +84,9 @@ const FoodCard = ({index, totalLength, item, handleAddCart}) => {
     handleAddCart(item.HotelID, item.FoodID, value);
   };
 
+  const checkImage =
+    !isEmpty(item.FoodImage) &&
+    item.FoodImage !== 'http://www.dindigulthookusatti.com/images/dummy.png';
   return (
     <Card
       overrideStyle={[
@@ -91,42 +95,21 @@ const FoodCard = ({index, totalLength, item, handleAddCart}) => {
       ]}>
       <Flex>
         <Flex overrideStyle={styles.imageContainer}>
-          {!isEmpty(item.FoodImage) && (
+          {checkImage && (
             <Image
               resizeMode="contain"
               source={{uri: item.FoodImage}}
               style={styles.imageStyle}
             />
           )}
-
-          <View style={styles.priceContainer}>
-            <Flex row center between>
-              <Card overrideStyle={styles.ratingBox}>
-                <Flex center middle>
-                  <Text size={14} bold>
-                    ₹ {isFinancial(item.Price)}
-                  </Text>
-                </Flex>
-              </Card>
-
-              <Card overrideStyle={styles.svgFavStye}>
-                <SvgFav fill={WHITE} />
-              </Card>
-            </Flex>
-          </View>
-          <View style={styles.ratingContainer}>
-            <Card overrideStyle={styles.ratingBox}>
-              <Flex row center middle>
-                <SvgStar />
-                <Text bold overrideStyle={{marginLeft: 4}}>
-                  {item.Rating}
-                </Text>
-              </Flex>
-            </Card>
-          </View>
         </Flex>
 
-        <Flex middle overrideStyle={styles.nameListContainer}>
+        <Flex
+          middle
+          overrideStyle={[
+            styles.nameListContainer,
+            checkImage ? styles.borderTop : {},
+          ]}>
           {item.IsRecommand !== 'N' && (
             <Flex row center overrideStyle={{marginLeft: 4}}>
               <SvgStar fill={PRIMARY} />
@@ -140,23 +123,40 @@ const FoodCard = ({index, totalLength, item, handleAddCart}) => {
             </Flex>
           )}
           <Flex row center between>
-            <Flex flex={8}>
+            <Flex flex={9}>
               <Text bold size={14}>
-                {item.FoodName} {item.FoodName}
+                {item.FoodName}
               </Text>
             </Flex>
-            <Stepper
-              value={isCount}
-              onChange={setCount}
-              onSubmit={handleSubmit}
-            />
+            <Flex flex={3} center>
+              <Text size={14} bold>
+                ₹ {isFinancial(item.Price)}
+              </Text>
+            </Flex>
           </Flex>
-          <Text
-            transform={'capitalize'}
-            color="gray"
-            overrideStyle={{marginTop: 2}}>
-            {item.CategoryName}
-          </Text>
+          <Flex row center between overrideStyle={{marginTop: 8}}>
+            <Flex row center flex={9}>
+              <Text
+                transform={'capitalize'}
+                color="gray"
+                overrideStyle={{marginTop: 2, marginRight: 4}}>
+                {item.CategoryName}
+              </Text>
+              <Flex row center middle>
+                <SvgStar />
+                <Text bold overrideStyle={{marginLeft: 4}}>
+                  {item.Rating}
+                </Text>
+              </Flex>
+            </Flex>
+            <Flex flex={3} center>
+              <Stepper
+                value={isCount}
+                onChange={setCount}
+                onSubmit={handleSubmit}
+              />
+            </Flex>
+          </Flex>
         </Flex>
       </Flex>
     </Card>

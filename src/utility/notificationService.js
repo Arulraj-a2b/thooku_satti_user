@@ -7,7 +7,7 @@ import {navigationRef} from '../../App';
 import {getUpComingOrderMiddleWare} from '../modules/myordermodule/store/myOrderMiddleware';
 
 export const handleNotification = message => {
-  PushNotification.cancelAllLocalNotifications();
+  // PushNotification.cancelAllLocalNotifications();
   PushNotification.localNotification({
     channelId: 'fcm_fallback_notification_channel',
     title: message.notification.title,
@@ -81,6 +81,7 @@ export const notificationListener = async navigation => {
   messaging()
     .getInitialNotification()
     .then(res => {
+      // console.log('notification',res);
       if (res && res.data) {
         navigation.navigate(routesPath.ALL_SCREEN, {
           screen: routesPath.ORDER_DETAILS_SCREEN,
@@ -93,6 +94,7 @@ export const notificationListener = async navigation => {
 export const localNotificationNavigate = (navigation, dispatch) => {
   PushNotification.configure({
     onNotification: function (notification) {
+      // console.log('notification',notification);
       if (notification && notification.userInteraction) {
         navigation.navigate(routesPath.ALL_SCREEN, {
           screen: routesPath.ORDER_DETAILS_SCREEN,

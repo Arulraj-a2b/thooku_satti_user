@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Flex from '../../uikit/Flex/Flex';
 import Loader from '../../uikit/Loader/Loader';
 import {WHITE} from '../../uikit/UikitUtils/colors';
@@ -8,6 +8,8 @@ import HotelList from './HotelList';
 import HomePlaceHolder from './HomePlaceHolder';
 import ReplaceModal from './ReplaceModal';
 import Text from '../../uikit/Text/Text';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {checkLatestVersionMiddleWare} from './store/homeMiddleware';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -21,10 +23,44 @@ const styles = StyleSheet.create({
 });
 
 const HomeScreen = ({navigation}) => {
+  const dispatch = useDispatch();
   const [isAll, setAll] = useState(false);
   const [isSearch, setSearch] = useState('');
   const [isSelectHotelName, setSelectHotelName] = useState({name: '', id: ''});
   const [isCheckCart, setCheckCart] = useState(false);
+  const [isLoader, setLoader] = useState(true);
+
+  const getUserData = async () => {
+    setLoader(true);
+    await AsyncStorage.getItem('userData').then(userRes => {
+      const userDetails = JSON.parse(userRes);
+      dispatch(
+        checkLatestVersionMiddleWare({
+          UserId: userDetails && userDetails.UserID,
+        }),
+      )
+        .then(res => {
+          console.log('res',res);
+          setLoader(false);
+          Alert.alert('Update', res.payload[0].Message, [
+            {
+              text: 'Later',
+              onPress: () => {},
+            },
+            {
+              text: 'Update',
+              onPress: () => {},
+            },
+          ]);
+        })
+        .catch(() => {
+          setLoader(false);
+        });
+    });
+  };
+  useEffect(() => {
+    getUserData();
+  }, []);
 
   const {
     isLoading,
@@ -69,7 +105,7 @@ const HomeScreen = ({navigation}) => {
   }
   return (
     <Flex overrideStyle={styles.overAll}>
-      {checkCartLoading && <Loader />}
+      {(checkCartLoading || isLoader) && <Loader />}
 
       {getCartDetails.length !== 0 && (
         <ReplaceModal

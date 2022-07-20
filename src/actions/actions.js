@@ -1,5 +1,6 @@
 export const LOGIN = 'login/LOGIN';
 export const CALCULATE_LOCATION = 'login/CALCULATE_LOCATION';
+export const GET_CURRENT_VERSION = 'login/GET_CURRENT_VERSION';
 
 export const SIGNIN = 'signin/SIGNIN';
 
@@ -8,6 +9,7 @@ export const VERIFY_OTP = 'forgot/VERIFY_OTP';
 export const CHANGE_PASSWORD = 'forgot/CHANGE_PASSWORD';
 
 export const GET_RESTAURANT_LIST = 'home/GET_RESTAURANT_LIST';
+export const CHECK_LATEST_VERSION = 'home/CHECK_LATEST_VERSION';
 
 export const GET_FOOD_ITEMS = 'hotel_view/GET_FOOD_ITEMS';
 export const GET_CATEGORY_LIST = 'hotel_view/GET_CATEGORY_LIST';

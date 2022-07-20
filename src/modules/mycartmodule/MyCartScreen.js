@@ -1,7 +1,7 @@
 import {useFocusEffect} from '@react-navigation/native';
 import {useFormik} from 'formik';
 import React, {createRef, useCallback, useEffect, useState} from 'react';
-import {FlatList, StyleSheet} from 'react-native';
+import {FlatList, Keyboard, StyleSheet} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import Flex from '../../uikit/Flex/Flex';
 import Loader from '../../uikit/Loader/Loader';
@@ -104,6 +104,7 @@ const MyCartScreen = ({navigation}) => {
   });
 
   const handleCheckOut = value => {
+    Keyboard.dismiss()
     dispatch(
       checkOutMiddleWare({
         ExtraNotes: value.notes,

@@ -28,7 +28,6 @@ export const useAuthCheck = setLoader => {
       if (geoLocation) {
         if (userData.loggedIn) {
           axios.defaults.headers.common['token'] = userData.SessionID;
-
           dispatch(
             calculateLocationDistanceMiddleWare({
               Latitude: geoLocation.latitude,
@@ -52,18 +51,18 @@ export const useAuthCheck = setLoader => {
           dispatch(getCartDetailsMiddleWare());
         } else {
           setLoader(false);
-          setTimeout(() => {
-            SplashScreen.hide();
-            navigation.navigate(routesPath.MAP_VIEW_SCREEN);
-          }, 1000);
+          navigation.navigate(routesPath.MAP_VIEW_SCREEN);
+          SplashScreen.hide();
         }
+      } else {
+        setLoader(false);
+        navigation.navigate(routesPath.MAP_VIEW_SCREEN);
+        SplashScreen.hide();
       }
     } catch (error) {
       setLoader(false);
-      setTimeout(() => {
-        SplashScreen.hide();
-        navigation.navigate(routesPath.MAP_VIEW_SCREEN);
-      }, 1000);
+      navigation.navigate(routesPath.MAP_VIEW_SCREEN);
+      SplashScreen.hide();
     }
   };
   useEffect(() => {

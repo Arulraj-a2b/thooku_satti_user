@@ -1,12 +1,16 @@
 import {
   loginReducers,
   calculateLocationDistanceReducers,
+  getCurrentVersionReducers,
 } from '../modules/loginmodule/store/loginReducer';
 import {
   forgotEamilOtpReducers,
   emailOtpVerifyReducers,
 } from '../modules/forgotpasswordmodule/store/forgotReducer';
-import {getRestaurantListReducers} from '../modules/homemodule/store/homeReducer';
+import {
+  getRestaurantListReducers,
+  checkLatestVersionReducers,
+} from '../modules/homemodule/store/homeReducer';
 import {getAddressReducers} from '../modules/mapmodule/store/mapReducer';
 import {
   getFoodItemsReducers,
@@ -42,4 +46,6 @@ export const reducers = {
   checkCartExistReducers,
   getTNCReducers,
   calculateLocationDistanceReducers,
+  getCurrentVersionReducers,
+  checkLatestVersionReducers,
 };

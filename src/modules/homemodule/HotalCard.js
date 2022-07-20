@@ -97,7 +97,7 @@ const HotalCard = ({
             hotelId: item.HotelID,
           });
         } else {
-          setSelectHotelName({name:item.HotelName,id:item.HotelID});
+          setSelectHotelName({name: item.HotelName, id: item.HotelID});
           setCheckCart(true);
         }
       });
@@ -131,11 +131,11 @@ const HotalCard = ({
                     </Text>
                   </Flex>
                 </Card>
-                <TouchableOpacity>
+                {/* <TouchableOpacity>
                   <Card overrideStyle={styles.svgFavStye}>
                     <SvgFav fill={WHITE} />
                   </Card>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </Flex>
             </View>
           </Flex>

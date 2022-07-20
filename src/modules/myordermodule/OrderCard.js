@@ -81,7 +81,7 @@ const OrderCard = ({item, isTrack}) => {
             {/* <Button flex={6} types="secondary" overrideStyle={styles.cancelBtn}>
         Cancel
       </Button> */}
-            <Button>Track Order</Button>
+            <Button onClick={() => handleViewDetails(item.OrderID)}>Track Order</Button>
           </Flex>
         )}
       </Flex>
