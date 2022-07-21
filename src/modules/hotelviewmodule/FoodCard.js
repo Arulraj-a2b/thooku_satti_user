@@ -84,9 +84,8 @@ const FoodCard = ({index, totalLength, item, handleAddCart}) => {
     handleAddCart(item.HotelID, item.FoodID, value);
   };
 
-  const checkImage =
-    !isEmpty(item.FoodImage) &&
-    item.FoodImage !== 'http://www.dindigulthookusatti.com/images/dummy.png';
+  const checkImage = item.IsRecommand === 'N' ? false: true
+
   return (
     <Card
       overrideStyle={[
@@ -142,12 +141,6 @@ const FoodCard = ({index, totalLength, item, handleAddCart}) => {
                 overrideStyle={{marginTop: 2, marginRight: 4}}>
                 {item.CategoryName}
               </Text>
-              <Flex row center middle>
-                <SvgStar />
-                <Text bold overrideStyle={{marginLeft: 4}}>
-                  {item.Rating}
-                </Text>
-              </Flex>
             </Flex>
             <Flex flex={3} center>
               <Stepper

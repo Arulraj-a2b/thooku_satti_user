@@ -22,15 +22,15 @@ export const signInMiddleWare = createAsyncThunk(
           Password,
           City,
         },
-        {
-          transformRequest: [
-            (data, headers) => {
-              delete headers.common.token;
+        // {
+        //   transformRequest: [
+        //     (data, headers) => {
+        //       delete headers.common.token;
 
-              return data;
-            },
-          ],
-        },
+        //       return data;
+        //     },
+        //   ],
+        // },
       );
       return data;
     } catch (error) {
