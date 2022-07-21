@@ -7,7 +7,7 @@ import {navigationRef} from '../../App';
 import {getUpComingOrderMiddleWare} from '../modules/myordermodule/store/myOrderMiddleware';
 
 export const handleNotification = message => {
-  // PushNotification.cancelAllLocalNotifications();
+  PushNotification.cancelAllLocalNotifications();
   PushNotification.localNotification({
     channelId: 'fcm_fallback_notification_channel',
     title: message.notification.title,

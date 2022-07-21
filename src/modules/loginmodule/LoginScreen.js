@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 import {useFormik} from 'formik';
-// import Clipboard from '@react-native-community/clipboard';
+import Clipboard from '@react-native-community/clipboard';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -117,11 +117,11 @@ const LoginScreen = () => {
     });
   };
 
-  // const handleToken = async () => {
-  //   await AsyncStorage.getItem('fcmToken').then(tokenRes => {
-  //     Clipboard.setString(tokenRes);
-  //   });
-  // };
+  const handleToken = async () => {
+    await AsyncStorage.getItem('fcmToken').then(tokenRes => {
+      Clipboard.setString(tokenRes);
+    });
+  };
 
   const handleValidate = values => {
     const errors = {};

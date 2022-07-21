@@ -70,18 +70,16 @@ const OrderCard = ({item, isTrack}) => {
         </Flex>
         <Flex row center overrideStyle={styles.statusFlex}>
           <Text>Status: </Text>
-          {isEmpty(item.LiveStatus) ? (
-            <Text color="gray">Waiting for accepet</Text>
-          ) : (
-            <Text color="gray">Food on the way</Text>
-          )}
+          <Text color="gray">{item.LiveStatus}</Text>
         </Flex>
         {isTrack && (
           <Flex center overrideStyle={styles.btnContainer}>
             {/* <Button flex={6} types="secondary" overrideStyle={styles.cancelBtn}>
         Cancel
       </Button> */}
-            <Button onClick={() => handleViewDetails(item.OrderID)}>Track Order</Button>
+            <Button onClick={() => handleViewDetails(item.OrderID)}>
+              Track Order
+            </Button>
           </Flex>
         )}
       </Flex>
