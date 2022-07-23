@@ -1,5 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {
+  getDiningListMiddleWare,
   getHistoryOrdersMiddleWare,
   getOrderDetailsMiddleWare,
   getUpComingOrderMiddleWare,
@@ -89,6 +90,36 @@ const getOrderDetailsReducer = createSlice({
   },
 });
 
+const getDiningListDetailsState = {
+  isLoading: false,
+  error: '',
+  data: [],
+};
+
+const getDiningListReducer = createSlice({
+  name: 'getDiningList',
+  initialState: getDiningListDetailsState,
+  reducers: {},
+  extraReducers: builder => {
+    builder.addCase(getDiningListMiddleWare.pending, state => {
+      state.isLoading = true;
+      state.error = '';
+    });
+    builder.addCase(getDiningListMiddleWare.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.data = action.payload;
+    });
+    builder.addCase(getDiningListMiddleWare.rejected, (state, action) => {
+      state.isLoading = false;
+      if (typeof action.payload === 'string') {
+        state.error = action.payload;
+      }
+    });
+  },
+});
+
 export const getUpComingOrderReducers = getUpComingOrderReducer.reducer;
 export const getOrderDetailsReducers = getOrderDetailsReducer.reducer;
 export const getHistoryOrdersReducers = getHistoryOrdersReducer.reducer;
+export const getDiningListReducers = getDiningListReducer.reducer;
+

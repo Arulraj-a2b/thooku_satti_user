@@ -1,6 +1,7 @@
 export const LOGIN = 'login/LOGIN';
 export const CALCULATE_LOCATION = 'login/CALCULATE_LOCATION';
 export const GET_CURRENT_VERSION = 'login/GET_CURRENT_VERSION';
+export const GET_ABOUT = 'login/GET_ABOUT';
 
 export const SIGNIN = 'signin/SIGNIN';
 
@@ -25,5 +26,6 @@ export const GET_TNC = 'my_cart/GET_TNC';
 export const MY_ORDER_UP_COMINNG = 'my_order/MY_ORDER_UP_COMINNG';
 export const MY_ORDER_HISTORY = 'my_order/getHistoryOrdersApi';
 export const GET_ORDER_DETAILS = 'my_order/GET_ORDER_DETAILS';
+export const GET_DINING_LIST = 'my_order/GET_DINING_LIST';
 
 export const DINININ_BOOKING = 'table/DINININ_BOOKING';

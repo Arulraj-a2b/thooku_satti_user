@@ -1,5 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {
+  aboutMiddleWare,
   calculateLocationDistanceMiddleWare,
   getCurrentVersionMiddleWare,
   loginMiddleWare,
@@ -100,7 +101,36 @@ const getCurrentVersionReducer = createSlice({
   },
 });
 
+const aboutInitialState = {
+  isLoading: false,
+  error: '',
+  data: [{Title: '', FounderName: '', Content: ''}],
+};
+
+const aboutReducer = createSlice({
+  name: 'about_as',
+  initialState: aboutInitialState,
+  reducers: {},
+  extraReducers: builder => {
+    builder.addCase(aboutMiddleWare.pending, state => {
+      state.isLoading = true;
+      state.error = '';
+    });
+    builder.addCase(aboutMiddleWare.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.data = action.payload;
+    });
+    builder.addCase(aboutMiddleWare.rejected, (state, action) => {
+      state.isLoading = false;
+      if (typeof action.payload === 'string') {
+        state.error = action.payload;
+      }
+    });
+  },
+});
+
 export const getCurrentVersionReducers = getCurrentVersionReducer.reducer;
 export const loginReducers = loginReducer.reducer;
 export const calculateLocationDistanceReducers =
   calculateLocationDistanceReducer.reducer;
+export const aboutReducers = aboutReducer.reducer;

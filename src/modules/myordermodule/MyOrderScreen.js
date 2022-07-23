@@ -4,6 +4,7 @@ import {StyleSheet, TouchableOpacity} from 'react-native';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import {BORDER_COLOR, SECONDARY, WHITE} from '../../uikit/UikitUtils/colors';
+import DiningListScreen from './DiningListScreen';
 import HistoryOrder from './HistoryOrder';
 import UpComingOrder from './UpComingOrder';
 
@@ -34,22 +35,26 @@ const styles = StyleSheet.create({
   },
 });
 const MyOrderScreen = () => {
-  const [isTab, setTab] = useState(false);
+  const [isTab, setTab] = useState('upcoming');
   const [isLoader, setLoader] = useState(true);
 
   useFocusEffect(
     useCallback(() => {
-      setTab(false);
+      setTab('upcoming');
       setLoader(true);
     }, []),
   );
   const handleUpComing = () => {
     setLoader(true);
-    setTab(false);
+    setTab('upcoming');
   };
   const handleHistory = () => {
     setLoader(true);
-    setTab(true);
+    setTab('history');
+  };
+  const handleDining = () => {
+    setLoader(true);
+    setTab('dining');
   };
 
   return (
@@ -57,19 +62,34 @@ const MyOrderScreen = () => {
       <Flex row center overrideStyle={styles.tabContainer}>
         <TouchableOpacity
           onPress={handleUpComing}
-          style={[!isTab ? styles.tabFocus : {}, styles.tabCommon]}>
+          style={[
+            isTab === 'upcoming' ? styles.tabFocus : {},
+            styles.tabCommon,
+          ]}>
           <Text bold>Upcoming</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={handleHistory}
-          style={[isTab ? styles.tabFocus : {}, styles.tabCommon]}>
+          style={[
+            isTab === 'history' ? styles.tabFocus : {},
+            styles.tabCommon,
+          ]}>
           <Text bold>History</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          onPress={handleDining}
+          style={[isTab === 'dining' ? styles.tabFocus : {}, styles.tabCommon]}>
+          <Text bold>Dining List</Text>
+        </TouchableOpacity>
       </Flex>
-      {!isTab ? (
+      {isTab === 'upcoming' && (
         <UpComingOrder isLoader={isLoader} setLoader={setLoader} />
-      ) : (
+      )}
+      {isTab === 'history' && (
         <HistoryOrder isLoader={isLoader} setLoader={setLoader} />
+      )}
+      {isTab === 'dining' && (
+        <DiningListScreen isLoader={isLoader} setLoader={setLoader} />
       )}
     </Flex>
   );

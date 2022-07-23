@@ -2,6 +2,7 @@ import {
   loginReducers,
   calculateLocationDistanceReducers,
   getCurrentVersionReducers,
+  aboutReducers
 } from '../modules/loginmodule/store/loginReducer';
 import {
   forgotEamilOtpReducers,
@@ -27,6 +28,7 @@ import {
   getUpComingOrderReducers,
   getOrderDetailsReducers,
   getHistoryOrdersReducers,
+  getDiningListReducers
 } from '../modules/myordermodule/store/myOrderReducer';
 
 export const reducers = {
@@ -48,4 +50,6 @@ export const reducers = {
   calculateLocationDistanceReducers,
   getCurrentVersionReducers,
   checkLatestVersionReducers,
+  aboutReducers,
+  getDiningListReducers
 };

@@ -18,6 +18,7 @@ export const routesPath = {
   FAVOURITE_SCREEN: 'FavouriteScreen',
   ORDER_DETAILS_SCREEN: 'OrderDetailsScreen',
   BOOKING_TABLE_SCREEN: 'TableBookingScreen',
+  ABOUT_SCREEN: 'AboutScreen',
 };
 
 export const stacks = {

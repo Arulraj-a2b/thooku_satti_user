@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Keyboard,
   ScrollView,
@@ -54,8 +54,11 @@ const styles = StyleSheet.create({
 });
 
 const TableBookingScreen = () => {
+  const addHoursToDate = (date, hours) => {
+    return new Date(new Date(date).setHours(date.getHours() + hours));
+  };
   const [isDate, setDate] = useState(new Date(1598051730000));
-  const [isTime, setTime] = useState(new Date(1598051730000));
+  const [isTime, setTime] = useState(addHoursToDate(new Date(), 2));
   const [value, setValue] = useState(null);
   const [isLoader, setLoader] = useState(false);
   const [isSuccess, setSuccess] = useState(false);

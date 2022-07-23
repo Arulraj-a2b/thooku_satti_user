@@ -117,14 +117,13 @@ const DrawerContent = props => {
     //   title: 'Delivery Address',
     //   icon: <SvgLocation3 height={24}/>,
     // },
-    // {
-    //   route: () => {
-    //     props.navigation.navigate(routesPath.HOME_SCREEN);
-    //   },
-    //   title: 'Contact Us',
-    //   icon: <SvgContacts />,
-    //   // focus: currentRoute === 'DashBoard',
-    // },
+    {
+      route: () => {
+        props.navigation.navigate(routesPath.ABOUT_SCREEN);
+      },
+      title: 'About Us',
+      icon: <SvgContacts />,
+    },
     // {
     //   route: () => {
     //     props.navigation.navigate(routesPath.HOME_SCREEN);

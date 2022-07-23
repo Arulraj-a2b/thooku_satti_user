@@ -1,7 +1,8 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import axios from 'axios';
-import {CALCULATE_LOCATION, LOGIN,GET_CURRENT_VERSION} from '../../../actions/actions';
+import {CALCULATE_LOCATION, LOGIN,GET_CURRENT_VERSION, GET_ABOUT} from '../../../actions/actions';
 import {
+  aboutApi,
   calculateLocationDistanceApi,
   getVersionApi,
   loginApi,
@@ -52,6 +53,20 @@ export const getCurrentVersionMiddleWare = createAsyncThunk(
   async (_a, {rejectWithValue}) => {
     try {
       const {data} = await axios.get(getVersionApi);
+      return data;
+    } catch (error) {
+      const typedError = error ;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+
+export const aboutMiddleWare = createAsyncThunk(
+  GET_ABOUT,
+  async (_a, {rejectWithValue}) => {
+    try {
+      const {data} = await axios.get(aboutApi);
       return data;
     } catch (error) {
       const typedError = error ;
