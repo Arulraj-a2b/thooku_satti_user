@@ -23,6 +23,8 @@ target 'thooku_satti' do
 
   pod 'react-native-geolocation', :path => '../node_modules/@react-native-community/geolocation'
 
+  pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
+
   target 'thooku_sattiTests' do
     inherit! :complete
     # Pods for testing

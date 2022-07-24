@@ -1,11 +1,12 @@
 import {useFocusEffect} from '@react-navigation/native';
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import HomePlaceHolder from '../homemodule/HomePlaceHolder';
 import DiningCard from './DiningCard';
+import DiningUpload from './DiningUpload';
 import {getDiningListMiddleWare} from './store/myOrderMiddleware';
 
 const styles = StyleSheet.create({
@@ -19,6 +20,7 @@ const styles = StyleSheet.create({
   },
 });
 const DiningListScreen = ({setLoader, isLoader}) => {
+  const [isUpload, setUpload] = useState(false);
   const dispatch = useDispatch();
   useFocusEffect(
     useCallback(() => {
@@ -40,6 +42,7 @@ const DiningListScreen = ({setLoader, isLoader}) => {
 
   return (
     <Flex flex={1}>
+      <DiningUpload open={isUpload} close={() => setUpload(false)} />
       <FlatList
         onEndReachedThreshold={0.1}
         style={styles.flatListOverAll}
@@ -52,7 +55,9 @@ const DiningListScreen = ({setLoader, isLoader}) => {
             </Text>
           </Flex>
         }
-        renderItem={({item}) => <DiningCard item={item} />}
+        renderItem={({item}) => (
+          <DiningCard item={item} setUpload={setUpload} />
+        )}
       />
     </Flex>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import Card from '../../uikit/Card/Card';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
@@ -36,7 +36,7 @@ export const ListText = ({name, value}) => {
   );
 };
 
-const DiningCard = ({item}) => {
+const DiningCard = ({item, setUpload}) => {
   return (
     <Card overrideStyle={styles.overAll}>
       <ListText name="Customer Name" value={item?.Name} />
@@ -51,6 +51,13 @@ const DiningCard = ({item}) => {
         <ListText name="Phonepe Number" value={item?.PhoePayNo} />
       )}
       {!isEmpty(item?.Notes) && <ListText name="Notes" value={item?.Notes} />}
+      <TouchableOpacity
+        style={{justifyContent: 'center', alignItems: 'center'}}
+        onPress={() => {
+          setUpload(true);
+        }}>
+        <Text bold color="link">Upload Bill</Text>
+      </TouchableOpacity>
     </Card>
   );
 };
