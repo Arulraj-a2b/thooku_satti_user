@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
 });
 const DiningListScreen = ({setLoader, isLoader}) => {
   const [isUpload, setUpload] = useState(false);
+  const [isBookingId, setBookingId] = useState('');
   const dispatch = useDispatch();
   useFocusEffect(
     useCallback(() => {
@@ -42,7 +43,7 @@ const DiningListScreen = ({setLoader, isLoader}) => {
 
   return (
     <Flex flex={1}>
-      <DiningUpload open={isUpload} close={() => setUpload(false)} />
+      <DiningUpload isBookingId={isBookingId} open={isUpload} close={() => setUpload(false)} />
       <FlatList
         onEndReachedThreshold={0.1}
         style={styles.flatListOverAll}
@@ -56,7 +57,7 @@ const DiningListScreen = ({setLoader, isLoader}) => {
           </Flex>
         }
         renderItem={({item}) => (
-          <DiningCard item={item} setUpload={setUpload} />
+          <DiningCard setBookingId={setBookingId} item={item} setUpload={setUpload} />
         )}
       />
     </Flex>

@@ -28,6 +28,6 @@ export const diningBookingApi = fetchUrl('Mobapi/DiningBooking');
 export const getVersionApi = fetchUrl(`Mobapi/GetCurrentVersion`);
 export const checkVersionApi = fetchUrl('Mobapi/CheckLatestVersion');
 
-
-export const aboutApi=fetchUrl('Mobapi/GetAboutus');
-export const getDiningListApi=fetchUrl('Mobapi/GetSpecificUserDining')
+export const aboutApi = fetchUrl('Mobapi/GetAboutus');
+export const getDiningListApi = fetchUrl('Mobapi/GetSpecificUserDining');
+export const uploadBillApi = fetchUrl(`Mobapi/UploadBill`);

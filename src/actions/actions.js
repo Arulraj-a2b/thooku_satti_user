@@ -27,5 +27,6 @@ export const MY_ORDER_UP_COMINNG = 'my_order/MY_ORDER_UP_COMINNG';
 export const MY_ORDER_HISTORY = 'my_order/getHistoryOrdersApi';
 export const GET_ORDER_DETAILS = 'my_order/GET_ORDER_DETAILS';
 export const GET_DINING_LIST = 'my_order/GET_DINING_LIST';
+export const UPLOAD_BILL = 'my_order/UPLOAD_BILL';
 
 export const DINININ_BOOKING = 'table/DINININ_BOOKING';

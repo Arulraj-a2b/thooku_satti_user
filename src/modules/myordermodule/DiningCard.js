@@ -36,7 +36,7 @@ export const ListText = ({name, value}) => {
   );
 };
 
-const DiningCard = ({item, setUpload}) => {
+const DiningCard = ({item, setUpload, setBookingId}) => {
   return (
     <Card overrideStyle={styles.overAll}>
       <ListText name="Customer Name" value={item?.Name} />
@@ -54,9 +54,12 @@ const DiningCard = ({item, setUpload}) => {
       <TouchableOpacity
         style={{justifyContent: 'center', alignItems: 'center'}}
         onPress={() => {
+          setBookingId(item.BookingID);
           setUpload(true);
         }}>
-        <Text bold color="link">Upload Bill</Text>
+        <Text bold color="link">
+          Upload Bill
+        </Text>
       </TouchableOpacity>
     </Card>
   );

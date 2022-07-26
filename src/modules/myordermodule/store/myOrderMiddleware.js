@@ -5,12 +5,14 @@ import {
   GET_ORDER_DETAILS,
   MY_ORDER_HISTORY,
   MY_ORDER_UP_COMINNG,
+  UPLOAD_BILL,
 } from '../../../actions/actions';
 import {
   getDiningListApi,
   getHistoryOrdersApi,
   getOrderDetailsApi,
   getUpComingOrderApi,
+  uploadBillApi,
 } from '../../../routes/apiRoutes';
 
 export const getUpComingOrderMiddleWare = createAsyncThunk(
@@ -61,6 +63,23 @@ export const getDiningListMiddleWare = createAsyncThunk(
   async (_a, {rejectWithValue}) => {
     try {
       const {data} = await axios.get(getDiningListApi);
+      return data;
+    } catch (error) {
+      const typedError = error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+export const uploadBillMiddleWare = createAsyncThunk(
+  UPLOAD_BILL,
+  async ({fromData}, {rejectWithValue}) => {
+    try {
+      const {data} = await axios.post(uploadBillApi, fromData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       return data;
     } catch (error) {
       const typedError = error;
