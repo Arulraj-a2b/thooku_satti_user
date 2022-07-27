@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Modal from 'react-native-modal';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
@@ -14,9 +14,9 @@ import {useDispatch} from 'react-redux';
 import {uploadBillMiddleWare} from './store/myOrderMiddleware';
 import LabelWrapper from '../../uikit/InputText/LabelWrapper';
 import {isEmpty} from '../../uikit/UikitUtils/validators';
-import {THIS_FIELD_REQUIRED} from '../../uikit/UikitUtils/constants';
 import ErrorMessage from '../../uikit/ErrorMessage/ErrorMessage';
 import Toast from '../../uikit/Toast/Toast';
+import Loader from '../../uikit/Loader/Loader';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -34,18 +34,19 @@ const styles = StyleSheet.create({
 });
 
 const DiningUpload = ({open, close, isBookingId}) => {
+  const [isLoader, setLoader] = useState(false);
   const dispatch = useDispatch();
 
   const handleValidate = values => {
     const errors = {};
     if (isEmpty(values.bill)) {
-      errors.bill = THIS_FIELD_REQUIRED;
+      errors.bill = 'Please provide bill amount';
     }
     if (isEmpty(values.billNo)) {
-      errors.billNo = THIS_FIELD_REQUIRED;
+      errors.billNo = 'Please provide bill number';
     }
     if (isEmpty(values.image)) {
-      errors.image = THIS_FIELD_REQUIRED;
+      errors.image = 'Please provide bill photo';
     }
     return errors;
   };
@@ -97,6 +98,7 @@ const DiningUpload = ({open, close, isBookingId}) => {
   };
 
   const handleSubmit = () => {
+    setLoader(true);
     const formData = new FormData();
     formData.append('file', {
       uri: formik.values.image?.uri,
@@ -106,93 +108,107 @@ const DiningUpload = ({open, close, isBookingId}) => {
     formData.append('Billamount', formik.values.bill);
     formData.append('BillRefNo', formik.values.billNo);
     formData.append('BookingID', isBookingId);
-    dispatch(uploadBillMiddleWare({fromData: formData})).then(res => {
-      if (res.payload && res.payload[0].Message === 'Upload Done') {
-        formik.resetForm();
-        close();
-        Toast('Successfully Uploaded');
-      }
-    });
+    dispatch(uploadBillMiddleWare({fromData: formData}))
+      .then(res => {
+        if (res.payload && res.payload[0].Message === 'Upload Done') {
+          formik.resetForm();
+          close();
+          Toast('Successfully Uploaded');
+        }
+        setLoader(false);
+      })
+      .catch(() => {
+        setLoader(false);
+      });
   };
   return (
-    <Modal animationInTiming={0} animationIn="slideInLeft" isVisible={open}>
-      <Card overrideStyle={styles.overAll}>
-        <TouchableOpacity style={styles.svgClose} onPress={close}>
-          <SvgClose height={16} width={16} />
-        </TouchableOpacity>
-        <Flex row overrideStyle={{marginBottom: 8}}>
-          <Text bold>Booking ID: </Text>
-          <Text>{isBookingId}</Text>
-        </Flex>
-        <InputText
-          required
-          types="normal"
-          label={'Total Bill'}
-          value={formik.values.bill}
-          onChange={formik.handleChange('bill')}
-        />
-        <ErrorMessage
-          name={'bill'}
-          touched={formik.touched}
-          errors={formik.errors}
-        />
-        <View style={{marginVertical: 8}}>
+    <>
+      {isLoader && <Loader />}
+      <Modal animationInTiming={0} animationIn="slideInLeft" isVisible={open}>
+        <Card overrideStyle={styles.overAll}>
+          <TouchableOpacity
+            style={styles.svgClose}
+            onPress={() => {
+              formik.resetForm();
+              close();
+            }}>
+            <SvgClose height={16} width={16} />
+          </TouchableOpacity>
+          <Flex row overrideStyle={{marginBottom: 8}}>
+            <Text bold>Booking ID: </Text>
+            <Text>{isBookingId}</Text>
+          </Flex>
           <InputText
+            keyboardType={'number-pad'}
             required
             types="normal"
-            label={'Bill Number'}
-            value={formik.values.billNo}
-            onChange={formik.handleChange('billNo')}
+            label={'Total Bill'}
+            value={formik.values.bill}
+            onChange={formik.handleChange('bill')}
           />
           <ErrorMessage
-            name={'billNo'}
+            name={'bill'}
             touched={formik.touched}
             errors={formik.errors}
           />
-        </View>
-        <LabelWrapper label={'Upload Bill'} required>
-          {isEmpty(formik.values.image) ? (
-            <Flex center>
-              <TouchableOpacity
-                style={{marginBottom: 8}}
-                onPress={handleLaunchCamera}>
-                <Text color="link" bold>
-                  Choose Camera
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={chooseImage}>
-                <Text color="link" bold>
-                  Choose Gallery
-                </Text>
-              </TouchableOpacity>
-            </Flex>
-          ) : (
-            <View>
-              <Image
-                source={{uri: formik.values.image?.uri}}
-                style={{height: 100, width: '100%'}}
-                resizeMode="contain"
-              />
-              <TouchableOpacity
-                style={{marginTop: 8}}
-                onPress={() => formik.setFieldValue('image', '')}>
-                <Text color="link" bold align={'center'}>
-                  Clear
-                </Text>
-              </TouchableOpacity>
-            </View>
-          )}
-        </LabelWrapper>
-        <ErrorMessage
-          name={'image'}
-          touched={formik.touched}
-          errors={formik.errors}
-        />
-        <View style={{marginTop: 20}}>
-          <Button onClick={formik.handleSubmit}>Upload</Button>
-        </View>
-      </Card>
-    </Modal>
+          <View style={{marginVertical: 8}}>
+            <InputText
+              required
+              types="normal"
+              label={'Bill Number'}
+              value={formik.values.billNo}
+              onChange={formik.handleChange('billNo')}
+            />
+            <ErrorMessage
+              name={'billNo'}
+              touched={formik.touched}
+              errors={formik.errors}
+            />
+          </View>
+          <LabelWrapper label={'Upload Bill'} required>
+            {isEmpty(formik.values.image) ? (
+              <Flex center>
+                <TouchableOpacity
+                  style={{marginBottom: 8}}
+                  onPress={handleLaunchCamera}>
+                  <Text color="link" bold>
+                    Choose Camera
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={chooseImage}>
+                  <Text color="link" bold>
+                    Choose Gallery
+                  </Text>
+                </TouchableOpacity>
+              </Flex>
+            ) : (
+              <View>
+                <Image
+                  source={{uri: formik.values.image?.uri}}
+                  style={{height: 100, width: '100%'}}
+                  resizeMode="contain"
+                />
+                <TouchableOpacity
+                  style={{marginTop: 8}}
+                  onPress={() => formik.setFieldValue('image', '')}>
+                  <Text color="link" bold align={'center'}>
+                    Clear
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          </LabelWrapper>
+          <ErrorMessage
+            name={'image'}
+            touched={formik.touched}
+            errors={formik.errors}
+          />
+          <View style={{marginTop: 20}}>
+            <Button onClick={formik.handleSubmit}>Upload</Button>
+          </View>
+        </Card>
+      </Modal>
+    </>
   );
 };
 

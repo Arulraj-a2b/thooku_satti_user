@@ -3,6 +3,8 @@ import {StyleSheet, TouchableOpacity} from 'react-native';
 import Card from '../../uikit/Card/Card';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
+import {INDIAN_RUPEE} from '../../uikit/UikitUtils/constants';
+import {isFinancial} from '../../uikit/UikitUtils/helpers';
 import {isEmpty} from '../../uikit/UikitUtils/validators';
 
 const styles = StyleSheet.create({
@@ -41,8 +43,20 @@ const DiningCard = ({item, setUpload, setBookingId}) => {
     <Card overrideStyle={styles.overAll}>
       <ListText name="Customer Name" value={item?.Name} />
       <ListText name="Customer Phone" value={item?.Contactno} />
+      {!isEmpty(item.Hotelname) && (
+        <ListText name="Hotel Name" value={item?.Hotelname} />
+      )}
       <ListText name="Booking Date" value={item?.BookingDate} />
       <ListText name="Booking ID" value={item?.BookingID} />
+      {!isEmpty(item.NoofAdult) && item.NoofAdult !== 0 && (
+        <ListText name="Number of Adult" value={item?.NoofAdult} />
+      )}
+      {!isEmpty(item.NoofChild) && item.NoofChild !== 0 && (
+        <ListText name="Number of Child" value={item?.NoofChild} />
+      )}
+      {!isEmpty(item.BookingStatus) && (
+        <ListText name="Booking Status" value={item?.BookingStatus} />
+      )}
       <ListText name="Booking Time" value={item?.BookingTime} />
       {!isEmpty(item?.GooglepayNo) && (
         <ListText name="GooglePay Number" value={item?.GooglepayNo} />
@@ -51,6 +65,34 @@ const DiningCard = ({item, setUpload, setBookingId}) => {
         <ListText name="Phonepe Number" value={item?.PhoePayNo} />
       )}
       {!isEmpty(item?.Notes) && <ListText name="Notes" value={item?.Notes} />}
+      {!isEmpty(item.BilluploadStatus) && (
+        <ListText name="Bill Status" value={item?.BilluploadStatus} />
+      )}
+      {!isEmpty(item?.BillRefno) && (
+        <ListText name="Bill Number" value={item?.BillRefno} />
+      )}
+      {!isEmpty(item.Billamount) && item.Billamount !== 0 && (
+        <ListText
+          name="Total Bill"
+          value={INDIAN_RUPEE + isFinancial(item?.Billamount)}
+        />
+      )}
+
+      {!isEmpty(item.BillImagePath) && (
+        <Flex row overrideStyle={{marginBottom: 16}}>
+          <Text bold overrideStyle={styles.nameStyle}>
+            Download Bill
+          </Text>
+          <Text
+            color="link"
+            ellipsizeMode={'tail'}
+            numberOfLines={1}
+            overrideStyle={{width: '57%'}}>
+            {item.BillImagePath}
+          </Text>
+        </Flex>
+      )}
+
       <TouchableOpacity
         style={{justifyContent: 'center', alignItems: 'center'}}
         onPress={() => {

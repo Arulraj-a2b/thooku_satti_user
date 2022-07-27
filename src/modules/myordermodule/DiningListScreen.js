@@ -48,7 +48,7 @@ const DiningListScreen = ({setLoader, isLoader}) => {
         onEndReachedThreshold={0.1}
         style={styles.flatListOverAll}
         data={data}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(_item, index) => index.toString()}
         ListEmptyComponent={
           <Flex flex={1} middle center overrideStyle={styles.emptyFlex}>
             <Text color="gray" size={18}>
