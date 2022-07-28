@@ -78,27 +78,31 @@ const DiningUpload = ({open, close, isBookingId}) => {
       }
     });
   };
-  const handleLaunchCamera = () => {
-    launchCamera(
-      {
-        saveToPhotos: true,
-        mediaType: 'photo',
-        cameraType: 'back',
-      },
-      response => {
-        console.log('Response = ', response);
-        if (response.didCancel) {
-          console.log('User cancelled image picker');
-        } else if (response.error) {
-          console.log('ImagePicker Error: ', response.error);
-          // alert('ImagePicker Error: ' + response.error);
-        } else {
-          let source = response;
-          formik.setFieldValue('image', source.assets[0]);
-        }
-      },
-    );
-  };
+  // const handleLaunchCamera = () => {
+  //   launchCamera(
+  //     {
+  //       saveToPhotos: true,
+  //       mediaType: 'photo',
+  //       cameraType: 'back',
+  //     },
+  //     response => {
+  //       if (response.didCancel) {
+  //         console.log('User cancelled image picker');
+  //       } else if (response.error) {
+  //         console.log('ImagePicker Error: ', response.error);
+  //       } else {
+  //         let source = response;
+  //         formik.setFieldValue(
+  //           'image',
+  //           source &&
+  //             source.assets &&
+  //             source.assets.length !== 0 &&
+  //             source.assets[0],
+  //         );
+  //       }
+  //     },
+  //   );
+  // };
 
   const handleSubmit = () => {
     setLoader(true);
@@ -173,13 +177,13 @@ const DiningUpload = ({open, close, isBookingId}) => {
           <LabelWrapper label={'Upload Bill'} required>
             {isEmpty(formik.values.image) ? (
               <Flex center>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                   style={{marginBottom: 8}}
                   onPress={handleLaunchCamera}>
                   <Text color="link" bold>
                     Choose Camera
                   </Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <TouchableOpacity onPress={chooseImage}>
                   <Text color="link" bold>
                     Choose Gallery
