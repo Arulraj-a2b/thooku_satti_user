@@ -11,7 +11,10 @@ import SvgClose from '../../icons/SvgClose';
 import {useFormik} from 'formik';
 import InputText from '../../uikit/InputText/InputText';
 import {useDispatch} from 'react-redux';
-import {uploadBillMiddleWare} from './store/myOrderMiddleware';
+import {
+  getDiningListMiddleWare,
+  uploadBillMiddleWare,
+} from './store/myOrderMiddleware';
 import LabelWrapper from '../../uikit/InputText/LabelWrapper';
 import {isEmpty} from '../../uikit/UikitUtils/validators';
 import ErrorMessage from '../../uikit/ErrorMessage/ErrorMessage';
@@ -111,11 +114,13 @@ const DiningUpload = ({open, close, isBookingId}) => {
     dispatch(uploadBillMiddleWare({fromData: formData}))
       .then(res => {
         if (res.payload && res.payload[0].Message === 'Upload Done') {
-          formik.resetForm();
-          close();
-          Toast('Successfully Uploaded');
+          dispatch(getDiningListMiddleWare()).then(() => {
+            Toast('Successfully Uploaded');
+            formik.resetForm();
+            close();
+            setLoader(false);
+          });
         }
-        setLoader(false);
       })
       .catch(() => {
         setLoader(false);

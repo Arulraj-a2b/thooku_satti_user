@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {StyleSheet, TouchableOpacity, Linking} from 'react-native';
 import Card from '../../uikit/Card/Card';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
@@ -83,13 +83,13 @@ const DiningCard = ({item, setUpload, setBookingId}) => {
           <Text bold overrideStyle={styles.nameStyle}>
             Download Bill
           </Text>
-          <Text
-            color="link"
-            ellipsizeMode={'tail'}
-            numberOfLines={1}
-            overrideStyle={{width: '57%'}}>
-            {item.BillImagePath}
-          </Text>
+          <TouchableOpacity
+            style={{width: '57%'}}
+            onPress={() => Linking.openURL(item.BillImagePath)}>
+            <Text color="link" ellipsizeMode={'tail'} numberOfLines={1}>
+              {item.BillImagePath}
+            </Text>
+          </TouchableOpacity>
         </Flex>
       )}
 

@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
+  Linking,
 } from 'react-native';
 import SvgAddress from '../../icons/SvgAddress';
 import SvgLocation from '../../icons/SvgLocation';
@@ -26,6 +27,7 @@ import {ERROR, PRIMARY, WHITE} from '../../uikit/UikitUtils/colors';
 import {
   INVALID_EMAIL_ENTERED,
   INVALID_PHONE_ENTERED,
+  TERMS_PDF,
   THIS_FIELD_REQUIRED,
 } from '../../uikit/UikitUtils/constants';
 import {isEmpty, isValidEmail} from '../../uikit/UikitUtils/validators';
@@ -36,6 +38,7 @@ import {signInMiddleWare} from './store/registerScreenMiddleware';
 import Toast from '../../uikit/Toast/Toast';
 import SvgEyeOutline from '../../icons/SvgEyleOutLine';
 import SvgEye from '../../icons/SvgEye';
+import CheckBox from '../../uikit/CheckBox/CheckBox';
 
 const styles = StyleSheet.create({
   logoContainer: {
@@ -72,6 +75,7 @@ const initialValues = {
   whatsappNumber: '',
   address: '',
   city: '',
+  agree: '0',
 };
 
 const RegisterScreen = () => {
@@ -104,7 +108,7 @@ const RegisterScreen = () => {
           res.payload[0].Message === 'Success'
         ) {
           navigattion.navigate('LoginScreen');
-          Toast('Account create successfully', 'success','TOP');
+          Toast('Account create successfully', 'success', 'TOP');
           formik.resetForm();
         }
       })
@@ -154,6 +158,9 @@ const RegisterScreen = () => {
     if (isEmpty(values.password)) {
       errors.password = THIS_FIELD_REQUIRED;
     }
+    if (values.agree === '0') {
+      errors.agree = 'Please agree terms and conditions';
+    }
     // else if (!isValidPassword(values.password)) {
     //   errors.password = `Password must be at least 8 - 12 characters long, at least one lowercase and one uppercase`;
     // }
@@ -180,6 +187,9 @@ const RegisterScreen = () => {
     validate: handleValidate,
   });
 
+  const handleAgree = () => {
+    formik.setFieldValue('agree', formik.values.agree === '0' ? '1' : '0');
+  };
   return (
     <ScrollView>
       <Flex flex={1} overrideStyle={styles.overAll}>
@@ -375,7 +385,7 @@ const RegisterScreen = () => {
                 numberOfLines={30}
                 multiline
                 maxLength={4000}
-                actionLeftStyle={{left: -4,top:0}}
+                actionLeftStyle={{left: -4, top: 0}}
                 actionLeft={() => (
                   <SvgLocation
                     fill={
@@ -394,7 +404,7 @@ const RegisterScreen = () => {
                 error={formik.errors.address && formik.touched.address}
               />
             </View>
-            <View style={[styles.marginTop16, {marginBottom: 30}]}>
+            <View style={[styles.marginTop16]}>
               <InputText
                 maxLength={25}
                 actionLeftStyle={{left: -4}}
@@ -416,6 +426,24 @@ const RegisterScreen = () => {
                 error={formik.errors.city && formik.touched.city}
               />
             </View>
+            <View style={[styles.marginTop16, {marginBottom: 16}]}>
+              <Flex row center middle>
+                <CheckBox
+                  onClick={handleAgree}
+                  checked={formik.values.agree === '1'}
+                />
+                <Text> I Agree To The </Text>
+                <TouchableOpacity onPress={() => Linking.openURL(TERMS_PDF)}>
+                  <Text color="link">Terms and conditions</Text>
+                </TouchableOpacity>
+              </Flex>
+              <ErrorMessage
+                name={'agree'}
+                touched={formik.touched}
+                errors={formik.errors}
+              />
+            </View>
+
             <Button
               onClick={() => {
                 Keyboard.dismiss();
@@ -423,7 +451,8 @@ const RegisterScreen = () => {
               }}>
               REGISTER
             </Button>
-            <Flex middle row center overrideStyle={{marginTop: 16}}>
+
+            <Flex middle row center>
               <Text>Already have an account? </Text>
               <TouchableOpacity
                 onPress={() => navigattion.navigate('LoginScreen')}>
@@ -433,7 +462,6 @@ const RegisterScreen = () => {
               </TouchableOpacity>
             </Flex>
           </Flex>
-          {/* <View style={styles.footerStyle} /> */}
         </Flex>
       </Flex>
     </ScrollView>

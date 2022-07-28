@@ -2,7 +2,8 @@ export const ZINDEX = 11;
 export const ZINDEX_MODAL = 10;
 export const INDIAN_RUPEE ='₹'
 
-export const API_KEY='AIzaSyDyIPNKYpe9zG_JlEEhl070cC28N0q4qbc'
+export const API_KEY='AIzaSyDyIPNKYpe9zG_JlEEhl070cC28N0q4qbc';
+export const TERMS_PDF='https://www.dindigulthookusatti.com/TSI_terms.pdf'
 
 export const THIS_FIELD_REQUIRED = 'This Field Required';
 export const INVALID_PASSWORD = 'Invalid password';

@@ -79,11 +79,11 @@ const MyCartScreen = ({navigation}) => {
       };
     },
   );
+  // console.log('getCartDetails',getCartDetails);
   const downButtonHandler = () => {
     listViewRef.current.scrollToIndex({
       index: getCartDetails && getCartDetails[0].OrdInfo.length - 1,
       animated: true,
-      // viewPosition: 2,
     });
   };
 
@@ -104,7 +104,7 @@ const MyCartScreen = ({navigation}) => {
   });
 
   const handleCheckOut = value => {
-    Keyboard.dismiss()
+    Keyboard.dismiss();
     dispatch(
       checkOutMiddleWare({
         ExtraNotes: value.notes,
