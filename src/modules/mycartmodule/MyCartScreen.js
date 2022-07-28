@@ -118,6 +118,13 @@ const MyCartScreen = ({navigation}) => {
       }
     });
   };
+
+  useFocusEffect(
+    useCallback(() => {
+    if (getCartDetails) {
+      formik.setFieldValue('address', getCartDetails[0].DeliveryAddress);
+    }
+  }, [getCartDetails]))
   return (
     <Flex
       flex={1}
