@@ -21,7 +21,6 @@ import Stepper from '../../uikit/Stepper/Stepper';
 import {useDispatch, useSelector} from 'react-redux';
 import Loader from '../../uikit/Loader/Loader';
 import {
-  GPAY_OR_PHONEPE,
   INVALID_PHONE_ENTERED,
   THIS_FIELD_REQUIRED,
 } from '../../uikit/UikitUtils/constants';
@@ -75,35 +74,30 @@ const TableBookingScreen = () => {
   const handleValidate = values => {
     const errors = {};
     if (isEmpty(values.restaurants)) {
-      errors.restaurants = THIS_FIELD_REQUIRED;
+      errors.restaurants = 'Please provide restaurant name';
     }
     if (isEmpty(values.guestName)) {
-      errors.guestName = THIS_FIELD_REQUIRED;
+      errors.guestName = 'Please provide guest name';
     }
     if (isEmpty(values.date)) {
-      errors.date = THIS_FIELD_REQUIRED;
+      errors.date = 'Please provide date';
     }
     if (isEmpty(values.time)) {
-      errors.time = THIS_FIELD_REQUIRED;
+      errors.time = 'Please provide time';
     }
     if (isEmpty(values.adult)) {
       errors.adult = THIS_FIELD_REQUIRED;
     } else if (Number(values.adult) === 0) {
-      errors.adult = THIS_FIELD_REQUIRED;
-    }
-    if (isEmpty(values.child)) {
-      errors.child = THIS_FIELD_REQUIRED;
-    } else if (Number(values.child) === 0) {
-      errors.child = THIS_FIELD_REQUIRED;
+      errors.adult = 'Please provide adult';
     }
     if (isEmpty(values.contactno)) {
-      errors.contactno = THIS_FIELD_REQUIRED;
+      errors.contactno = 'Please provide contact number';
     } else if (!isEmpty(values.contactno) && values.contactno.length !== 10) {
       errors.contactno = INVALID_PHONE_ENTERED;
     }
     if (isEmpty(values.gpay) && isEmpty(values.gpay)) {
-      errors.phonepe = GPAY_OR_PHONEPE;
-      errors.gpay = GPAY_OR_PHONEPE;
+      errors.phonepe = 'Please provide Phoenpe number';
+      errors.gpay = 'Please provide Gpay number';
     }
     if (!isEmpty(values.gpay) && values.gpay.length !== 10) {
       errors.gpay = INVALID_PHONE_ENTERED;
@@ -337,7 +331,7 @@ const TableBookingScreen = () => {
           <View style={styles.inputTop}>
             <Flex between row center>
               <Flex row center>
-                <Text bold>Children *</Text>
+                <Text bold>Children</Text>
                 <Text size={12} color="gray">
                   {' (2 - 12 Years)'}
                 </Text>
