@@ -144,9 +144,10 @@ const RegisterScreen = () => {
 
     if (isEmpty(values.whatsappNumber)) {
       errors.whatsappNumber = THIS_FIELD_REQUIRED;
-    } else if (isWhatsAppValue.length !== 10) {
-      errors.whatsappNumber = INVALID_PHONE_ENTERED;
-    }
+    } 
+    // else if (isWhatsAppValue.length !== 10) {
+    //   errors.whatsappNumber = INVALID_PHONE_ENTERED;
+    // }
 
     if (isEmpty(values.address)) {
       errors.address = THIS_FIELD_REQUIRED;
@@ -452,7 +453,7 @@ const RegisterScreen = () => {
               REGISTER
             </Button>
 
-            <Flex middle row center>
+            <Flex middle row center overrideStyle={{marginTop:16}}>
               <Text>Already have an account? </Text>
               <TouchableOpacity
                 onPress={() => navigattion.navigate('LoginScreen')}>
