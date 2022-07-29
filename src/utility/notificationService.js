@@ -13,7 +13,7 @@ export const handleNotification = message => {
     title: message.notification.title,
     message: '',
     userInfo: {
-      route: 'OrderDetailsScreen',
+      route: message.data && message.data.route,
       booking_id: message.data && message.data.booking_id,
     },
     bigText: message.notification.body,
@@ -70,7 +70,7 @@ export const notificationListener = async navigation => {
   messaging().onNotificationOpenedApp(remoteMessage => {
     if (remoteMessage && remoteMessage.data) {
       navigation.navigate(routesPath.ALL_SCREEN, {
-        screen: routesPath.ORDER_DETAILS_SCREEN,
+        screen: remoteMessage?.data?.route,
         params: {orderId: remoteMessage?.data?.booking_id},
       });
     }
@@ -81,10 +81,9 @@ export const notificationListener = async navigation => {
   messaging()
     .getInitialNotification()
     .then(res => {
-      // console.log('notification',res);
       if (res && res.data) {
         navigation.navigate(routesPath.ALL_SCREEN, {
-          screen: routesPath.ORDER_DETAILS_SCREEN,
+          screen: res.data?.route,
           params: {orderId: res.data?.booking_id},
         });
       }
@@ -94,10 +93,9 @@ export const notificationListener = async navigation => {
 export const localNotificationNavigate = (navigation, dispatch) => {
   PushNotification.configure({
     onNotification: function (notification) {
-      // console.log('notification',notification);
       if (notification && notification.userInteraction) {
         navigation.navigate(routesPath.ALL_SCREEN, {
-          screen: routesPath.ORDER_DETAILS_SCREEN,
+          screen: notification.data?.route,
           params: {orderId: notification.data?.booking_id},
         });
       } else if (

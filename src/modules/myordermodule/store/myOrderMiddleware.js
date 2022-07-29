@@ -1,6 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import axios from 'axios';
 import {
+  GET_DINING_DETAILS,
   GET_DINING_LIST,
   GET_ORDER_DETAILS,
   MY_ORDER_HISTORY,
@@ -8,6 +9,7 @@ import {
   UPLOAD_BILL,
 } from '../../../actions/actions';
 import {
+  getDiningDetailsApi,
   getDiningListApi,
   getHistoryOrdersApi,
   getOrderDetailsApi,
@@ -79,6 +81,21 @@ export const uploadBillMiddleWare = createAsyncThunk(
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+      });
+      return data;
+    } catch (error) {
+      const typedError = error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+export const getDiningDetailsMiddleWare = createAsyncThunk(
+  GET_DINING_DETAILS,
+  async ({DiningBookingID}, {rejectWithValue}) => {
+    try {
+      const {data} = await axios.get(getDiningDetailsApi, {
+        params: {DiningBookingID},
       });
       return data;
     } catch (error) {

@@ -10,6 +10,7 @@ import AddressScreen from '../modules/addressmodule/AddressScreen';
 import OrderDetailsScreen from '../modules/myordermodule/OrderDetailsScreen';
 import TableBookingScreen from '../modules/bookingmodule/TableBookingScreen';
 import AboutScreen from '../modules/aboutmodule/AboutScreen';
+import DiningViewDetailsScreen from '../modules/myordermodule/DiningViewDetailsScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -83,6 +84,14 @@ const SideNavigation = () => {
         }}
         name={routesPath.ABOUT_SCREEN}
         component={AboutScreen}
+      />
+      <Drawer.Screen
+        name={routesPath.DINING_VIEW_DEAILS_SCREEN}
+        component={DiningViewDetailsScreen}
+        options={() => ({
+          title: '',
+          header: props => <Header props={props} />,
+        })}
       />
     </Drawer.Navigator>
   );

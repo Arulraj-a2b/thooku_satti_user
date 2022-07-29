@@ -28,7 +28,8 @@ import {
   getUpComingOrderReducers,
   getOrderDetailsReducers,
   getHistoryOrdersReducers,
-  getDiningListReducers
+  getDiningListReducers,
+  getDiningDetailsReducers
 } from '../modules/myordermodule/store/myOrderReducer';
 
 export const reducers = {
@@ -51,5 +52,6 @@ export const reducers = {
   getCurrentVersionReducers,
   checkLatestVersionReducers,
   aboutReducers,
-  getDiningListReducers
+  getDiningListReducers,
+  getDiningDetailsReducers
 };

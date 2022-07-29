@@ -19,6 +19,7 @@ export const routesPath = {
   ORDER_DETAILS_SCREEN: 'OrderDetailsScreen',
   BOOKING_TABLE_SCREEN: 'TableBookingScreen',
   ABOUT_SCREEN: 'AboutScreen',
+  DINING_VIEW_DEAILS_SCREEN: 'DiningViewDetailsScreen',
 };
 
 export const stacks = {

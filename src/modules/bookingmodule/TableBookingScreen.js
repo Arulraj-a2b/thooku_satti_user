@@ -95,7 +95,7 @@ const TableBookingScreen = () => {
     } else if (!isEmpty(values.contactno) && values.contactno.length !== 10) {
       errors.contactno = INVALID_PHONE_ENTERED;
     }
-    if (isEmpty(values.gpay) && isEmpty(values.gpay)) {
+    if (isEmpty(values.gpay) && isEmpty(values.phonepe)) {
       errors.phonepe = 'Please provide Phoenpe number';
       errors.gpay = 'Please provide Gpay number';
     }
@@ -144,7 +144,6 @@ const TableBookingScreen = () => {
     )
       .then(res => {
         setLoader(false);
-        console.log('res.payload', res.payload);
         if (res.payload && res.payload[0].StatusCode === 5999) {
           setData(res.payload[0]);
           setSuccess(true);

@@ -24,6 +24,7 @@ export const getUpComingOrderApi = fetchUrl('Mobapi/GetUpcomingOrders');
 export const getOrderDetailsApi = fetchUrl('Mobapi/GetOrderDetails');
 export const getHistoryOrdersApi = fetchUrl('Mobapi/GetHistoryOrders');
 export const diningBookingApi = fetchUrl('Mobapi/DiningBooking');
+export const getDiningDetailsApi = fetchUrl(`Mobapi/GetSpecificDining`);
 
 export const getVersionApi = fetchUrl(`Mobapi/GetCurrentVersion`);
 export const checkVersionApi = fetchUrl('Mobapi/CheckLatestVersion');

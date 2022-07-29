@@ -39,6 +39,8 @@ export const ListText = ({name, value}) => {
 };
 
 const DiningCard = ({item, setUpload, setBookingId}) => {
+  const bookingStatus = item.BookingStatus === 'Pending' ? false : true;
+
   return (
     <Card overrideStyle={styles.overAll}>
       <ListText name="Customer Name" value={item?.Name} />
@@ -92,17 +94,18 @@ const DiningCard = ({item, setUpload, setBookingId}) => {
           </TouchableOpacity>
         </Flex>
       )}
-
-      <TouchableOpacity
-        style={{justifyContent: 'center', alignItems: 'center'}}
-        onPress={() => {
-          setBookingId(item.BookingID);
-          setUpload(true);
-        }}>
-        <Text bold color="link">
-          Upload Bill
-        </Text>
-      </TouchableOpacity>
+      {bookingStatus && (
+        <TouchableOpacity
+          style={{justifyContent: 'center', alignItems: 'center'}}
+          onPress={() => {
+            setBookingId(item.BookingID);
+            setUpload(true);
+          }}>
+          <Text bold color="link">
+            Upload Bill
+          </Text>
+        </TouchableOpacity>
+      )}
     </Card>
   );
 };
