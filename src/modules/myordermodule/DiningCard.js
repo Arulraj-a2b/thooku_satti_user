@@ -39,7 +39,8 @@ export const ListText = ({name, value}) => {
 };
 
 const DiningCard = ({item, setUpload, setBookingId}) => {
-  const bookingStatus = item.BookingStatus === 'Pending' ? false : true;
+  const bookingStatus =
+    item.BookingStatus.toLowerCase() === 'accept' ? true : false;
 
   return (
     <Card overrideStyle={styles.overAll}>
@@ -67,7 +68,7 @@ const DiningCard = ({item, setUpload, setBookingId}) => {
         <ListText name="Phonepe Number" value={item?.PhoePayNo} />
       )}
       {!isEmpty(item?.Notes) && <ListText name="Notes" value={item?.Notes} />}
-      {!isEmpty(item.BilluploadStatus) && (
+      {bookingStatus && !isEmpty(item.BilluploadStatus) && (
         <ListText name="Bill Status" value={item?.BilluploadStatus} />
       )}
       {!isEmpty(item?.BillRefno) && (

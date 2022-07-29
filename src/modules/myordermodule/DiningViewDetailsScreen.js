@@ -39,8 +39,12 @@ const DiningViewDetailsScreen = () => {
       data: getDiningDetailsReducers.data,
     };
   });
+
   const bookingStatus =
-    data.length !== 0 && data[0].BookingStatus === 'Pending' ? false : true;
+    data.length !== 0 && data[0].BookingStatus.toLowerCase() === 'accept'
+      ? true
+      : false;
+
   if (isLoading) {
     return <HomePlaceHolder />;
   }
@@ -52,7 +56,7 @@ const DiningViewDetailsScreen = () => {
         open={isUpload}
         close={() => setUpload(false)}
       />
-      <Flex overrideStyle={styles.overAll}>
+      <Flex flex={1} overrideStyle={styles.overAll}>
         <ListText name="Customer Name" value={data[0].Name} />
         <ListText name="Customer Phone" value={data[0].Contactno} />
         {!isEmpty(data[0].Hotelname) && (
@@ -79,7 +83,7 @@ const DiningViewDetailsScreen = () => {
         {!isEmpty(data[0].Notes) && (
           <ListText name="Notes" value={data[0].Notes} />
         )}
-        {!isEmpty(data[0].BilluploadStatus) && (
+        {bookingStatus && !isEmpty(data[0].BilluploadStatus) && (
           <ListText name="Bill Status" value={data[0].BilluploadStatus} />
         )}
         {!isEmpty(data[0].BillRefno) && (
