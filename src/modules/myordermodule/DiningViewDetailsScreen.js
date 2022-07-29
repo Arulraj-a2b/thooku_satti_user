@@ -19,6 +19,12 @@ const styles = StyleSheet.create({
     paddingVertical: 24,
     backgroundColor: WHITE,
   },
+  nameStyle: {
+    width: 140,
+  },
+  valueStyle: {
+    width: '60%',
+  },
 });
 const DiningViewDetailsScreen = () => {
   const routes = useRoute();
@@ -28,7 +34,9 @@ const DiningViewDetailsScreen = () => {
   useFocusEffect(
     useCallback(() => {
       if (routes && routes.params) {
-      dispatch(getDiningDetailsMiddleWare({DiningBookingID: routes.params}));
+        dispatch(
+          getDiningDetailsMiddleWare({DiningBookingID: routes.params.orderId}),
+        );
       }
     }, [routes.params]),
   );
@@ -41,7 +49,7 @@ const DiningViewDetailsScreen = () => {
   });
 
   const bookingStatus =
-    data.length !== 0 && data[0].BookingStatus.toLowerCase() === 'accept'
+    data.length !== 0 && data[0].BookingStatus.toLowerCase() === 'accepted'
       ? true
       : false;
 
@@ -95,7 +103,7 @@ const DiningViewDetailsScreen = () => {
             value={INDIAN_RUPEE + isFinancial(data[0].Billamount)}
           />
         )}
-        {!isEmpty(data[0].BillImagePath) && (
+        {bookingStatus && !isEmpty(data[0].BillImagePath) && (
           <Flex row overrideStyle={{marginBottom: 16}}>
             <Text bold overrideStyle={styles.nameStyle}>
               Download Bill
@@ -104,12 +112,12 @@ const DiningViewDetailsScreen = () => {
               style={{width: '57%'}}
               onPress={() => Linking.openURL(data[0].BillImagePath)}>
               <Text color="link" ellipsizeMode={'tail'} numberOfLines={1}>
-                {item.BillImagePath}
+                {data[0].BillImagePath}
               </Text>
             </TouchableOpacity>
           </Flex>
         )}
-        {bookingStatus && (
+        {data[0].BilluploadStatus !== 'Uploaded' && (
           <TouchableOpacity
             style={{justifyContent: 'center', alignItems: 'center'}}
             onPress={() => {

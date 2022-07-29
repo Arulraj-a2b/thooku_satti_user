@@ -40,7 +40,7 @@ export const ListText = ({name, value}) => {
 
 const DiningCard = ({item, setUpload, setBookingId}) => {
   const bookingStatus =
-    item.BookingStatus.toLowerCase() === 'accept' ? true : false;
+    item.BookingStatus.toLowerCase() === 'accepted' ? true : false;
 
   return (
     <Card overrideStyle={styles.overAll}>
@@ -81,7 +81,7 @@ const DiningCard = ({item, setUpload, setBookingId}) => {
         />
       )}
 
-      {!isEmpty(item.BillImagePath) && (
+      {bookingStatus && !isEmpty(item.BillImagePath) && (
         <Flex row overrideStyle={{marginBottom: 16}}>
           <Text bold overrideStyle={styles.nameStyle}>
             Download Bill
