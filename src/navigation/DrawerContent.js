@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {
   Image,
+  Linking,
   Pressable,
   StyleSheet,
   TouchableOpacity,
@@ -46,7 +47,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   overAll: {
-    paddingLeft: 40,
+    paddingLeft: 30,
     paddingRight: 16,
     paddingTop: 30,
     paddingBottom: 40,
@@ -124,14 +125,19 @@ const DrawerContent = props => {
       title: 'About Us',
       icon: <SvgContacts />,
     },
-    // {
-    //   route: () => {
-    //     props.navigation.navigate(routesPath.HOME_SCREEN);
-    //   },
-    //   title: 'Helps & FAQs',
-    //   icon: <SvgHelp />,
-    //   // focus: currentRoute === 'DashBoard',
-    // },
+    {
+      route: () => {
+        Linking.openURL(
+          'https://www.dindigulthookusatti.com/Diningprocess.pdf',
+        );
+      },
+      title: 'Dining Booking Process',
+      icon: (
+        <View style={{position: 'relative', right: -3}}>
+          <SvgHelp />
+        </View>
+      ),
+    },
   ];
 
   return (

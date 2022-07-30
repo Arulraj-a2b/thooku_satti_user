@@ -52,12 +52,12 @@ export const checkLocationUser = async () => {
 
 const getFcmToken = async () => {
   let fcmToken = await AsyncStorage.getItem('fcmToken');
-  console.log('new fcmToken', fcmToken);
+  // console.log('new fcmToken', fcmToken);
   if (!fcmToken) {
     try {
       const fcmToken = await messaging().getToken();
       if (fcmToken) {
-        console.log('new fcmToken', fcmToken);
+        // console.log('new fcmToken', fcmToken);
         await AsyncStorage.setItem('fcmToken', fcmToken);
       }
     } catch (error) {

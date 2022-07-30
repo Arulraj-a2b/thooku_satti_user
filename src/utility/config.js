@@ -9,7 +9,8 @@ import {getCartDetailsMiddleWare} from '../modules/hotelviewmodule/store/hotelLi
 import {calculateLocationDistanceMiddleWare} from '../modules/loginmodule/store/loginScreenMiddleware';
 import {routesPath} from '../routes/routesPath';
 
-export const BASE_URL = 'https://foodapp.appsure.co.in/api/';
+// export const BASE_URL = 'https://foodapp.appsure.co.in/api/'; // staging
+export const BASE_URL = 'https://mobileorder.dindigulthookusatti.com/api/'; // production
 
 export const fetchUrl = url => {
   const result = `${BASE_URL}${url}`;
