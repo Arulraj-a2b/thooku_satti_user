@@ -6,8 +6,6 @@ import SvgHome from '../icons/SvgHome';
 import {GRAY_4, PRIMARY} from '../uikit/UikitUtils/colors';
 import HomeStack from './HomeStack';
 import MyCartScreen from '../modules/mycartmodule/MyCartScreen';
-// import SvgFav from '../icons/SvgFav';
-// import FavouriteScreen from '../modules/favouritemodule/FavouriteScreen';
 import Header from './Header';
 import CartIcon from './CartIcon';
 import {useSelector} from 'react-redux';
