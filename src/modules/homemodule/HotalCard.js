@@ -1,14 +1,7 @@
 import React from 'react';
-import {
-  Image,
-  StyleSheet,
-  Pressable,
-  View,
-  TouchableOpacity,
-} from 'react-native';
+import {Image, StyleSheet, Pressable, View} from 'react-native';
+import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
-import SvgFav from '../../icons/SvgFav';
-import SvgStar from '../../icons/SvgStar';
 import Flex from '../../uikit/Flex/Flex';
 import Card from '../../uikit/Card/Card';
 import Text from '../../uikit/Text/Text';
@@ -17,7 +10,6 @@ import SvgSuccess from '../../icons/SvgSccess';
 import SvgClock from '../../icons/SvgClock';
 import {routesPath} from '../../routes/routesPath';
 import {isEmpty} from '../../uikit/UikitUtils/validators';
-import {useDispatch} from 'react-redux';
 import {checkCartExistMiddleWare} from '../mycartmodule/store/myCartMiddleware';
 
 const styles = StyleSheet.create({
@@ -103,7 +95,6 @@ const HotalCard = ({
       });
     }
   };
-
   return (
     <Pressable onPress={handleNavigate}>
       <Card
@@ -121,7 +112,7 @@ const HotalCard = ({
               />
             )}
 
-            <View style={styles.ratingContainer}>
+            {/* <View style={styles.ratingContainer}>
               <Flex row center between>
                 <Card overrideStyle={styles.ratingBox}>
                   <Flex row center middle>
@@ -131,13 +122,8 @@ const HotalCard = ({
                     </Text>
                   </Flex>
                 </Card>
-                {/* <TouchableOpacity>
-                  <Card overrideStyle={styles.svgFavStye}>
-                    <SvgFav fill={WHITE} />
-                  </Card>
-                </TouchableOpacity> */}
               </Flex>
-            </View>
+            </View> */}
           </Flex>
 
           <Flex overrideStyle={styles.nameListContainer}>
@@ -150,14 +136,6 @@ const HotalCard = ({
               </View>
             </Flex>
             <Flex row center overrideStyle={{marginTop: 8}}>
-              {/* <Flex row center>
-            <View style={{marginRight: 4, marginBottom: 2}}>
-              <SvgSuccess height={13} width={13} />
-            </View>
-            <Text color="gray" size={14}>
-              Free delivery
-            </Text>
-          </Flex> */}
               <Flex row center>
                 <View style={{marginRight: 4}}>
                   <SvgClock fill={PRIMARY} />
@@ -167,11 +145,6 @@ const HotalCard = ({
                 </Text>
               </Flex>
             </Flex>
-            {/* <Flex overrideStyle={styles.chip}>
-          <Text color="gray" size={12}>
-            Burger
-          </Text>
-        </Flex> */}
           </Flex>
         </Flex>
       </Card>
