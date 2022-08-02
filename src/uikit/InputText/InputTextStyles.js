@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {
+  BLACK,
   BORDER_COLOR,
   ERROR,
   GRAY_5,
@@ -14,6 +15,7 @@ export const inputTextStyles = StyleSheet.create({
     backgroundColor: WHITE,
     paddingHorizontal: 16,
     width: '100%',
+    color: BLACK,
   },
   viewContainer: {
     flexDirection: 'row',
