@@ -27,7 +27,6 @@ const InputText = (
     selectionColor,
     secureTextEntry,
     editable,
-    placeholderTextColor = GARY_2,
     onKeyPress,
     label,
     numberOfLines,
@@ -107,7 +106,7 @@ const InputText = (
             selectionColor={selectionColor}
             secureTextEntry={secureTextEntry}
             editable={editable}
-            placeholderTextColor={placeholderTextColor}
+            placeholderTextColor={GARY_2}
             onChangeText={onChange}
             onKeyPress={onKeyPress}
             multiline={multiline}
