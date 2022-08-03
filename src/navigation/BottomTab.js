@@ -62,25 +62,6 @@ const BottomTab = () => {
           header: props => <Header props={props} isBack isMenu />,
         }}
       />
-      {/* <Tab.Screen
-        name={routesPath.FAVOURITE_SCREEN}
-        component={FavouriteScreen}
-        options={{
-          title: '',
-          tabBarIcon: ({focused}) => (
-            <TabBarIcon
-              icon={
-                <SvgFav
-                  width={26}
-                  height={26}
-                  fill={focused ? PRIMARY : GRAY_4}
-                />
-              }
-            />
-          ),
-          header: props => <Header props={props} isBack isMenu />,
-        }}
-      /> */}
     </Tab.Navigator>
   );
 };

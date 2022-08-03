@@ -9,7 +9,10 @@ import HomePlaceHolder from './HomePlaceHolder';
 import ReplaceModal from './ReplaceModal';
 import Text from '../../uikit/Text/Text';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {checkLatestVersionMiddleWare} from './store/homeMiddleware';
+import {
+  checkLatestVersionMiddleWare,
+  getRestaurantListMiddleWare,
+} from './store/homeMiddleware';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -57,16 +60,14 @@ const HomeScreen = ({navigation}) => {
         });
     });
   };
-  useEffect(() => {
-    getUserData();
-  }, []);
 
   const {
     isLoading,
     data,
     getCartDetails,
     checkCartLoading,
-    calculateisLoading,
+    calculateLoading,
+    locationID,
   } = useSelector(
     ({
       getRestaurantListReducers,
@@ -79,10 +80,15 @@ const HomeScreen = ({navigation}) => {
         data: getRestaurantListReducers.data,
         getCartDetails: getCartDetailsReducers.data,
         checkCartLoading: checkCartExistReducers.isLoading,
-        calculateisLoading: calculateLocationDistanceReducers.isLoading,
+        calculateLoading: calculateLocationDistanceReducers.isLoading,
+        locationID: calculateLocationDistanceReducers.data[0],
       };
     },
   );
+  useEffect(() => {
+    getUserData();
+    dispatch(getRestaurantListMiddleWare({LocationID: locationID.LocationID}));
+  }, []);
 
   const handleViewAll = () => {
     setAll(true);
@@ -99,7 +105,7 @@ const HomeScreen = ({navigation}) => {
 
   const inputSearchCheck = isSearch.length === 0;
 
-  if (isLoading || calculateisLoading) {
+  if (isLoading || calculateLoading) {
     return <HomePlaceHolder />;
   }
   return (
