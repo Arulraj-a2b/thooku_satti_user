@@ -60,6 +60,9 @@ const OrderCard = ({item, isTrack}) => {
               <Text size={12} color="theme" overrideStyle={{marginTop: 4}}>
                 #{item.OrderID}
               </Text>
+              <Text size={12} color="gray">
+                {item.OrderedDate}
+              </Text>
               <TouchableOpacity onPress={() => handleViewDetails(item.OrderID)}>
                 <Text bold color="link">
                   View Bill Details
@@ -70,9 +73,7 @@ const OrderCard = ({item, isTrack}) => {
         </Flex>
         <Flex row overrideStyle={styles.statusFlex}>
           <Text>Status: </Text>
-          <Text
-            color="gray"
-            overrideStyle={{width: '85%'}}>
+          <Text color="gray" overrideStyle={{width: '85%'}}>
             {item.LiveStatus}
           </Text>
         </Flex>

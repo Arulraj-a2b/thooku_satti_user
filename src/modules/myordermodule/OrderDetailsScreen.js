@@ -76,6 +76,7 @@ const OrderDetailsScreen = () => {
   if (isLoading) {
     return <HomePlaceHolder />;
   }
+  console.log('data', data);
   return (
     Array.isArray(data) &&
     data.length !== 0 && (
@@ -90,7 +91,7 @@ const OrderDetailsScreen = () => {
               style={{
                 borderLeftColor: BORDER_COLOR,
                 borderLeftWidth: 2,
-                height: 55,
+                height: 75,
                 position: 'absolute',
                 alignContent: 'center',
                 justifyContent: 'center',
@@ -102,11 +103,23 @@ const OrderDetailsScreen = () => {
             <Flex row overrideStyle={styles.hotelName}>
               <SvgLocation3 fill={GRAY_1} />
               <Flex overrideStyle={{marginLeft: 8}}>
-                <Text color="theme" bold size={16}>
+                <Text
+                  color="theme"
+                  bold
+                  size={16}
+                  numberOfLines={1}
+                  ellipsizeMode="tail">
                   {data[0].HotelName}
                 </Text>
-                <Text size={12} color="gray">
+                <Text
+                  size={12}
+                  color="gray"
+                  numberOfLines={1}
+                  ellipsizeMode="tail">
                   {data[0].Address}
+                </Text>
+                <Text size={12} color="gray">
+                  {data[0].OrderedDate}
                 </Text>
               </Flex>
             </Flex>
