@@ -76,7 +76,6 @@ const OrderDetailsScreen = () => {
   if (isLoading) {
     return <HomePlaceHolder />;
   }
-  console.log('data', data);
   return (
     Array.isArray(data) &&
     data.length !== 0 && (
@@ -91,7 +90,7 @@ const OrderDetailsScreen = () => {
               style={{
                 borderLeftColor: BORDER_COLOR,
                 borderLeftWidth: 2,
-                height: 75,
+                height: 55,
                 position: 'absolute',
                 alignContent: 'center',
                 justifyContent: 'center',
@@ -118,9 +117,6 @@ const OrderDetailsScreen = () => {
                   ellipsizeMode="tail">
                   {data[0].Address}
                 </Text>
-                <Text size={12} color="gray">
-                  {data[0].OrderedDate}
-                </Text>
               </Flex>
             </Flex>
 
@@ -138,9 +134,18 @@ const OrderDetailsScreen = () => {
           </Flex>
 
           <View style={styles.hrLine} />
+
           <Flex row overrideStyle={{marginVertical: 8}}>
-            <Text bold>Status:{'  '}</Text>
-            <Text overrideStyle={{width: '84%'}}>{data[0].LiveStatus}</Text>
+            <Text bold overrideStyle={{width: 80}}>
+              Order Date
+            </Text>
+            <Text overrideStyle={{width: '88%'}}>{data[0].OrderedDate}</Text>
+          </Flex>
+          <Flex row overrideStyle={{marginBottom: 8}}>
+            <Text bold overrideStyle={{width: 80}}>
+              Status
+            </Text>
+            <Text overrideStyle={{width: '88%'}}>{data[0].LiveStatus}</Text>
           </Flex>
           <View style={styles.hrLine} />
           <Text color="gary" bold overrideStyle={styles.billTitle}>
