@@ -9,9 +9,11 @@ import {
   View,
 } from 'react-native';
 import {useSelector} from 'react-redux';
+import SvgSearch from '../../icons/SvgSearch';
 import {routesPath} from '../../routes/routesPath';
 import Card from '../../uikit/Card/Card';
 import Flex from '../../uikit/Flex/Flex';
+import InputText from '../../uikit/InputText/InputText';
 import Text from '../../uikit/Text/Text';
 import HomePlaceHolder from './HomePlaceHolder';
 
@@ -45,8 +47,13 @@ const styles = StyleSheet.create({
     width: 130,
     borderRadius: 8,
   },
+  promoImage: {
+    height: 80,
+    width: 150,
+    borderRadius: 8,
+  },
   orderText: {
-    paddingLeft: 16,
+    paddingHorizontal: 16,
   },
   itemFlex: {
     paddingHorizontal: 16,
@@ -80,6 +87,14 @@ const MainHomeScreen = () => {
   return (
     <ScrollView>
       <Flex overrideStyle={styles.overAll}>
+        <View style={{paddingHorizontal: 16, marginBottom: 20}}>
+          <InputText
+            placeholder={'Find restaurant'}
+            types={'normal'}
+            actionLeft={() => <SvgSearch />}
+          />
+        </View>
+
         {data?.OrderAgainList.length !== 0 && (
           <View>
             <Text size={16} bold overrideStyle={styles.orderText}>
@@ -100,7 +115,7 @@ const MainHomeScreen = () => {
         {data?.PromotionResponse.length !== 0 && (
           <View style={{marginTop: 20}}>
             <Text size={16} bold overrideStyle={styles.orderText}>
-              Promotion !
+              Check out these Greate Offers !!!
             </Text>
             <FlatList
               style={styles.flatListOverAll}
@@ -112,27 +127,32 @@ const MainHomeScreen = () => {
             />
           </View>
         )}
-        <Flex row wrap middle overrideStyle={styles.itemFlex}>
-          {data?.menuResponse.map(list => {
-            return (
-              <TouchableOpacity
-                key={list.MenuImage}
-                onPress={() =>
-                  navigation.navigate(routesPath.LIST_HOME_SCREEN)
-                }>
-                <Flex center overrideStyle={styles.foodList}>
-                  <Card overrideStyle={styles.radius}>
-                    <Image
-                      style={styles.roundImage}
-                      source={{uri: list.MenuImage}}
-                    />
-                  </Card>
-                  <Text overrideStyle={{marginTop: 8}}>{list.MenuName}</Text>
-                </Flex>
-              </TouchableOpacity>
-            );
-          })}
-        </Flex>
+        <View style={styles.itemFlex}>
+          <Text size={16} bold>
+            Eat what makes you fall in love with food !
+          </Text>
+          <Flex row wrap middle>
+            {data?.menuResponse.map(list => {
+              return (
+                <TouchableOpacity
+                  key={list.MenuImage}
+                  onPress={() =>
+                    navigation.navigate(routesPath.LIST_HOME_SCREEN)
+                  }>
+                  <Flex center overrideStyle={styles.foodList}>
+                    <Card overrideStyle={styles.radius}>
+                      <Image
+                        style={styles.roundImage}
+                        source={{uri: list.MenuImage}}
+                      />
+                    </Card>
+                    <Text overrideStyle={{marginTop: 8}}>{list.MenuName}</Text>
+                  </Flex>
+                </TouchableOpacity>
+              );
+            })}
+          </Flex>
+        </View>
       </Flex>
     </ScrollView>
   );
@@ -168,7 +188,7 @@ const PromotionList = ({item, index}) => {
       overrideStyle={[styles.orderList, {marginLeft: index === 0 ? 16 : 8}]}>
       <Card>
         <Image
-          style={styles.orderImage}
+          style={styles.promoImage}
           source={{uri: item.PromotionImageName}}
         />
       </Card>
