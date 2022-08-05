@@ -23,6 +23,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDrawerStatus} from '@react-navigation/drawer';
 import SvgClose from '../icons/SvgClose';
 import SvgBook from '../icons/SvgBook';
+import SvgPrivacy from '../icons/SvgPrivacyPolicy';
 
 const styles = StyleSheet.create({
   listStyle: {
@@ -135,6 +136,17 @@ const DrawerContent = props => {
       icon: (
         <View style={{position: 'relative', right: -3}}>
           <SvgHelp />
+        </View>
+      ),
+    },
+    {
+      route: () => {
+        props.navigation.navigate(routesPath.PRIVACY_SCREEN);
+      },
+      title: 'Privacy Policy',
+      icon: (
+        <View style={{position: 'relative', right: -3}}>
+          <SvgPrivacy />
         </View>
       ),
     },
