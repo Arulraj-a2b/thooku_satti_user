@@ -1,6 +1,5 @@
-
 export const routesPath = {
-  ALL_SCREEN:'AllScreen',
+  ALL_SCREEN: 'AllScreen',
   LOGIN_SCREEN: 'LoginScreen',
   REGISTER_SCREEN: 'RegisterScreen',
   HOME_SCREEN: 'HomeScreen',
@@ -20,6 +19,7 @@ export const routesPath = {
   BOOKING_TABLE_SCREEN: 'TableBookingScreen',
   ABOUT_SCREEN: 'AboutScreen',
   DINING_VIEW_DEAILS_SCREEN: 'DiningViewDetailsScreen',
+  PRIVACY_SCREEN: 'PrivacyScreen',
 };
 
 export const stacks = {

@@ -138,6 +138,17 @@ const DrawerContent = props => {
         </View>
       ),
     },
+    {
+      route: () => {
+        props.navigation.navigate(routesPath.PRIVACY_SCREEN);
+      },
+      title: 'Privacy Policy',
+      icon: (
+        <View style={{position: 'relative', right: -3}}>
+          <SvgHelp />
+        </View>
+      ),
+    },
   ];
 
   return (

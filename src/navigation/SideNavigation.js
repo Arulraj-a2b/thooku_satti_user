@@ -11,6 +11,7 @@ import OrderDetailsScreen from '../modules/myordermodule/OrderDetailsScreen';
 import TableBookingScreen from '../modules/bookingmodule/TableBookingScreen';
 import AboutScreen from '../modules/aboutmodule/AboutScreen';
 import DiningViewDetailsScreen from '../modules/myordermodule/DiningViewDetailsScreen';
+import PrivacyScreen from '../modules/privacymodule/PrivacyScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -91,6 +92,16 @@ const SideNavigation = () => {
         options={() => ({
           title: '',
           header: props => <Header props={props} />,
+        })}
+      />
+      <Drawer.Screen
+        name={routesPath.PRIVACY_SCREEN}
+        component={PrivacyScreen}
+        options={() => ({
+          title: '',
+          header: props => (
+            <Header props={props} backPath={routesPath.HOME_SCREEN} />
+          ),
         })}
       />
     </Drawer.Navigator>
