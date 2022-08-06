@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React from 'react';
+import React, {useState} from 'react';
 import {
   FlatList,
   Image,
@@ -12,8 +12,8 @@ import {useSelector} from 'react-redux';
 import SvgSearch from '../../icons/SvgSearch';
 import {routesPath} from '../../routes/routesPath';
 import Card from '../../uikit/Card/Card';
+import DropDown from '../../uikit/DropDown/DropDown';
 import Flex from '../../uikit/Flex/Flex';
-import InputText from '../../uikit/InputText/InputText';
 import Text from '../../uikit/Text/Text';
 import HomePlaceHolder from './HomePlaceHolder';
 
@@ -81,24 +81,36 @@ const MainHomeScreen = () => {
     };
   });
 
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    {label: 'Apple', value: 'apple', icon: () => <SvgSearch />},
+    {label: 'Banana', value: 'banana', icon: () => <SvgSearch />},
+  ]);
+
   if (isLoading) {
     return <HomePlaceHolder />;
   }
+
   return (
     <ScrollView>
       <Flex overrideStyle={styles.overAll}>
         <View style={{paddingHorizontal: 16, marginBottom: 20}}>
-          <InputText
+          <DropDown
             placeholder={'Find restaurant'}
-            types={'normal'}
-            actionLeft={() => <SvgSearch />}
+            required
+            value={value}
+            setValue={setValue}
+            data={items}
+            ArrowDownIconComponent={() => <SvgSearch />}
+            ArrowUpIconComponent={() => <SvgSearch />}
+            searchPlaceholder={'Search restaurant...'}
           />
         </View>
 
         {data?.OrderAgainList.length !== 0 && (
           <View>
             <Text size={16} bold overrideStyle={styles.orderText}>
-              Order Again !
+              Order again !
             </Text>
             <FlatList
               style={styles.flatListOverAll}
@@ -115,7 +127,7 @@ const MainHomeScreen = () => {
         {data?.PromotionResponse.length !== 0 && (
           <View style={{marginTop: 20}}>
             <Text size={16} bold overrideStyle={styles.orderText}>
-              Check out these Greate Offers !!!
+              Check out the greate offers !!!
             </Text>
             <FlatList
               style={styles.flatListOverAll}

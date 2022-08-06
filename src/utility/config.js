@@ -23,7 +23,7 @@ export const useAuthCheck = setLoader => {
   const authUser = async () => {
     try {
       let userData = await AsyncStorage.getItem('userData');
-      console.log('userData',userData);
+      // console.log('userData',userData);
       let geoLocation = await AsyncStorage.getItem('geoLocationDone');
       userData = JSON.parse(userData);
       geoLocation = JSON.parse(geoLocation);
