@@ -28,6 +28,7 @@ const DropDown = ({
   searchPlaceholder,
   itemSeparator,
   renderListItem,
+  showArrowIcon
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -55,6 +56,7 @@ const DropDown = ({
         itemSeparator={itemSeparator}
         renderListItem={renderListItem}
         itemSeparatorStyle={{backgroundColor: BORDER_COLOR}}
+        showArrowIcon={showArrowIcon}
       />
     </LabelWrapper>
   );

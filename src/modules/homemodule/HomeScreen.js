@@ -13,6 +13,8 @@ import {
   checkLatestVersionMiddleWare,
   getRestaurantListMiddleWare,
 } from './store/homeMiddleware';
+import {useRoute} from '@react-navigation/native';
+import {isEmpty} from '../../uikit/UikitUtils/validators';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -27,6 +29,7 @@ const styles = StyleSheet.create({
 
 const HomeScreen = ({navigation}) => {
   const dispatch = useDispatch();
+  const route = useRoute();
   const [isAll, setAll] = useState(false);
   const [isSearch, setSearch] = useState('');
   const [isSelectHotelName, setSelectHotelName] = useState({name: '', id: ''});
@@ -60,7 +63,6 @@ const HomeScreen = ({navigation}) => {
         });
     });
   };
-
   const {
     isLoading,
     data,
@@ -87,12 +89,26 @@ const HomeScreen = ({navigation}) => {
   );
   useEffect(() => {
     getUserData();
-    dispatch(getRestaurantListMiddleWare({LocationID: locationID.LocationID}));
+    dispatch(
+      getRestaurantListMiddleWare({
+        LocationID: locationID.LocationID,
+        SearchText: route.params?.search ? route.params?.search : '',
+        Type: route.params?.type ? route.params?.type : '',
+      }),
+    );
   }, []);
 
   const handleViewAll = () => {
     setAll(true);
     handleSearch('');
+    if (isEmpty(route.params?.search)) {
+      dispatch(
+        getRestaurantListMiddleWare({
+          LocationID: locationID.LocationID,
+          Type: route.params?.type ? route.params?.type : '',
+        }),
+      );
+    }
   };
 
   const handleSearch = value => {
@@ -108,6 +124,7 @@ const HomeScreen = ({navigation}) => {
   if (isLoading || calculateLoading) {
     return <HomePlaceHolder />;
   }
+
   return (
     <Flex overrideStyle={styles.overAll}>
       {(checkCartLoading || isLoader) && <Loader />}

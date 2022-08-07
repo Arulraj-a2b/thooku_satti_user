@@ -12,6 +12,7 @@ export const CHANGE_PASSWORD = 'forgot/CHANGE_PASSWORD';
 export const GET_RESTAURANT_LIST = 'home/GET_RESTAURANT_LIST';
 export const CHECK_LATEST_VERSION = 'home/CHECK_LATEST_VERSION';
 export const CHECK_DASHBOARD = 'home/CHECK_DASHBOARD';
+export const SEARCH_RESTAURANT_ITEM = 'home/SEARCH_RESTAURANT_ITEM';
 
 export const GET_FOOD_ITEMS = 'hotel_view/GET_FOOD_ITEMS';
 export const GET_CATEGORY_LIST = 'hotel_view/GET_CATEGORY_LIST';

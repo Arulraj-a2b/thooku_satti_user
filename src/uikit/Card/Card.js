@@ -4,7 +4,7 @@ import { BLACK, WHITE } from '../UikitUtils/colors';
 
 const styles = StyleSheet.create({
   cardStyle: {
-    borderRadius: 10,
+    borderRadius: 8,
     elevation: 4,
     shadowColor: BLACK,
     shadowOffset: {width: 1, height: 3},

@@ -11,7 +11,8 @@ import {
 import {
   getRestaurantListReducers,
   checkLatestVersionReducers,
-  getHomeDashboardReducers
+  getHomeDashboardReducers,
+  searchRestaurantandItemsReducers
 } from '../modules/homemodule/store/homeReducer';
 import {getAddressReducers} from '../modules/mapmodule/store/mapReducer';
 import {
@@ -55,5 +56,6 @@ export const reducers = {
   aboutReducers,
   getDiningListReducers,
   getDiningDetailsReducers,
-  getHomeDashboardReducers
+  getHomeDashboardReducers,
+  searchRestaurantandItemsReducers
 };

@@ -33,3 +33,4 @@ export const checkVersionApi = fetchUrl('CheckLatestVersion');
 export const aboutApi = fetchUrl('GetAboutus');
 export const getDiningListApi = fetchUrl('GetSpecificUserDining');
 export const uploadBillApi = fetchUrl(`UploadBill`);
+export const searchRestaurantandItemsApi = fetchUrl('SearchRestaurantandItems');

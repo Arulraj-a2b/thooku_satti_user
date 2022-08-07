@@ -3,6 +3,7 @@ import {
   checkLatestVersionMiddleWare,
   getHomeDashboardMiddleWare,
   getRestaurantListMiddleWare,
+  searchRestaurantandItemsMiddleWare,
 } from './homeMiddleware';
 
 const getRestaurantListState = {
@@ -103,6 +104,35 @@ const getHomeDashboardReducer = createSlice({
   },
 });
 
+const searchRestaurantandItemsInitialState = {
+  isLoading: false,
+  error: '',
+  data: [],
+};
+
+const searchRestaurantandItemsReducer = createSlice({
+  name: 'searchRestaurantandItems',
+  initialState: searchRestaurantandItemsInitialState,
+  reducers: {},
+  extraReducers: builder => {
+    builder.addCase(searchRestaurantandItemsMiddleWare.pending, state => {
+      state.isLoading = true;
+      state.error = '';
+    });
+    builder.addCase(searchRestaurantandItemsMiddleWare.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.data = action.payload;
+    });
+    builder.addCase(searchRestaurantandItemsMiddleWare.rejected, (state, action) => {
+      state.isLoading = false;
+      if (typeof action.payload === 'string') {
+        state.error = action.payload;
+      }
+    });
+  },
+});
+
 export const getRestaurantListReducers = getRestaurantListReducer.reducer;
 export const checkLatestVersionReducers = checkLatestVersionReducer.reducer;
 export const getHomeDashboardReducers = getHomeDashboardReducer.reducer;
+export const searchRestaurantandItemsReducers = searchRestaurantandItemsReducer.reducer;
