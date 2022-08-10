@@ -30,7 +30,9 @@ const HomeStack = () => {
         name={routesPath.LIST_HOME_SCREEN}
         component={HomeScreen}
         options={{
-          header: props => <Header props={props} isMenu />,
+          header: props => (
+            <Header props={props} backPath={routesPath.HOME_SCREEN} isMenu />
+          ),
         }}
       />
       <Stack.Screen

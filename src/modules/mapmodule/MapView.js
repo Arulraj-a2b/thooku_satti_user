@@ -22,9 +22,7 @@ import {API_KEY} from '../../uikit/UikitUtils/constants';
 import {mapStyle} from './mock';
 import {getAddressMiddleWare} from './store/mapMiddleware';
 import {calculateLocationDistanceMiddleWare} from '../loginmodule/store/loginScreenMiddleware';
-import {
-  getHomeDashboardMiddleWare,
-} from '../homemodule/store/homeMiddleware';
+import {getHomeDashboardMiddleWare} from '../homemodule/store/homeMiddleware';
 
 const styles = StyleSheet.create({
   body: {
@@ -106,17 +104,7 @@ const MapView = () => {
   const handleSubmit = async () => {
     AsyncStorage.setItem('geoLocationDone', JSON.stringify(isGetLocation));
     try {
-      let userData = await AsyncStorage.getItem('userData');
-      if (userData) {
-        userData = JSON.parse(userData);
-        if (userData.loggedIn) {
-          navigation.navigate(routesPath.ALL_SCREEN);
-        } else {
-          navigation.navigate(routesPath.LOGIN_SCREEN);
-        }
-      } else {
-        navigation.navigate(routesPath.LOGIN_SCREEN);
-      }
+      navigation.navigate(routesPath.ALL_SCREEN);
     } catch (error) {
       navigation.navigate(routesPath.LOGIN_SCREEN);
     }

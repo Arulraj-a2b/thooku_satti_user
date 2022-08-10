@@ -1,34 +1,43 @@
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
+import Modal from 'react-native-modal';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   FlatList,
   Image,
-  Pressable,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
   View,
+  Dimensions,
+  Pressable,
+  Keyboard,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import SvgSearch from '../../icons/SvgSearch';
 import {routesPath} from '../../routes/routesPath';
 import Card from '../../uikit/Card/Card';
-import DropDown from '../../uikit/DropDown/DropDown';
+import InputText from '../../uikit/InputText/InputText';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import {isEmpty} from '../../uikit/UikitUtils/validators';
 import HomePlaceHolder from './HomePlaceHolder';
 import {
+  getHomeDashboardMiddleWare,
   searchRestaurantandItemsMiddleWare,
 } from './store/homeMiddleware';
+import {BORDER_COLOR} from '../../uikit/UikitUtils/colors';
+import SvgClose from '../../icons/SvgClose';
+import {OrderAginList, PromotionList} from './homeScreenHelper';
 
+const {height} = Dimensions.get('screen');
 const styles = StyleSheet.create({
   overAll: {
     flex: 1,
     paddingVertical: 24,
   },
   flatListOverAll: {
-    paddingVertical: 8,
+    paddingBottom: 8,
   },
   foodList: {
     paddingHorizontal: 16,
@@ -42,38 +51,13 @@ const styles = StyleSheet.create({
     width: 80,
     borderRadius: 100,
   },
-  orderList: {
-    marginHorizontal: 8,
-    marginVertical: 2,
-    position: 'relative',
-  },
-  orderImage: {
-    height: 100,
-    width: 130,
-    borderRadius: 8,
-  },
-  promoImage: {
-    height: 80,
-    width: 150,
-    borderRadius: 8,
-  },
   orderText: {
     paddingHorizontal: 16,
+    marginBottom: 8,
   },
   itemFlex: {
     paddingHorizontal: 16,
     marginTop: 20,
-  },
-  orderName: {
-    position: 'absolute',
-    backgroundColor: 'rgba(0,0,0,0.50)',
-    width: '100%',
-    bottom: 0,
-    borderBottomLeftRadius: 8,
-    borderBottomRightRadius: 8,
-    height: 30,
-    paddingHorizontal: 8,
-    justifyContent: 'center',
   },
   imgStyle: {
     height: 30,
@@ -84,12 +68,33 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginTop: 12,
   },
+  searchStyle: {
+    borderWidth: 1,
+    borderColor: BORDER_COLOR,
+    height: 44,
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    marginHorizontal: 16,
+  },
 });
 
 const MainHomeScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState('');
+  const [isSearch, setSearch] = useState(false);
+  const [userDetails, setUserDetails] = useState();
+
+  useEffect(() => {
+    getUserData();
+  }, []);
+
+  const getUserData = async () => {
+    const userData = await AsyncStorage.getItem('userData');
+    if (userData) {
+      setUserDetails(JSON.parse(userData));
+    }
+  };
 
   const {isLoading, data, locationID, getSearchData} = useSelector(
     ({
@@ -108,73 +113,137 @@ const MainHomeScreen = () => {
 
   useFocusEffect(
     useCallback(() => {
-      setValue(null);
+      setValue('');
     }, []),
   );
+
   useEffect(() => {
+    dispatch(
+      getHomeDashboardMiddleWare({
+        LocationID: locationID.LocationID,
+      }),
+    );
     dispatch(
       searchRestaurantandItemsMiddleWare({LocationID: locationID.LocationID}),
     );
   }, [locationID]);
 
-  const getSearch = useMemo(() => {
-    const result = getSearchData.map(list => {
-      return !isEmpty(list.Imagename)
-        ? {
-            value: list.SearchText.toLowerCase(),
-            label: list.SearchText,
-            icon: () => (
-              <Card>
-                <Image style={styles.imgStyle} source={{uri: list.Imagename}} />
-              </Card>
-            ),
-          }
-        : {
-            value: list.SearchText.toLowerCase(),
-            label: list.SearchText,
-          };
-    });
-    return result;
-  }, [getSearchData]);
-
-  const handleSearch = () => {
+  const handleSearch = value => {
+    setValue(value);
     navigation.navigate(routesPath.LIST_HOME_SCREEN, {search: value});
+    setSearch(false);
   };
-  const checkEmpty =
-    data?.menuResponse.length === 0 &&
-    data?.OrderAgainList.length === 0 &&
-    data?.PromotionResponse.length === 0;
+
+  const results = value
+    ? getSearchData &&
+      getSearchData.filter(option =>
+        option.SearchText.toLowerCase().includes(value.toLowerCase()),
+      )
+    : getSearchData;
+
+  const handleMenu = id => {
+    if (isEmpty(userDetails)) {
+      navigation.navigate(routesPath.LOGIN_SCREEN, {
+        type: id,
+      });
+    } else {
+      if (id === 1 || id === 2) {
+        navigation.navigate(routesPath.LIST_HOME_SCREEN, {
+          type: id,
+        });
+      } else if (id === 4) {
+        navigation.navigate(routesPath.BOOKING_TABLE_SCREEN);
+      }
+    }
+  };
 
   if (isLoading) {
     return <HomePlaceHolder />;
   }
-  return !checkEmpty ? (
+
+  return Array.isArray(data) && data.length !== 0 ? (
     <ScrollView>
       <Flex overrideStyle={styles.overAll}>
         <>
-          <View style={{paddingHorizontal: 16, marginBottom: 20}}>
-            <DropDown
-              placeholder={'Restaurant name or dish...'}
-              required
-              value={value}
-              setValue={setValue}
-              data={getSearch}
-              ArrowDownIconComponent={() => (
-                <Pressable onPress={handleSearch}>
-                  <SvgSearch />
-                </Pressable>
-              )}
-              ArrowUpIconComponent={() => (
-                <Pressable onPress={handleSearch}>
-                  <SvgSearch />
-                </Pressable>
-              )}
-              searchPlaceholder={'Restaurant name or dish...'}
-              showArrowIcon={!isEmpty(value)}
-            />
+          <View
+            style={{
+              marginBottom: 20,
+              position: 'relative',
+            }}>
+            <TouchableOpacity onPress={() => setSearch(true)}>
+              <Flex row center between overrideStyle={styles.searchStyle}>
+                <Text
+                  color={isEmpty(value) ? 'gray' : 'black'}
+                  overrideStyle={{position: 'relative', top: 2}}>
+                  {isEmpty(value) ? 'Restaurant name or dish...' : value}
+                </Text>
+                <SvgSearch />
+              </Flex>
+            </TouchableOpacity>
+            {isSearch && (
+              <Modal
+                animationInTiming={0}
+                animationIn="slideInDown"
+                isVisible={isSearch}>
+                <Card>
+                  <ScrollView scrollEnabled={false}>
+                    <Flex overrideStyle={{height: height - 80}}>
+                      <View
+                        style={{
+                          marginTop: 16,
+                          marginBottom: 8,
+                          paddingHorizontal: 16,
+                          display: 'flex',
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                        }}>
+                        <View style={{width: '90%'}}>
+                          <InputText
+                            placeholder={'Restaurant name or dish...'}
+                            types="normal"
+                            value={value}
+                            onChange={a => setValue(a)}
+                            actionRight={() => <SvgSearch />}
+                          />
+                        </View>
+
+                        <Pressable
+                          onPress={() => setSearch(false)}
+                          style={{marginRight: 16, marginLeft: 16}}>
+                          <SvgClose />
+                        </Pressable>
+                      </View>
+
+                      <FlatList
+                        onScroll={() => {
+                          Keyboard.dismiss();
+                        }}
+                        style={{paddingHorizontal: 16, paddingVertical: 8}}
+                        onEndReachedThreshold={0.1}
+                        data={results}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({item, index}) => (
+                          <View
+                            style={{
+                              marginBottom:
+                                index === results.length - 1 ? 40 : 8,
+                            }}>
+                            <SearchList
+                              key={index.toString()}
+                              item={item}
+                              handleSearch={handleSearch}
+                            />
+                          </View>
+                        )}
+                      />
+                    </Flex>
+                  </ScrollView>
+                </Card>
+              </Modal>
+            )}
           </View>
 
-          {data?.OrderAgainList.length !== 0 && (
+          {data[0]?.OrderAgainList.length !== 0 && (
             <View>
               <Text size={16} bold overrideStyle={styles.orderText}>
                 Order again !
@@ -183,7 +252,7 @@ const MainHomeScreen = () => {
                 style={styles.flatListOverAll}
                 horizontal={true}
                 onEndReachedThreshold={0.1}
-                data={data?.OrderAgainList}
+                data={data[0]?.OrderAgainList}
                 keyExtractor={(item, index) =>
                   item.HotelID.toString() + index.toString()
                 }
@@ -191,7 +260,7 @@ const MainHomeScreen = () => {
               />
             </View>
           )}
-          {data?.PromotionResponse.length !== 0 && (
+          {data[0]?.PromotionResponse.length !== 0 && (
             <View style={{marginTop: 20}}>
               <Text size={16} bold overrideStyle={styles.orderText}>
                 Check out the greate offers !!!
@@ -200,27 +269,26 @@ const MainHomeScreen = () => {
                 style={styles.flatListOverAll}
                 horizontal={true}
                 onEndReachedThreshold={0.1}
-                data={data?.PromotionResponse}
+                data={data[0]?.PromotionResponse}
                 keyExtractor={(_a, index) => index.toString()}
-                renderItem={PromotionList}
+                renderItem={({item}) => (
+                  <PromotionList item={item} handleSearch={handleSearch} />
+                )}
               />
             </View>
           )}
-          {data?.menuResponse.length !== 0 && (
+
+          {data[0]?.menuResponse.length !== 0 && (
             <View style={styles.itemFlex}>
               <Text size={16} bold>
                 Eat what makes you fall in love with food !
               </Text>
               <Flex row wrap middle>
-                {data?.menuResponse.map(list => {
+                {data[0].menuResponse.map(list => {
                   return (
                     <TouchableOpacity
                       key={list.MenuImage}
-                      onPress={() =>
-                        navigation.navigate(routesPath.LIST_HOME_SCREEN, {
-                          type: list.MenuID,
-                        })
-                      }>
+                      onPress={() => handleMenu(list.MenuID)}>
                       <Flex center overrideStyle={styles.foodList}>
                         <Card overrideStyle={styles.radius}>
                           <Image
@@ -261,39 +329,3 @@ const MainHomeScreen = () => {
 };
 
 export default MainHomeScreen;
-
-const OrderAginList = ({item, index}) => {
-  return (
-    <Flex
-      overrideStyle={[styles.orderList, {marginLeft: index === 0 ? 16 : 8}]}>
-      <TouchableOpacity>
-        <Card>
-          <Image style={styles.orderImage} source={{uri: item.HotelImage}} />
-          <Flex overrideStyle={styles.orderName}>
-            <Text
-              color="white"
-              size={12}
-              numberOfLines={1}
-              ellipsizeMode="tail">
-              {item.HotelName}
-            </Text>
-          </Flex>
-        </Card>
-      </TouchableOpacity>
-    </Flex>
-  );
-};
-
-const PromotionList = ({item, index}) => {
-  return (
-    <Flex
-      overrideStyle={[styles.orderList, {marginLeft: index === 0 ? 16 : 8}]}>
-      <Card>
-        <Image
-          style={styles.promoImage}
-          source={{uri: item.PromotionImageName}}
-        />
-      </Card>
-    </Flex>
-  );
-};

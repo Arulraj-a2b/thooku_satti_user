@@ -12,10 +12,8 @@ import Text from '../uikit/Text/Text';
 import Button from '../uikit/Button/Button';
 import SvgMyorder from '../icons/SvgMyorder';
 import SvgCart from '../icons/SvgCart';
-import SvgProfile from '../icons/SvgProfile';
 import SvgContacts from '../icons/SvgContacts';
 import SvgHelp from '../icons/SvgHelp';
-import SvgLocation3 from '../icons/SvgLocation3';
 import {routesPath} from '../routes/routesPath';
 import SvgLogout from '../icons/SvgLogout';
 import {WHITE} from '../uikit/UikitUtils/colors';
@@ -79,6 +77,7 @@ const DrawerContent = props => {
       setUserDetails(JSON.parse(userData));
     }
   };
+  
   const dataList = [
     {
       route: () => {

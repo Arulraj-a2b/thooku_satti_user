@@ -93,7 +93,7 @@ const getHomeDashboardReducer = createSlice({
     });
     builder.addCase(getHomeDashboardMiddleWare.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.data = action.payload[0];
+      state.data = action.payload;
     });
     builder.addCase(getHomeDashboardMiddleWare.rejected, (state, action) => {
       state.isLoading = false;
