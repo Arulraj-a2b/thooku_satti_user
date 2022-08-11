@@ -22,6 +22,7 @@ export const routesPath = {
   LIST_HOME_SCREEN: 'ListHomeScreen',
   PRIVACY_SCREEN: 'PrivacyScreen',
   MARKET_ORDER_SCREEN: 'MarketOrderScreen',
+  MARKET_ORDER_VIEW_SCREEN: 'MarketOrderViewScreen',
 };
 
 export const stacks = {

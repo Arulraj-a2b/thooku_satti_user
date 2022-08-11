@@ -14,6 +14,7 @@ import DiningViewDetailsScreen from '../modules/myordermodule/DiningViewDetailsS
 import PrivacyScreen from '../modules/privacymodule/PrivacyScreen';
 import MarketOrderScreen from '../modules/marketmodule/MarketOrderScreen';
 import {WHITE} from '../uikit/UikitUtils/colors';
+import MarketOrderViewScreen from '../modules/marketmodule/MarketOrderViewScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -146,6 +147,26 @@ const SideNavigation = () => {
         }}
         name={routesPath.MARKET_ORDER_SCREEN}
         component={MarketOrderScreen}
+      />
+      <Drawer.Screen
+        options={{
+          header: props => (
+            <Header
+              handleBack={() => {
+                props.navigation.navigate(routesPath.ALL_SCREEN, {
+                  screen: 'BottomTab',
+                  params: {
+                    screen: routesPath.HOME_SCREEN,
+                  },
+                });
+              }}
+              props={props}
+              isMenu
+            />
+          ),
+        }}
+        name={routesPath.MARKET_ORDER_VIEW_SCREEN}
+        component={MarketOrderViewScreen}
       />
       <Drawer.Screen
         options={{

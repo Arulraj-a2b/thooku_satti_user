@@ -1,6 +1,6 @@
-import {useRoute} from '@react-navigation/native';
+import {useFocusEffect, useRoute} from '@react-navigation/native';
 import {useFormik} from 'formik';
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   Image,
   ScrollView,
@@ -22,6 +22,8 @@ import {
 } from './store/marketOrderScreenMiddleware';
 import {isEmpty} from '../../uikit/UikitUtils/validators';
 import ErrorMessage from '../../uikit/ErrorMessage/ErrorMessage';
+import OrderSuccess from './OrderSuccess';
+import Loader from '../../uikit/Loader/Loader';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -39,26 +41,30 @@ const styles = StyleSheet.create({
 const MarketOrderScreen = () => {
   const dispatch = useDispatch();
   const {params} = useRoute();
+  const [isSuccess, setSuccess] = useState();
+  const [isLoader, setLoader] = useState(false);
 
   useEffect(() => {
     dispatch(getCustomerInfoMiddleWare());
   }, []);
 
-  const {isLoading, data} = useSelector(({getCustomerInfoReducers}) => {
-    return {
-      isLoading: getCustomerInfoReducers.isLoading,
-      data: getCustomerInfoReducers.data,
-    };
-  });
-
+  const {isLoading, data, orderId} = useSelector(
+    ({getCustomerInfoReducers, saveMarketOrderReducers}) => {
+      return {
+        isLoading: getCustomerInfoReducers.isLoading,
+        data: getCustomerInfoReducers.data,
+        orderId: saveMarketOrderReducers.data?.OrderNo,
+      };
+    },
+  );
   const handleValidate = values => {
     const errors = {};
 
     if (isEmpty(values.address)) {
-      errors.address = "Address Field Requuired";
+      errors.address = 'Address Field Requuired';
     }
     if (isEmpty(values.file)) {
-      errors.file = "Image Field Requuired";
+      errors.file = 'Image Field Requuired';
     }
     return errors;
   };
@@ -70,6 +76,7 @@ const MarketOrderScreen = () => {
   });
 
   const handleSubmit = value => {
+    setLoader(true);
     const formData = new FormData();
     formData.append('file', {
       uri: value.file?.uri,
@@ -84,14 +91,23 @@ const MarketOrderScreen = () => {
     } else if (params?.name.toLowerCase() === 'vegetables') {
       formData.append('OrderType', 'VBL');
     }
-    dispatch(saveMarketOrderMiddleWare({formData})).then(res => {
-      console.log('res', res);
-    });
+    dispatch(saveMarketOrderMiddleWare({formData}))
+      .then(res => {
+        if (res.payload) {
+          setSuccess(true);
+        }
+        setLoader(false);
+      })
+      .then(() => {
+        setLoader(false);
+      });
   };
 
-  useEffect(() => {
-    formik.setFieldValue('address', data?.DeliveryAddress);
-  }, [data]);
+  useFocusEffect(
+    useCallback(() => {
+      formik.setFieldValue('address', data?.DeliveryAddress);
+    }, [data]),
+  );
 
   const chooseImage = () => {
     const options = {
@@ -117,89 +133,100 @@ const MarketOrderScreen = () => {
   }
 
   return (
-    <ScrollView>
-      <Flex overrideStyle={styles.overAll}>
-        <Flex row overrideStyle={styles.marginBottom}>
-          <Text bold>
-            Order Type:{' '}
-          </Text>
-          <Text>{params?.name}</Text>
-        </Flex>
-        <InputText
-          value={data?.Name}
-          types="normal"
-          label={'Customer Name'}
-          disabled
-        />
-        <View style={styles.marginBottom}>
+    <>
+      <OrderSuccess
+        open={isSuccess}
+        close={() => {
+          formik.resetForm();
+          setSuccess(false);
+        }}
+        orderId={orderId}
+      />
+      {isLoader && <Loader />}
+      <ScrollView>
+        <Flex overrideStyle={styles.overAll}>
+          <Flex row overrideStyle={styles.marginBottom}>
+            <Text bold>Order Type: </Text>
+            <Text>{params?.name}</Text>
+          </Flex>
           <InputText
-            value={data?.ContactNo}
+            value={data?.Name}
             types="normal"
-            label={'Mobile Number'}
+            label={'Customer Name'}
             disabled
           />
-        </View>
-        <View style={styles.marginBottom}>
-          <InputText
-            value={data?.WhatsappNo}
-            types="normal"
-            label={'Whatsapp Number'}
-            disabled
-          />
-        </View>
-        <View style={styles.marginBottom}>
-          <InputText
-            required
-            numberOfLines={5}
-            maxLength={500}
-            height={100}
-            value={formik.values.address}
-            types="normal"
-            label={'Delivery Address'}
-            onChange={formik.handleChange('address')}
-            overrideStyle={styles.addressInput}
-          />
-          <ErrorMessage
-            name={'address'}
-            touched={formik.touched}
-            errors={formik.errors}
-          />
-        </View>
-        <Flex style={styles.marginBottom}>
-          <LabelWrapper label={'Upload Order List'} required>
-            {!isEmpty(formik.values.file) && (
-              <>
-                <Image
-                  source={{uri: formik.values.file?.uri}}
-                  style={{height: 100, width: '100%'}}
-                  resizeMode="contain"
-                />
-                <TouchableOpacity onPress={chooseImage} style={{marginTop: 20}}>
+          <View style={styles.marginBottom}>
+            <InputText
+              value={data?.ContactNo}
+              types="normal"
+              label={'Mobile Number'}
+              disabled
+            />
+          </View>
+          <View style={styles.marginBottom}>
+            <InputText
+              value={data?.WhatsappNo}
+              types="normal"
+              label={'Whatsapp Number'}
+              disabled
+            />
+          </View>
+          <View style={styles.marginBottom}>
+            <InputText
+              required
+              numberOfLines={5}
+              maxLength={500}
+              height={100}
+              value={formik.values.address}
+              types="normal"
+              label={'Delivery Address'}
+              onChange={formik.handleChange('address')}
+              overrideStyle={styles.addressInput}
+            />
+            <ErrorMessage
+              name={'address'}
+              touched={formik.touched}
+              errors={formik.errors}
+            />
+          </View>
+          <Flex style={styles.marginBottom}>
+            <LabelWrapper label={'Upload Order List'} required>
+              {!isEmpty(formik.values.file) && (
+                <>
+                  <Image
+                    source={{uri: formik.values.file?.uri}}
+                    style={{height: 100, width: '100%'}}
+                    resizeMode="contain"
+                  />
+                  <TouchableOpacity
+                    onPress={chooseImage}
+                    style={{marginTop: 20}}>
+                    <Text bold align={'center'} color="link">
+                      Change Image
+                    </Text>
+                  </TouchableOpacity>
+                </>
+              )}
+              {isEmpty(formik.values.file) && (
+                <TouchableOpacity onPress={chooseImage}>
                   <Text bold align={'center'} color="link">
-                    Change Image
+                    Upload Image
                   </Text>
                 </TouchableOpacity>
-              </>
-            )}
-            {isEmpty(formik.values.file) && (
-              <TouchableOpacity onPress={chooseImage}>
-                <Text bold align={'center'} color="link">
-                  Upload Image
-                </Text>
-              </TouchableOpacity>
-            )}
-          </LabelWrapper>
-          <ErrorMessage
-            name={'file'}
-            touched={formik.touched}
-            errors={formik.errors}
-          />
+              )}
+            </LabelWrapper>
+            <ErrorMessage
+              name={'file'}
+              touched={formik.touched}
+              errors={formik.errors}
+            />
+          </Flex>
+          <Flex overrideStyle={{marginTop: 24}}>
+            <Button onClick={formik.handleSubmit}>Save</Button>
+          </Flex>
         </Flex>
-        <Flex overrideStyle={{marginTop: 24}}>
-          <Button onClick={formik.handleSubmit}>Save</Button>
-        </Flex>
-      </Flex>
-    </ScrollView>
+      </ScrollView>
+    </>
   );
 };
 

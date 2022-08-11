@@ -36,6 +36,7 @@ import {
 import {
   getCustomerInfoReducers,
   getMarketOrderReducers,
+  saveMarketOrderReducers,
 } from '../modules/marketmodule/store/marketOrderScreenReducer';
 
 export const reducers = {
@@ -64,4 +65,5 @@ export const reducers = {
   searchRestaurantandItemsReducers,
   getCustomerInfoReducers,
   getMarketOrderReducers,
+  saveMarketOrderReducers,
 };
