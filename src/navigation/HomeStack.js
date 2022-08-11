@@ -3,7 +3,7 @@ import React from 'react';
 import HomeScreen from '../modules/homemodule/HomeScreen';
 import MainHomeScreen from '../modules/homemodule/MainHomeScreen';
 import HotelListViewScreen from '../modules/hotelviewmodule/HotelListViewScreen';
-import {routesPath} from '../routes/routesPath';
+import {routesPath, stacks} from '../routes/routesPath';
 import {WHITE} from '../uikit/UikitUtils/colors';
 import Header from './Header';
 
@@ -31,7 +31,21 @@ const HomeStack = () => {
         component={HomeScreen}
         options={{
           header: props => (
-            <Header props={props} backPath={routesPath.HOME_SCREEN} isMenu />
+            <Header
+              props={props}
+              handleBack={() => {
+                props.navigation.navigate(routesPath.ALL_SCREEN, {
+                  screen: 'BottomTab',
+                  params: {
+                    screen: stacks.HomeStack,
+                    params: {
+                      screen: routesPath.HOME_SCREEN,
+                    },
+                  },
+                });
+              }}
+              isMenu
+            />
           ),
         }}
       />

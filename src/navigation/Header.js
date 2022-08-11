@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Header = ({props, isBack, isMenu, isLocation, backPath}) => {
+const Header = ({props, isBack, isMenu, isLocation, handleBack}) => {
   const dispatch = useDispatch();
 
   const {data} = useSelector(({getAddressReducers}) => {
@@ -55,7 +55,6 @@ const Header = ({props, isBack, isMenu, isLocation, backPath}) => {
   async function requestLocationPermission() {
     let geoLocation = await AsyncStorage.getItem('geoLocationDone');
     geoLocation = JSON.parse(geoLocation);
-    // console.log('geoLocation',geoLocation);
     try {
       if (geoLocation) {
         dispatch(
@@ -65,30 +64,7 @@ const Header = ({props, isBack, isMenu, isLocation, backPath}) => {
           }),
         );
       }
-    } catch {
-
-    }
-    // var res = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
-    // if (res === 'granted') {
-    //   await Geolocation.getCurrentPosition(
-    //     ({coords}) => {
-    //       dispatch(
-    //         getAddressMiddleWare({
-    //           address: `${coords.latitude},${coords.longitude}`,
-    //           key: API_KEY,
-    //         }),
-    //       );
-    //     },
-    //     _error => {
-    //       // Alert.alert(error.code,error.message)
-    //     },
-    //     {
-    //       enableHighAccuracy: true,
-    //       timeout: 15000,
-    //       maximumAge: 10000,
-    //     },
-    //   );
-    // }
+    } catch {}
   }
 
   const handleOpenDrawer = () => {
@@ -96,10 +72,10 @@ const Header = ({props, isBack, isMenu, isLocation, backPath}) => {
   };
 
   const handleGoBack = () => {
-    if (isEmpty(backPath)) {
-      props.navigation.goBack();
+    if (typeof handleBack === 'function') {
+      handleBack();
     } else {
-      props.navigation.navigate(backPath);
+      props.navigation.goBack();
     }
   };
 

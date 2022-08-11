@@ -153,6 +153,8 @@ const MainHomeScreen = () => {
         });
       } else if (id === 4) {
         navigation.navigate(routesPath.BOOKING_TABLE_SCREEN);
+      } else {
+        navigation.navigate(routesPath.VEGETABLE_SCREEN);
       }
     }
   };

@@ -21,6 +21,7 @@ export const routesPath = {
   DINING_VIEW_DEAILS_SCREEN: 'DiningViewDetailsScreen',
   LIST_HOME_SCREEN: 'ListHomeScreen',
   PRIVACY_SCREEN: 'PrivacyScreen',
+  VEGETABLE_SCREEN: 'VegetableScreen',
 };
 
 export const stacks = {
