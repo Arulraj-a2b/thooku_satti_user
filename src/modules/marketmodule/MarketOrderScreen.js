@@ -77,11 +77,11 @@ const MarketOrderScreen = () => {
       name: value.file?.fileName,
     });
     formData.append('DeliveryAddress', value.address);
-    if (params?.type.toLowerCase() === 'fruits') {
+    if (params?.name.toLowerCase() === 'fruits') {
       formData.append('OrderType', 'FRT');
-    } else if (params?.type.toLowerCase() === 'grocery') {
+    } else if (params?.name.toLowerCase() === 'grocery') {
       formData.append('OrderType', 'GRO');
-    } else if (params?.type.toLowerCase() === 'vegetables') {
+    } else if (params?.name.toLowerCase() === 'vegetables') {
       formData.append('OrderType', 'VBL');
     }
     dispatch(saveMarketOrderMiddleWare({formData})).then(res => {
@@ -123,7 +123,7 @@ const MarketOrderScreen = () => {
           <Text bold>
             Order Type:{' '}
           </Text>
-          <Text>{params?.type}</Text>
+          <Text>{params?.name}</Text>
         </Flex>
         <InputText
           value={data?.Name}

@@ -112,7 +112,10 @@ const LoginScreen = () => {
           formik.resetForm();
           if (isEmpty(params?.type)) {
             navigation.navigate(routesPath.ALL_SCREEN);
-          } else if (params?.type.toString() === '1' || params?.type.toString() === '2') {
+          } else if (
+            params?.type.toString() === '1' ||
+            params?.type.toString() === '2'
+          ) {
             navigation.navigate(routesPath.ALL_SCREEN, {
               screen: 'BottomTab',
               params: {
@@ -128,6 +131,14 @@ const LoginScreen = () => {
               screen: routesPath.BOOKING_TABLE_SCREEN,
               params: {
                 type: params?.type,
+              },
+            });
+          } else {
+            navigation.navigate(routesPath.ALL_SCREEN, {
+              screen: routesPath.MARKET_ORDER_SCREEN,
+              params: {
+                type: params?.type,
+                name: params?.name,
               },
             });
           }

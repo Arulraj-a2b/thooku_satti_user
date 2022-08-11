@@ -146,6 +146,7 @@ const MainHomeScreen = () => {
     if (isEmpty(userDetails)) {
       navigation.navigate(routesPath.LOGIN_SCREEN, {
         type: id,
+        name: name,
       });
     } else {
       if (id === 1 || id === 2) {
@@ -156,8 +157,8 @@ const MainHomeScreen = () => {
         navigation.navigate(routesPath.BOOKING_TABLE_SCREEN);
       } else {
         navigation.navigate(routesPath.MARKET_ORDER_SCREEN, {
-          type: name,
-          id: id,
+          type: id,
+          name: name,
         });
       }
     }
