@@ -31,6 +31,7 @@ import SvgClose from '../../icons/SvgClose';
 import {OrderAginList, PromotionList} from './homeScreenHelper';
 
 const {height} = Dimensions.get('screen');
+
 const styles = StyleSheet.create({
   overAll: {
     flex: 1,
@@ -141,7 +142,7 @@ const MainHomeScreen = () => {
       )
     : getSearchData;
 
-  const handleMenu = id => {
+  const handleMenu = (id, name) => {
     if (isEmpty(userDetails)) {
       navigation.navigate(routesPath.LOGIN_SCREEN, {
         type: id,
@@ -154,7 +155,10 @@ const MainHomeScreen = () => {
       } else if (id === 4) {
         navigation.navigate(routesPath.BOOKING_TABLE_SCREEN);
       } else {
-        navigation.navigate(routesPath.VEGETABLE_SCREEN);
+        navigation.navigate(routesPath.MARKET_ORDER_SCREEN, {
+          type: name,
+          id: id,
+        });
       }
     }
   };
@@ -290,7 +294,7 @@ const MainHomeScreen = () => {
                   return (
                     <TouchableOpacity
                       key={list.MenuImage}
-                      onPress={() => handleMenu(list.MenuID)}>
+                      onPress={() => handleMenu(list.MenuID, list.MenuName)}>
                       <Flex center overrideStyle={styles.foodList}>
                         <Card overrideStyle={styles.radius}>
                           <Image

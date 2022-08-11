@@ -34,3 +34,6 @@ export const aboutApi = fetchUrl('GetAboutus');
 export const getDiningListApi = fetchUrl('GetSpecificUserDining');
 export const uploadBillApi = fetchUrl(`UploadBill`);
 export const searchRestaurantandItemsApi = fetchUrl('SearchRestaurantandItems');
+export const getCustomerInfoApi = fetchUrl('GetCustomerInfo');
+export const saveMarketOrderApi = fetchUrl('SaveMarketOrder');
+export const getMarketOrdersApi = fetchUrl('GetMarketOrders');

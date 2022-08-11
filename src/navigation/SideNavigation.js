@@ -12,7 +12,8 @@ import TableBookingScreen from '../modules/bookingmodule/TableBookingScreen';
 import AboutScreen from '../modules/aboutmodule/AboutScreen';
 import DiningViewDetailsScreen from '../modules/myordermodule/DiningViewDetailsScreen';
 import PrivacyScreen from '../modules/privacymodule/PrivacyScreen';
-import VegetableScreen from '../modules/vegetablemodule/VegetableScreen';
+import MarketOrderScreen from '../modules/marketmodule/MarketOrderScreen';
+import {WHITE} from '../uikit/UikitUtils/colors';
 
 const Drawer = createDrawerNavigator();
 
@@ -20,7 +21,10 @@ const SideNavigation = () => {
   return (
     <Drawer.Navigator
       drawerContent={props => <DrawerContent {...props} />}
-      screenOptions={{drawerPosition: 'right'}}
+      screenOptions={{
+        drawerPosition: 'right',
+        sceneContainerStyle: {backgroundColor: WHITE},
+      }}
       initialRouteName="BottomTab">
       <Drawer.Screen
         options={{
@@ -140,8 +144,8 @@ const SideNavigation = () => {
             />
           ),
         }}
-        name={routesPath.VEGETABLE_SCREEN}
-        component={VegetableScreen}
+        name={routesPath.MARKET_ORDER_SCREEN}
+        component={MarketOrderScreen}
       />
       <Drawer.Screen
         options={{
