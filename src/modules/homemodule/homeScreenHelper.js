@@ -1,9 +1,10 @@
 import React from 'react';
 import {Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {useDispatch} from 'react-redux';
 import Card from '../../uikit/Card/Card';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
-import { isEmpty } from '../../uikit/UikitUtils/validators';
+import {isEmpty} from '../../uikit/UikitUtils/validators';
 
 const styles = StyleSheet.create({
   orderList: {
@@ -35,11 +36,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export const OrderAginList = ({item, index}) => {
+export const OrderAginList = ({item, index, handleOrderAgainNavigate}) => {
   return (
     <Flex
       overrideStyle={[styles.orderList, {marginLeft: index === 0 ? 16 : 8}]}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => handleOrderAgainNavigate(item.HotelID)}>
         <Card>
           <Image style={styles.orderImage} source={{uri: item.HotelImage}} />
           <Flex overrideStyle={styles.orderName}>
@@ -91,5 +92,3 @@ export const SearchList = ({item, handleSearch}) => {
     </TouchableOpacity>
   );
 };
-
-

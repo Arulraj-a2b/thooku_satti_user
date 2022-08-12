@@ -111,7 +111,20 @@ const LoginScreen = () => {
           axios.defaults.headers.common['token'] = res.payload[0].SessionID;
           formik.resetForm();
           if (isEmpty(params?.type)) {
-            navigation.navigate(routesPath.ALL_SCREEN);
+            if (!isEmpty(params?.search)) {
+              navigation.navigate(routesPath.ALL_SCREEN, {
+                screen: 'BottomTab',
+                params: {
+                  screen: stacks.HomeStack,
+                  params: {
+                    screen: routesPath.LIST_HOME_SCREEN,
+                    params: {search: params?.search},
+                  },
+                },
+              });
+            } else {
+              navigation.navigate(routesPath.ALL_SCREEN);
+            }
           } else if (
             params?.type.toString() === '1' ||
             params?.type.toString() === '2'

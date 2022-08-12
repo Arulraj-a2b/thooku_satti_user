@@ -133,7 +133,11 @@ const MainHomeScreen = () => {
 
   const handleSearch = value => {
     setValue(value);
-    navigation.navigate(routesPath.LIST_HOME_SCREEN, {search: value});
+    if (isEmpty(userDetails)) {
+      navigation.navigate(routesPath.LOGIN_SCREEN, {search: value});
+    } else {
+      navigation.navigate(routesPath.LIST_HOME_SCREEN, {search: value});
+    }
     setSearch(false);
   };
 
@@ -177,6 +181,11 @@ const MainHomeScreen = () => {
     });
   }, [refreshing]);
 
+  const handleOrderAgainNavigate = id => {
+    navigation.navigate(routesPath.HOTEL_LIST_VIEW_SCREEN, {
+      hotelId: id,
+    });
+  };
   if (isLoading) {
     return <HomePlaceHolder />;
   }
@@ -244,7 +253,7 @@ const MainHomeScreen = () => {
                         style={{paddingHorizontal: 16, paddingVertical: 8}}
                         onEndReachedThreshold={0.1}
                         data={results}
-                        keyExtractor={(item, index) => index.toString()}
+                        keyExtractor={(_item, index) => index.toString()}
                         renderItem={({item, index}) => (
                           <View
                             style={{
@@ -279,7 +288,13 @@ const MainHomeScreen = () => {
                 keyExtractor={(item, index) =>
                   item.HotelID.toString() + index.toString()
                 }
-                renderItem={OrderAginList}
+                renderItem={({item, index}) => (
+                  <OrderAginList
+                    index={index}
+                    item={item}
+                    handleOrderAgainNavigate={handleOrderAgainNavigate}
+                  />
+                )}
               />
             </View>
           )}
