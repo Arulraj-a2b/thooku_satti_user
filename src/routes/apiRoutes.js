@@ -37,3 +37,4 @@ export const searchRestaurantandItemsApi = fetchUrl('SearchRestaurantandItems');
 export const getCustomerInfoApi = fetchUrl('GetCustomerInfo');
 export const saveMarketOrderApi = fetchUrl('SaveMarketOrder');
 export const getMarketOrdersApi = fetchUrl('GetMarketOrders');
+export const getMarketOrderListApi = fetchUrl('GetMarketOrderList');

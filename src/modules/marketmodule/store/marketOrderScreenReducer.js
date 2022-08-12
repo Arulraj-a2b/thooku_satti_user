@@ -1,6 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {
   getCustomerInfoMiddleWare,
+  getMarketOrderListMiddleWare,
   getMarketOrdersMiddleWare,
   saveMarketOrderMiddleWare,
 } from './marketOrderScreenMiddleware';
@@ -89,6 +90,35 @@ const saveMarketOrderReducer = createSlice({
   },
 });
 
+const getMarketOrderListState = {
+  isLoading: false,
+  error: '',
+  data: [],
+};
+
+const getMarketOrderListReducer = createSlice({
+  name: 'getMarketOrderList',
+  initialState: getMarketOrderListState,
+  reducers: {},
+  extraReducers: builder => {
+    builder.addCase(getMarketOrderListMiddleWare.pending, state => {
+      state.isLoading = true;
+      state.error = '';
+    });
+    builder.addCase(getMarketOrderListMiddleWare.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.data = action.payload;
+    });
+    builder.addCase(getMarketOrderListMiddleWare.rejected, (state, action) => {
+      state.isLoading = false;
+      if (typeof action.payload === 'string') {
+        state.error = action.payload;
+      }
+    });
+  },
+});
+
 export const getCustomerInfoReducers = getCustomerInfoReducer.reducer;
 export const getMarketOrderReducers = getMarketOrderReducer.reducer;
 export const saveMarketOrderReducers = saveMarketOrderReducer.reducer;
+export const getMarketOrderListReducers = getMarketOrderListReducer.reducer;

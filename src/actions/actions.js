@@ -37,3 +37,4 @@ export const DINININ_BOOKING = 'table/DINININ_BOOKING';
 export const GET_CUSTOMER_INFO = 'market/GET_CUSTOMER_INFO';
 export const SAVE_MARKET_ORDER = 'market/SAVE_MARKET_ORDER';
 export const GET_MARKET_ORDER = 'market/GET_MARKET_ORDER';
+export const GET_MARKET_ORDER_LIST = 'market/GET_MARKET_ORDER_LIST';

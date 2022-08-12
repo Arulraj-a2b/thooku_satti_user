@@ -1,5 +1,5 @@
-import {useRoute} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
+import {useFocusEffect, useRoute} from '@react-navigation/native';
+import React, {useCallback, useState} from 'react';
 import {
   Dimensions,
   Image,
@@ -28,27 +28,30 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
 });
+
 const MarketOrderViewScreen = () => {
   const dispatch = useDispatch();
   const {params} = useRoute();
   const [isLoader, setLoader] = useState(true);
 
-  useEffect(() => {
-    dispatch(getMarketOrdersMiddleWare({Orderno: params?.orderId}))
-      .then(() => {
-        setLoader(false);
-      })
-      .catch(() => {
-        setLoader(false);
-      });
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      setLoader(true)
+      dispatch(getMarketOrdersMiddleWare({Orderno: params?.orderId}))
+        .then(() => {
+          setLoader(false);
+        })
+        .catch(() => {
+          setLoader(false);
+        });
+    }, [params]),
+  );
 
   const {data} = useSelector(({getMarketOrderReducers}) => {
     return {
       data: getMarketOrderReducers.data,
     };
   });
-
   if (isLoader) {
     return <HomePlaceHolder />;
   }
