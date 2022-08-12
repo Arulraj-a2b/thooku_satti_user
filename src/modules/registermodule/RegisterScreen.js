@@ -39,6 +39,8 @@ import Toast from '../../uikit/Toast/Toast';
 import SvgEyeOutline from '../../icons/SvgEyleOutLine';
 import SvgEye from '../../icons/SvgEye';
 import CheckBox from '../../uikit/CheckBox/CheckBox';
+import RegisterSuccessModal from './RegisterSuccessModal';
+import { routesPath } from '../../routes/routesPath';
 
 const styles = StyleSheet.create({
   logoContainer: {
@@ -79,13 +81,13 @@ const initialValues = {
 };
 
 const RegisterScreen = () => {
-  const navigattion = useNavigation();
+  const navigation = useNavigation();
   const phoneInput = useRef(null);
   const dispatch = useDispatch();
-  const [isWhatsAppValue, setWhatsAppValue] = useState('');
   const [isLoader, setLoader] = useState(false);
   const [hidePassword, setHidePassword] = useState(true);
   const [hidePassword1, setHidePassword1] = useState(true);
+  const [isSuccess, setSuccess] = useState(false);
 
   const handleSubmit = value => {
     setLoader(true);
@@ -107,9 +109,9 @@ const RegisterScreen = () => {
           Array.isArray(res.payload) &&
           res.payload[0].Message === 'Success'
         ) {
-          navigattion.navigate('LoginScreen');
-          Toast('Account create successfully', 'success', 'TOP');
-          formik.resetForm();
+          // navigattion.navigate('LoginScreen');
+          // Toast('Account create successfully', 'success', 'TOP');
+          setSuccess(true);
         }
       })
       .catch(() => {
@@ -144,17 +146,11 @@ const RegisterScreen = () => {
 
     if (isEmpty(values.whatsappNumber)) {
       errors.whatsappNumber = THIS_FIELD_REQUIRED;
-    } 
-    // else if (isWhatsAppValue.length !== 10) {
-    //   errors.whatsappNumber = INVALID_PHONE_ENTERED;
-    // }
+    }
 
     if (isEmpty(values.address)) {
       errors.address = THIS_FIELD_REQUIRED;
     }
-    // else if (values.address.length < 15) {
-    //   errors.address = 'Please enter a valid city name';
-    // }
 
     if (isEmpty(values.password)) {
       errors.password = THIS_FIELD_REQUIRED;
@@ -162,9 +158,6 @@ const RegisterScreen = () => {
     if (values.agree === '0') {
       errors.agree = 'Please agree terms and conditions';
     }
-    // else if (!isValidPassword(values.password)) {
-    //   errors.password = `Password must be at least 8 - 12 characters long, at least one lowercase and one uppercase`;
-    // }
 
     if (isEmpty(values.confirmPassword)) {
       errors.confirmPassword = THIS_FIELD_REQUIRED;
@@ -175,9 +168,6 @@ const RegisterScreen = () => {
     if (isEmpty(values.city)) {
       errors.city = THIS_FIELD_REQUIRED;
     }
-    // else if (values.city.length < 3) {
-    //   errors.city = 'Please enter a valid city name';
-    // }
 
     return errors;
   };
@@ -191,281 +181,290 @@ const RegisterScreen = () => {
   const handleAgree = () => {
     formik.setFieldValue('agree', formik.values.agree === '0' ? '1' : '0');
   };
-  return (
-    <ScrollView>
-      <Flex flex={1} overrideStyle={styles.overAll}>
-        {isLoader && <Loader />}
-        <Flex center middle overrideStyle={styles.logoContainer}>
-          <SvgLogo width={350} height={130} />
-        </Flex>
 
-        <Flex flex={1} between>
-          <Flex overrideStyle={styles.inputContainer}>
-            <Text size={20} bold overrideStyle={styles.registerText}>
-              Register
-            </Text>
-            <Flex row flex={1}>
-              <View style={{flex: 7}}>
+  const handleClose = () => {
+    navigation.navigate(routesPath.LOGIN_SCREEN);
+    setSuccess(false);
+    formik.resetForm();
+  };
+
+  return (
+    <>
+      <RegisterSuccessModal open={isSuccess} close={handleClose} />
+      <ScrollView>
+        <Flex flex={1} overrideStyle={styles.overAll}>
+          {isLoader && <Loader />}
+          <Flex center middle overrideStyle={styles.logoContainer}>
+            <SvgLogo width={350} height={130} />
+          </Flex>
+
+          <Flex flex={1} between>
+            <Flex overrideStyle={styles.inputContainer}>
+              <Text size={20} bold overrideStyle={styles.registerText}>
+                Register
+              </Text>
+              <Flex row flex={1}>
+                <View style={{flex: 7}}>
+                  <InputText
+                    name={'firstName'}
+                    touched={formik.touched}
+                    errors={formik.errors}
+                    error={formik.errors.firstName && formik.touched.firstName}
+                    maxLength={30}
+                    actionLeftStyle={{left: -4}}
+                    actionLeft={() => (
+                      <SvgUser
+                        fill={
+                          formik.errors.firstName && formik.touched.firstName
+                            ? ERROR
+                            : PRIMARY
+                        }
+                      />
+                    )}
+                    placeholder="First Name *"
+                    value={formik.values.firstName}
+                    onChange={formik.handleChange('firstName')}
+                  />
+                </View>
+                <View style={{flex: 5, marginLeft: 8}}>
+                  <InputText
+                    name={'lastName'}
+                    touched={formik.touched}
+                    errors={formik.errors}
+                    error={formik.errors.lastName && formik.touched.lastName}
+                    maxLength={20}
+                    placeholder="Last Name *"
+                    value={formik.values.lastName}
+                    onChange={formik.handleChange('lastName')}
+                  />
+                </View>
+              </Flex>
+
+              <View style={styles.marginTop16}>
                 <InputText
-                  name={'firstName'}
+                  keyboardType={'email-address'}
+                  name={'email'}
                   touched={formik.touched}
                   errors={formik.errors}
-                  error={formik.errors.firstName && formik.touched.firstName}
-                  maxLength={30}
+                  error={formik.errors.email && formik.touched.email}
+                  maxLength={50}
                   actionLeftStyle={{left: -4}}
                   actionLeft={() => (
-                    <SvgUser
+                    <SvgMail
                       fill={
-                        formik.errors.firstName && formik.touched.firstName
+                        formik.errors.email && formik.touched.email
                           ? ERROR
                           : PRIMARY
                       }
                     />
                   )}
-                  placeholder="First Name *"
-                  value={formik.values.firstName}
-                  onChange={formik.handleChange('firstName')}
+                  placeholder="Email Address *"
+                  value={formik.values.email}
+                  onChange={formik.handleChange('email')}
                 />
               </View>
-              <View style={{flex: 5, marginLeft: 8}}>
+              <View style={styles.marginTop16}>
                 <InputText
-                  name={'lastName'}
+                  maxLength={10}
+                  keyboardType={'phone-pad'}
+                  name={'mobileNumber'}
                   touched={formik.touched}
                   errors={formik.errors}
-                  error={formik.errors.lastName && formik.touched.lastName}
-                  maxLength={20}
-                  placeholder="Last Name *"
-                  value={formik.values.lastName}
-                  onChange={formik.handleChange('lastName')}
+                  error={
+                    formik.errors.mobileNumber && formik.touched.mobileNumber
+                  }
+                  actionLeftStyle={{left: -4}}
+                  actionLeft={() => (
+                    <SvgPhone
+                      fill={
+                        formik.errors.mobileNumber &&
+                        formik.touched.mobileNumber
+                          ? ERROR
+                          : PRIMARY
+                      }
+                    />
+                  )}
+                  placeholder="Mobile Number *"
+                  value={formik.values.mobileNumber}
+                  onChange={formik.handleChange('mobileNumber')}
                 />
               </View>
-            </Flex>
-
-            <View style={styles.marginTop16}>
-              <InputText
-                keyboardType={'email-address'}
-                name={'email'}
-                touched={formik.touched}
-                errors={formik.errors}
-                error={formik.errors.email && formik.touched.email}
-                maxLength={50}
-                actionLeftStyle={{left: -4}}
-                actionLeft={() => (
-                  <SvgMail
-                    fill={
-                      formik.errors.email && formik.touched.email
-                        ? ERROR
-                        : PRIMARY
-                    }
-                  />
-                )}
-                placeholder="Email Address *"
-                value={formik.values.email}
-                onChange={formik.handleChange('email')}
-              />
-            </View>
-            <View style={styles.marginTop16}>
-              <InputText
-                maxLength={10}
-                keyboardType={'phone-pad'}
-                name={'mobileNumber'}
-                touched={formik.touched}
-                errors={formik.errors}
-                error={
-                  formik.errors.mobileNumber && formik.touched.mobileNumber
-                }
-                actionLeftStyle={{left: -4}}
-                actionLeft={() => (
-                  <SvgPhone
-                    fill={
-                      formik.errors.mobileNumber && formik.touched.mobileNumber
-                        ? ERROR
-                        : PRIMARY
-                    }
-                  />
-                )}
-                placeholder="Mobile Number *"
-                value={formik.values.mobileNumber}
-                onChange={formik.handleChange('mobileNumber')}
-              />
-            </View>
-            <View style={styles.marginTop16}>
-              <PhoneInputText
-                ref={phoneInput}
-                placeholder="Whatsapp Number *"
-                actionLeft={() => (
-                  <SvgWhatsApp
-                    fill={
-                      formik.errors.whatsappNumber &&
-                      formik.touched.whatsappNumber
-                        ? ERROR
-                        : PRIMARY
-                    }
-                  />
-                )}
-                error={
-                  formik.errors.whatsappNumber && formik.touched.whatsappNumber
-                }
-                onChangeText={val => {
-                  setWhatsAppValue(val);
-                }}
-                onChange={formik.handleChange('whatsappNumber')}
-              />
-            </View>
-            <ErrorMessage
-              name={'whatsappNumber'}
-              touched={formik.touched}
-              errors={formik.errors}
-            />
-            <View style={styles.marginTop16}>
-              <InputText
-                maxLength={12}
-                actionLeftStyle={{left: -4}}
-                actionLeft={() => (
-                  <SvgLock
-                    fill={
-                      formik.errors.password && formik.touched.password
-                        ? ERROR
-                        : PRIMARY
-                    }
-                  />
-                )}
-                placeholder="Password *"
-                value={formik.values.password}
-                onChange={formik.handleChange('password')}
-                name={'password'}
-                touched={formik.touched}
-                errors={formik.errors}
-                error={formik.errors.password && formik.touched.password}
-                secureTextEntry={hidePassword}
-                actionRight={() => (
-                  <TouchableOpacity
-                    onPress={() => setHidePassword(!hidePassword)}>
-                    {hidePassword ? <SvgEyeOutline /> : <SvgEye />}
-                  </TouchableOpacity>
-                )}
-              />
-            </View>
-            <View style={styles.marginTop16}>
-              <InputText
-                maxLength={20}
-                actionLeftStyle={{left: -4}}
-                actionLeft={() => (
-                  <SvgPassword
-                    fill={
-                      formik.errors.confirmPassword &&
-                      formik.touched.confirmPassword
-                        ? ERROR
-                        : PRIMARY
-                    }
-                  />
-                )}
-                placeholder="Confirm password *"
-                value={formik.values.confirmPassword}
-                onChange={formik.handleChange('confirmPassword')}
-                name={'confirmPassword'}
-                touched={formik.touched}
-                errors={formik.errors}
-                error={
-                  formik.errors.confirmPassword &&
-                  formik.touched.confirmPassword
-                }
-                secureTextEntry={hidePassword1}
-                actionRight={() => (
-                  <TouchableOpacity
-                    onPress={() => setHidePassword1(!hidePassword1)}>
-                    {hidePassword1 ? <SvgEyeOutline /> : <SvgEye />}
-                  </TouchableOpacity>
-                )}
-              />
-            </View>
-            <View style={styles.marginTop16}>
-              <InputText
-                overrideStyle={{textAlignVertical: 'top'}}
-                height={130}
-                numberOfLines={30}
-                multiline
-                maxLength={4000}
-                actionLeftStyle={{left: -4, top: 0}}
-                actionLeft={() => (
-                  <SvgLocation
-                    fill={
-                      formik.errors.address && formik.touched.address
-                        ? ERROR
-                        : PRIMARY
-                    }
-                  />
-                )}
-                placeholder="Address *"
-                value={formik.values.address}
-                onChange={formik.handleChange('address')}
-                name={'address'}
-                touched={formik.touched}
-                errors={formik.errors}
-                error={formik.errors.address && formik.touched.address}
-              />
-            </View>
-            <View style={[styles.marginTop16]}>
-              <InputText
-                maxLength={25}
-                actionLeftStyle={{left: -4}}
-                actionLeft={() => (
-                  <SvgAddress
-                    fill={
-                      formik.errors.city && formik.touched.city
-                        ? ERROR
-                        : PRIMARY
-                    }
-                  />
-                )}
-                placeholder="City / Town *"
-                value={formik.values.city}
-                onChange={formik.handleChange('city')}
-                name={'city'}
-                touched={formik.touched}
-                errors={formik.errors}
-                error={formik.errors.city && formik.touched.city}
-              />
-            </View>
-            <View style={[styles.marginTop16, {marginBottom: 16}]}>
-              <Flex row center middle>
-                <CheckBox
-                  onClick={handleAgree}
-                  checked={formik.values.agree === '1'}
+              <View style={styles.marginTop16}>
+                <PhoneInputText
+                  ref={phoneInput}
+                  placeholder="Whatsapp Number *"
+                  actionLeft={() => (
+                    <SvgWhatsApp
+                      fill={
+                        formik.errors.whatsappNumber &&
+                        formik.touched.whatsappNumber
+                          ? ERROR
+                          : PRIMARY
+                      }
+                    />
+                  )}
+                  error={
+                    formik.errors.whatsappNumber &&
+                    formik.touched.whatsappNumber
+                  }
+                  onChange={formik.handleChange('whatsappNumber')}
                 />
-                <Text> I Agree To The </Text>
-                <TouchableOpacity onPress={() => Linking.openURL(TERMS_PDF)}>
-                  <Text color="link">Terms and conditions</Text>
+              </View>
+              <ErrorMessage
+                name={'whatsappNumber'}
+                touched={formik.touched}
+                errors={formik.errors}
+              />
+              <View style={styles.marginTop16}>
+                <InputText
+                  maxLength={12}
+                  actionLeftStyle={{left: -4}}
+                  actionLeft={() => (
+                    <SvgLock
+                      fill={
+                        formik.errors.password && formik.touched.password
+                          ? ERROR
+                          : PRIMARY
+                      }
+                    />
+                  )}
+                  placeholder="Password *"
+                  value={formik.values.password}
+                  onChange={formik.handleChange('password')}
+                  name={'password'}
+                  touched={formik.touched}
+                  errors={formik.errors}
+                  error={formik.errors.password && formik.touched.password}
+                  secureTextEntry={hidePassword}
+                  actionRight={() => (
+                    <TouchableOpacity
+                      onPress={() => setHidePassword(!hidePassword)}>
+                      {hidePassword ? <SvgEyeOutline /> : <SvgEye />}
+                    </TouchableOpacity>
+                  )}
+                />
+              </View>
+              <View style={styles.marginTop16}>
+                <InputText
+                  maxLength={20}
+                  actionLeftStyle={{left: -4}}
+                  actionLeft={() => (
+                    <SvgPassword
+                      fill={
+                        formik.errors.confirmPassword &&
+                        formik.touched.confirmPassword
+                          ? ERROR
+                          : PRIMARY
+                      }
+                    />
+                  )}
+                  placeholder="Confirm password *"
+                  value={formik.values.confirmPassword}
+                  onChange={formik.handleChange('confirmPassword')}
+                  name={'confirmPassword'}
+                  touched={formik.touched}
+                  errors={formik.errors}
+                  error={
+                    formik.errors.confirmPassword &&
+                    formik.touched.confirmPassword
+                  }
+                  secureTextEntry={hidePassword1}
+                  actionRight={() => (
+                    <TouchableOpacity
+                      onPress={() => setHidePassword1(!hidePassword1)}>
+                      {hidePassword1 ? <SvgEyeOutline /> : <SvgEye />}
+                    </TouchableOpacity>
+                  )}
+                />
+              </View>
+              <View style={styles.marginTop16}>
+                <InputText
+                  overrideStyle={{textAlignVertical: 'top'}}
+                  height={130}
+                  numberOfLines={30}
+                  multiline
+                  maxLength={4000}
+                  actionLeftStyle={{left: -4, top: 0}}
+                  actionLeft={() => (
+                    <SvgLocation
+                      fill={
+                        formik.errors.address && formik.touched.address
+                          ? ERROR
+                          : PRIMARY
+                      }
+                    />
+                  )}
+                  placeholder="Address *"
+                  value={formik.values.address}
+                  onChange={formik.handleChange('address')}
+                  name={'address'}
+                  touched={formik.touched}
+                  errors={formik.errors}
+                  error={formik.errors.address && formik.touched.address}
+                />
+              </View>
+              <View style={[styles.marginTop16]}>
+                <InputText
+                  maxLength={25}
+                  actionLeftStyle={{left: -4}}
+                  actionLeft={() => (
+                    <SvgAddress
+                      fill={
+                        formik.errors.city && formik.touched.city
+                          ? ERROR
+                          : PRIMARY
+                      }
+                    />
+                  )}
+                  placeholder="City / Town *"
+                  value={formik.values.city}
+                  onChange={formik.handleChange('city')}
+                  name={'city'}
+                  touched={formik.touched}
+                  errors={formik.errors}
+                  error={formik.errors.city && formik.touched.city}
+                />
+              </View>
+              <View style={[styles.marginTop16, {marginBottom: 16}]}>
+                <Flex row center middle>
+                  <CheckBox
+                    onClick={handleAgree}
+                    checked={formik.values.agree === '1'}
+                  />
+                  <Text> I Agree To The </Text>
+                  <TouchableOpacity onPress={() => Linking.openURL(TERMS_PDF)}>
+                    <Text color="link">Terms and conditions</Text>
+                  </TouchableOpacity>
+                </Flex>
+                <ErrorMessage
+                  name={'agree'}
+                  touched={formik.touched}
+                  errors={formik.errors}
+                />
+              </View>
+
+              <Button
+                onClick={() => {
+                  Keyboard.dismiss();
+                  formik.handleSubmit();
+                }}>
+                REGISTER
+              </Button>
+
+              <Flex middle row center overrideStyle={{marginTop: 16}}>
+                <Text>Already have an account? </Text>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('LoginScreen')}>
+                  <Text bold color="theme" overrideStyle={{paddingBottom: 3}}>
+                    Login
+                  </Text>
                 </TouchableOpacity>
               </Flex>
-              <ErrorMessage
-                name={'agree'}
-                touched={formik.touched}
-                errors={formik.errors}
-              />
-            </View>
-
-            <Button
-              onClick={() => {
-                Keyboard.dismiss();
-                formik.handleSubmit();
-              }}>
-              REGISTER
-            </Button>
-
-            <Flex middle row center overrideStyle={{marginTop:16}}>
-              <Text>Already have an account? </Text>
-              <TouchableOpacity
-                onPress={() => navigattion.navigate('LoginScreen')}>
-                <Text bold color="theme" overrideStyle={{paddingBottom: 3}}>
-                  Login
-                </Text>
-              </TouchableOpacity>
             </Flex>
           </Flex>
         </Flex>
-      </Flex>
-    </ScrollView>
+      </ScrollView>
+    </>
   );
 };
 

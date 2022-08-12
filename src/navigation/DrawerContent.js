@@ -169,6 +169,18 @@ const DrawerContent = props => {
       ),
       isCheck: checkLogin,
     },
+    // {
+    //   route: () => {
+    //     props.navigation.navigate(routesPath.REGISTER_SCREEN);
+    //   },
+    //   title: 'Register',
+    //   icon: (
+    //     <View style={{position: 'relative', right: -3}}>
+    //       <SvgLogout fill={'#9796A1'} />
+    //     </View>
+    //   ),
+    //   isCheck: checkLogin,
+    // },
   ];
 
   return (

@@ -24,6 +24,7 @@ import {isEmpty} from '../../uikit/UikitUtils/validators';
 import ErrorMessage from '../../uikit/ErrorMessage/ErrorMessage';
 import OrderSuccess from './OrderSuccess';
 import Loader from '../../uikit/Loader/Loader';
+import SvgUpload from '../../icons/SvgUpload';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -145,29 +146,66 @@ const MarketOrderScreen = () => {
       {isLoader && <Loader />}
       <ScrollView>
         <Flex overrideStyle={styles.overAll}>
-          <Flex row overrideStyle={styles.marginBottom}>
-            <Text bold>Order Type: </Text>
-            <Text>{params?.name}</Text>
+          <Flex>
+            <LabelWrapper label={`Upload ${params?.name} List`} required>
+              {!isEmpty(formik.values.file) && (
+                <>
+                  <Image
+                    source={{uri: formik.values.file?.uri}}
+                    style={{height: 100, width: '100%'}}
+                    resizeMode="contain"
+                  />
+                  <TouchableOpacity
+                    onPress={chooseImage}
+                    style={{marginTop: 20}}>
+                    <Flex row center middle>
+                      <SvgUpload />
+                      <Text
+                        bold
+                        align={'center'}
+                        color="link"
+                        overrideStyle={{marginLeft: 8}}>
+                        Change Image
+                      </Text>
+                    </Flex>
+                  </TouchableOpacity>
+                </>
+              )}
+              {isEmpty(formik.values.file) && (
+                <TouchableOpacity onPress={chooseImage}>
+                  <Flex row center middle>
+                    <SvgUpload />
+                    <Text
+                      bold
+                      align={'center'}
+                      color="link"
+                      overrideStyle={{marginLeft: 8}}>
+                      Upload
+                    </Text>
+                  </Flex>
+                </TouchableOpacity>
+              )}
+            </LabelWrapper>
+            <ErrorMessage
+              name={'file'}
+              touched={formik.touched}
+              errors={formik.errors}
+            />
           </Flex>
-          <InputText
-            value={data?.Name}
-            types="normal"
-            label={'Customer Name'}
-            disabled
-          />
+          <View style={{marginVertical: 16}}>
+            <InputText
+              value={data?.Name}
+              types="normal"
+              label={'Customer Name'}
+              disabled
+            />
+          </View>
+
           <View style={styles.marginBottom}>
             <InputText
               value={data?.ContactNo}
               types="normal"
               label={'Mobile Number'}
-              disabled
-            />
-          </View>
-          <View style={styles.marginBottom}>
-            <InputText
-              value={data?.WhatsappNo}
-              types="normal"
-              label={'Whatsapp Number'}
               disabled
             />
           </View>
@@ -189,38 +227,7 @@ const MarketOrderScreen = () => {
               errors={formik.errors}
             />
           </View>
-          <Flex style={styles.marginBottom}>
-            <LabelWrapper label={'Upload Order List'} required>
-              {!isEmpty(formik.values.file) && (
-                <>
-                  <Image
-                    source={{uri: formik.values.file?.uri}}
-                    style={{height: 100, width: '100%'}}
-                    resizeMode="contain"
-                  />
-                  <TouchableOpacity
-                    onPress={chooseImage}
-                    style={{marginTop: 20}}>
-                    <Text bold align={'center'} color="link">
-                      Change Image
-                    </Text>
-                  </TouchableOpacity>
-                </>
-              )}
-              {isEmpty(formik.values.file) && (
-                <TouchableOpacity onPress={chooseImage}>
-                  <Text bold align={'center'} color="link">
-                    Upload Image
-                  </Text>
-                </TouchableOpacity>
-              )}
-            </LabelWrapper>
-            <ErrorMessage
-              name={'file'}
-              touched={formik.touched}
-              errors={formik.errors}
-            />
-          </Flex>
+
           <Flex overrideStyle={{marginTop: 24}}>
             <Button onClick={formik.handleSubmit}>Save</Button>
           </Flex>
