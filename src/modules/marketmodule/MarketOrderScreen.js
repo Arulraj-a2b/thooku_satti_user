@@ -80,9 +80,9 @@ const MarketOrderScreen = () => {
     setLoader(true);
     const formData = new FormData();
     formData.append('file', {
-      uri: value.file?.uri,
-      type: value.file?.type,
-      name: value.file?.fileName,
+      uri: value?.file?.uri,
+      type: value?.file?.type,
+      name: value?.file?.fileName,
     });
     formData.append('DeliveryAddress', value.address);
     if (params?.name.toLowerCase() === 'fruits') {
@@ -123,8 +123,7 @@ const MarketOrderScreen = () => {
       } else if (response.error) {
         //  console.log('ImagePicker Error: ', response.error);
       } else {
-        let source = response;
-        formik.setFieldValue('file', source.assets[0]);
+        formik.setFieldValue('file', response?.assets[0]);
       }
     });
   };
@@ -229,7 +228,7 @@ const MarketOrderScreen = () => {
           </View>
 
           <Flex overrideStyle={{marginTop: 24}}>
-            <Button onClick={formik.handleSubmit}>Save</Button>
+            <Button onClick={formik.handleSubmit}>Place your order</Button>
           </Flex>
         </Flex>
       </ScrollView>

@@ -48,7 +48,7 @@ const MarketOrderViewScreen = () => {
       data: getMarketOrderReducers.data,
     };
   });
-  
+
   if (isLoader) {
     return <HomePlaceHolder />;
   }
@@ -66,7 +66,7 @@ const MarketOrderViewScreen = () => {
           <Flex center overrideStyle={{marginTop: 20}}>
             <TouchableOpacity onPress={() => Linking.openURL(data?.Imagepath)}>
               <Text color="link" bold>
-                Download Image
+                Download list
               </Text>
             </TouchableOpacity>
           </Flex>

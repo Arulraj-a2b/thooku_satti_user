@@ -29,7 +29,7 @@ import {
 } from './store/homeMiddleware';
 import {BORDER_COLOR} from '../../uikit/UikitUtils/colors';
 import SvgClose from '../../icons/SvgClose';
-import {OrderAginList, PromotionList} from './homeScreenHelper';
+import {OrderAginList, PromotionList, SearchList} from './homeScreenHelper';
 
 const {height} = Dimensions.get('screen');
 
@@ -138,7 +138,7 @@ const MainHomeScreen = () => {
   };
 
   const results = value
-    ? getSearchData &&
+    ? Array.isArray(getSearchData) &&
       getSearchData.filter(option =>
         option.SearchText.toLowerCase().includes(value.toLowerCase()),
       )

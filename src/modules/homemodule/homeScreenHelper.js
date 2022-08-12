@@ -3,6 +3,7 @@ import {Image, StyleSheet, TouchableOpacity} from 'react-native';
 import Card from '../../uikit/Card/Card';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
+import { isEmpty } from '../../uikit/UikitUtils/validators';
 
 const styles = StyleSheet.create({
   orderList: {
