@@ -12,6 +12,7 @@ import {
   Dimensions,
   Pressable,
   Keyboard,
+  RefreshControl,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import SvgSearch from '../../icons/SvgSearch';
@@ -85,6 +86,7 @@ const MainHomeScreen = () => {
   const [value, setValue] = useState('');
   const [isSearch, setSearch] = useState(false);
   const [userDetails, setUserDetails] = useState();
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     getUserData();
@@ -164,12 +166,26 @@ const MainHomeScreen = () => {
     }
   };
 
+  const onRefresh = React.useCallback(async () => {
+    setRefreshing(true);
+    dispatch(
+      getHomeDashboardMiddleWare({
+        LocationID: locationID.LocationID,
+      }),
+    ).then(() => {
+      setRefreshing(false);
+    });
+  }, [refreshing]);
+
   if (isLoading) {
     return <HomePlaceHolder />;
   }
 
   return Array.isArray(data) && data.length !== 0 ? (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
       <Flex overrideStyle={styles.overAll}>
         <>
           <View
