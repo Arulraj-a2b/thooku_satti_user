@@ -25,6 +25,7 @@ import ErrorMessage from '../../uikit/ErrorMessage/ErrorMessage';
 import OrderSuccess from './OrderSuccess';
 import Loader from '../../uikit/Loader/Loader';
 import SvgUpload from '../../icons/SvgUpload';
+import Toast from '../../uikit/Toast/Toast';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -123,7 +124,12 @@ const MarketOrderScreen = () => {
       } else if (response.error) {
         //  console.log('ImagePicker Error: ', response.error);
       } else {
-        formik.setFieldValue('file', response?.assets[0]);
+        console.log('response', response);
+        if (response?.assets[0].fileSize < 10000000) {
+          formik.setFieldValue('file', response?.assets[0]);
+        } else {
+          Toast('File size must be less than 10','error');
+        }
       }
     });
   };
