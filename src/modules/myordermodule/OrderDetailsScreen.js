@@ -10,6 +10,7 @@ import {WHITE, GRAY_1, BORDER_COLOR} from '../../uikit/UikitUtils/colors';
 import SvgLocation3 from '../../icons/SvgLocation3';
 import {INDIAN_RUPEE} from '../../uikit/UikitUtils/constants';
 import {isFinancial} from '../../uikit/UikitUtils/helpers';
+import { isEmpty } from '../../uikit/UikitUtils/validators';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -72,7 +73,6 @@ const OrderDetailsScreen = () => {
       data: getOrderDetailsReducers.data,
     };
   });
-
   if (isLoading) {
     return <HomePlaceHolder />;
   }
@@ -147,6 +147,14 @@ const OrderDetailsScreen = () => {
             </Text>
             <Text overrideStyle={{width: '88%'}}>{data[0].LiveStatus}</Text>
           </Flex>
+          {!isEmpty(data[0].Notes) && (
+            <Flex row overrideStyle={{marginBottom: 8}}>
+              <Text bold overrideStyle={{width: 80}}>
+                Notes
+              </Text>
+              <Text overrideStyle={{width: '88%'}}>{data[0].Notes}</Text>
+            </Flex>
+          )}
           <View style={styles.hrLine} />
           <Text color="gary" bold overrideStyle={styles.billTitle}>
             BILL DETAILS:

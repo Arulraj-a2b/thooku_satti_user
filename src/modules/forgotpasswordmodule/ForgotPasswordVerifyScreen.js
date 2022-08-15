@@ -117,7 +117,7 @@ const ForgotPasswordVerifyScreen = () => {
           onCodeChanged={code => {
             formik.setFieldValue('code', code);
           }}
-          autoFocusOnLoad
+          autoFocusOnLoad={false}
           codeInputFieldStyle={styles.underlineStyleBase}
           codeInputHighlightStyle={styles.underlineStyleHighLighted}
         />
