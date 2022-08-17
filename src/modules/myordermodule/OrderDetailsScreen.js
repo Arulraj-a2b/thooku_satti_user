@@ -126,7 +126,7 @@ const OrderDetailsScreen = () => {
                 <Text bold size={16}>
                   {data[0].DeliveryAddress}
                 </Text>
-                <Text size={12} color="gray">
+                <Text bold color="gray">
                   {data[0].CustomerMobileno}
                 </Text>
               </Flex>

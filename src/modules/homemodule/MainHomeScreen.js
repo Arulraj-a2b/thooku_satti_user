@@ -78,6 +78,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     marginHorizontal: 16,
   },
+  emptyText: {
+    paddingHorizontal: 20,
+  },
 });
 
 const MainHomeScreen = () => {
@@ -356,11 +359,11 @@ const MainHomeScreen = () => {
       <Text
         align={'center'}
         bold
-        size={16}
+        size={18}
         color="gray"
         overrideStyle={styles.emptyText}>
-        Sorry! Restaurants are unavailable at the moment. Please revisit after a
-        while.
+        Dindigul Thookusatti Online Food Order Service not available in your
+        location. Sorry for inconvenience!
       </Text>
     </Flex>
   );

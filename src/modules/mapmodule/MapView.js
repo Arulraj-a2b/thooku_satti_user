@@ -155,7 +155,7 @@ const MapView = () => {
   async function requestLocationPermission() {
     var res = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
     if (res === 'granted') {
-      await Geolocation.getCurrentPosition(
+      Geolocation.getCurrentPosition(
         ({coords}) => {
           setGetLocation({
             latitude: coords.latitude,

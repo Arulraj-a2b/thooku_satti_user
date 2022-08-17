@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   Keyboard,
   ScrollView,
@@ -28,6 +28,8 @@ import ErrorMessage from '../../uikit/ErrorMessage/ErrorMessage';
 import {diningBookingMiddleWare} from './store/tableBookingMiddleware';
 import SuccessModal from './SuccessModal';
 import Toast from '../../uikit/Toast/Toast';
+import {useFocusEffect} from '@react-navigation/native';
+import {getRestaurantListMiddleWare} from '../homemodule/store/homeMiddleware';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -64,12 +66,28 @@ const TableBookingScreen = () => {
   const [isData, setData] = useState();
 
   const dispatch = useDispatch();
-  const {isLoading, data} = useSelector(({getRestaurantListReducers}) => {
-    return {
-      isLoading: getRestaurantListReducers.isLoading,
-      data: getRestaurantListReducers.data,
-    };
-  });
+
+  const {isLoading, data, locationID} = useSelector(
+    ({getRestaurantListReducers,calculateLocationDistanceReducers}) => {
+      return {
+        isLoading: getRestaurantListReducers.isLoading,
+        data: getRestaurantListReducers.data,
+        locationID: calculateLocationDistanceReducers?.data[0],
+      };
+    },
+  );
+
+  useFocusEffect(
+    useCallback(() => {
+      formik.resetForm();
+      dispatch(
+        getRestaurantListMiddleWare({
+          LocationID: locationID.LocationID,
+          Type: '1',
+        }),
+      );
+    }, []),
+  );
 
   const handleValidate = values => {
     const errors = {};

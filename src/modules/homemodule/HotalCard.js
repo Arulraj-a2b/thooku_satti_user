@@ -111,19 +111,6 @@ const HotalCard = ({
                 style={styles.imageStyle}
               />
             )}
-
-            {/* <View style={styles.ratingContainer}>
-              <Flex row center between>
-                <Card overrideStyle={styles.ratingBox}>
-                  <Flex row center middle>
-                    <SvgStar />
-                    <Text size={12} bold overrideStyle={{marginLeft: 4}}>
-                      4.0
-                    </Text>
-                  </Flex>
-                </Card>
-              </Flex>
-            </View> */}
           </Flex>
 
           <Flex overrideStyle={styles.nameListContainer}>
@@ -135,15 +122,20 @@ const HotalCard = ({
                 <SvgSuccess height={10} width={10} />
               </View>
             </Flex>
-            <Flex row center overrideStyle={{marginTop: 8}}>
+            <Flex row center between overrideStyle={{marginTop: 8}}>
               <Flex row center>
                 <View style={{marginRight: 4}}>
                   <SvgClock fill={PRIMARY} />
                 </View>
                 <Text color="gray" size={14}>
-                  10-15 mins
+                  10 - 15 mins
                 </Text>
               </Flex>
+              {!isEmpty(item.FssaiNo) && (
+                <Text size={12} color="gray">
+                  FSSAI: {item.FssaiNo}
+                </Text>
+              )}
             </Flex>
           </Flex>
         </Flex>
