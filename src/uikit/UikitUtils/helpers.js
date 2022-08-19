@@ -40,16 +40,20 @@ export const isFinancial = x => {
 export const checkVersion = () => {
   VersionCheck.needUpdate().then(async res => {
     if (res.isNeeded) {
-      Alert.alert('Update', 'Please update the app', [
-        {
-          text: 'Update',
-          onPress: () => {
-            Linking.openURL(
-              'https://play.google.com/store/apps/details?id=com.thooku_satti',
-            );
+      Alert.alert(
+        'Update',
+        'New version available in play store with new features. Please update  the app from Play Store.',
+        [
+          {
+            text: 'Update',
+            onPress: () => {
+              Linking.openURL(
+                'https://play.google.com/store/apps/details?id=com.thooku_satti',
+              );
+            },
           },
-        },
-      ]);
+        ],
+      );
     }
   });
 };

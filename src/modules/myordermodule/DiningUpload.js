@@ -49,7 +49,7 @@ const DiningUpload = ({open, close, isBookingId}) => {
       errors.billNo = 'Please provide bill number';
     }
     if (isEmpty(values.image)) {
-      errors.image = 'Please provide bill photo';
+      errors.image = 'Please provide bill image';
     }
     return errors;
   };

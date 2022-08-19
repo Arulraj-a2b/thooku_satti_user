@@ -11,6 +11,7 @@ export const getForgotEmailOtpApi = fetchUrl('GetOTP');
 export const emailVerifyOtpApi = fetchUrl('ValidateOTP');
 export const changePasswordApi = fetchUrl('ChangePassword');
 export const getRestaurantListApi = fetchUrl('GetRestaurantList');
+export const getDiningHotelListpi = fetchUrl('GetDiningHotelList');
 export const getFoodItemsApi = fetchUrl('GetFoodItems');
 export const getCategoryListApi = fetchUrl('GetCategoryList');
 export const addCartApi = fetchUrl('UpdateCart');

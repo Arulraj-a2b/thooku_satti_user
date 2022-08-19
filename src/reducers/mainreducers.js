@@ -37,8 +37,9 @@ import {
   getCustomerInfoReducers,
   getMarketOrderReducers,
   saveMarketOrderReducers,
-  getMarketOrderListReducers
+  getMarketOrderListReducers,
 } from '../modules/marketmodule/store/marketOrderScreenReducer';
+import {getDiningHotelListReducers} from '../modules/bookingmodule/store/tableBookingReducer';
 
 export const reducers = {
   loginReducers,
@@ -67,5 +68,6 @@ export const reducers = {
   getCustomerInfoReducers,
   getMarketOrderReducers,
   saveMarketOrderReducers,
-  getMarketOrderListReducers
+  getMarketOrderListReducers,
+  getDiningHotelListReducers,
 };

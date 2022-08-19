@@ -1,7 +1,10 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import axios from 'axios';
-import {DINININ_BOOKING} from '../../../actions/actions';
-import {diningBookingApi} from '../../../routes/apiRoutes';
+import {DINININ_BOOKING, GET_DINING_HOTEL_LIST} from '../../../actions/actions';
+import {
+  diningBookingApi,
+  getDiningHotelListpi,
+} from '../../../routes/apiRoutes';
 import Toast from '../../../uikit/Toast/Toast';
 
 export const diningBookingMiddleWare = createAsyncThunk(
@@ -33,6 +36,24 @@ export const diningBookingMiddleWare = createAsyncThunk(
         LocationID,
         Contactno,
         Notes,
+      });
+      return data;
+    } catch (error) {
+      Toast(error.response.data[0].Message, 'error');
+      const typedError = error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+export const getDiningHotelListMiddleWare = createAsyncThunk(
+  GET_DINING_HOTEL_LIST,
+  async ({LocationID}, {rejectWithValue}) => {
+    try {
+      const {data} = await axios.get(getDiningHotelListpi, {
+        params: {
+          LocationID,
+        },
       });
       return data;
     } catch (error) {

@@ -33,6 +33,7 @@ export const UPLOAD_BILL = 'my_order/UPLOAD_BILL';
 export const GET_DINING_DETAILS = 'my_order/GET_DINING_DETAILS';
 
 export const DINININ_BOOKING = 'table/DINININ_BOOKING';
+export const GET_DINING_HOTEL_LIST = 'table/GET_DINING_HOTEL_LIST';
 
 export const GET_CUSTOMER_INFO = 'market/GET_CUSTOMER_INFO';
 export const SAVE_MARKET_ORDER = 'market/SAVE_MARKET_ORDER';

@@ -63,7 +63,7 @@ const MarketOrderScreen = () => {
     const errors = {};
 
     if (isEmpty(values.address)) {
-      errors.address = 'Address Field Requuired';
+      errors.address = 'Address field is required';
     }
     if (isEmpty(values.file)) {
       errors.file = `Upload your ${params?.name} List`

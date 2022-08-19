@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {
   Keyboard,
   ScrollView,
@@ -25,11 +25,13 @@ import {
   THIS_FIELD_REQUIRED,
 } from '../../uikit/UikitUtils/constants';
 import ErrorMessage from '../../uikit/ErrorMessage/ErrorMessage';
-import {diningBookingMiddleWare} from './store/tableBookingMiddleware';
+import {
+  diningBookingMiddleWare,
+  getDiningHotelListMiddleWare,
+} from './store/tableBookingMiddleware';
 import SuccessModal from './SuccessModal';
 import Toast from '../../uikit/Toast/Toast';
 import {useFocusEffect} from '@react-navigation/native';
-import {getRestaurantListMiddleWare} from '../homemodule/store/homeMiddleware';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -68,10 +70,10 @@ const TableBookingScreen = () => {
   const dispatch = useDispatch();
 
   const {isLoading, data, locationID} = useSelector(
-    ({getRestaurantListReducers,calculateLocationDistanceReducers}) => {
+    ({getDiningHotelListReducers, calculateLocationDistanceReducers}) => {
       return {
-        isLoading: getRestaurantListReducers.isLoading,
-        data: getRestaurantListReducers.data,
+        isLoading: getDiningHotelListReducers.isLoading,
+        data: getDiningHotelListReducers.data,
         locationID: calculateLocationDistanceReducers?.data[0],
       };
     },
@@ -81,14 +83,12 @@ const TableBookingScreen = () => {
     useCallback(() => {
       formik.resetForm();
       dispatch(
-        getRestaurantListMiddleWare({
+        getDiningHotelListMiddleWare({
           LocationID: locationID.LocationID,
-          Type: '1',
         }),
       );
     }, []),
   );
-
   const handleValidate = values => {
     const errors = {};
     if (isEmpty(values.restaurants)) {
@@ -115,7 +115,7 @@ const TableBookingScreen = () => {
     }
     if (isEmpty(values.gpay) && isEmpty(values.phonepe)) {
       errors.phonepe = 'Please provide Phoenpe number';
-      errors.gpay = 'Please provide Gpay number';
+      errors.gpay = 'Please provide Google Pay number';
     }
     if (!isEmpty(values.gpay) && values.gpay.length !== 10) {
       errors.gpay = INVALID_PHONE_ENTERED;
@@ -214,6 +214,16 @@ const TableBookingScreen = () => {
     setValue('');
     formik.resetForm();
   };
+
+  const hoteList = useMemo(() => {
+    const result = data.map(list => {
+      return {
+        value: list.HotelID,
+        label: `${list.HotelName} (Closing Time: ${list.RestaurantClosingTime})`,
+      };
+    });
+    return result;
+  }, [data]);
   return (
     <>
       <Flex overrideStyle={styles.overAll}>
@@ -227,14 +237,12 @@ const TableBookingScreen = () => {
         <ScrollView style={styles.scrollStyle}>
           <View style={styles.inputTop}>
             <DropDown
-              valueKey="HotelID"
-              labelKey="HotelName"
               placeholder={'Select Restaurants'}
               label={'Restaurants'}
               required
               value={value}
               setValue={setValue}
-              data={data}
+              data={hoteList}
             />
             <ErrorMessage
               touched={formik.touched}

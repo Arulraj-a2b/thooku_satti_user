@@ -10,7 +10,6 @@ import {routesPath} from '../routes/routesPath';
 import {getAddressMiddleWare} from '../modules/mapmodule/store/mapMiddleware';
 import {API_KEY} from '../uikit/UikitUtils/constants';
 import SvgLocation2 from '../icons/SvgLocation2';
-import {isEmpty} from '../uikit/UikitUtils/validators';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const styles = StyleSheet.create({
