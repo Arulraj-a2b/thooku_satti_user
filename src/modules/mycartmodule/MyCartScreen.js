@@ -91,7 +91,7 @@ const MyCartScreen = ({navigation}) => {
     const errors = {};
 
     if (isEmpty(values.address)) {
-      errors.address = THIS_FIELD_REQUIRED;
+      errors.address = "Address field is required";
     }
 
     return errors;

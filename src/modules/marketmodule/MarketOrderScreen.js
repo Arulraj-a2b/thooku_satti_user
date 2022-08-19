@@ -66,7 +66,7 @@ const MarketOrderScreen = () => {
       errors.address = 'Address Field Requuired';
     }
     if (isEmpty(values.file)) {
-      errors.file = 'Image Field Requuired';
+      errors.file = `Upload your ${params?.name} List`
     }
     return errors;
   };
@@ -115,8 +115,8 @@ const MarketOrderScreen = () => {
     const options = {
       mediaType: 'photo',
       includeBase64: false,
-      maxHeight: 200,
-      maxWidth: 200,
+      maxHeight: 1500,
+      maxWidth: 1800,
     };
     launchImageLibrary(options, response => {
       if (response.didCancel) {

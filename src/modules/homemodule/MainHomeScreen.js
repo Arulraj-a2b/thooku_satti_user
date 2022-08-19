@@ -185,9 +185,15 @@ const MainHomeScreen = () => {
   }, [refreshing]);
 
   const handleOrderAgainNavigate = id => {
-    navigation.navigate(routesPath.HOTEL_LIST_VIEW_SCREEN, {
-      hotelId: id,
-    });
+    if (isEmpty(userDetails)) {
+      navigation.navigate(routesPath.LOGIN_SCREEN, {
+        hotelId: id,
+      });
+    } else {
+      navigation.navigate(routesPath.HOTEL_LIST_VIEW_SCREEN, {
+        hotelId: id,
+      });
+    }
   };
   if (isLoading) {
     return <HomePlaceHolder />;

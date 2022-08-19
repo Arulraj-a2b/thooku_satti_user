@@ -122,6 +122,17 @@ const LoginScreen = () => {
                   },
                 },
               });
+            } else if (!isEmpty(params?.hotelId)) {
+              navigation.navigate(routesPath.ALL_SCREEN, {
+                screen: 'BottomTab',
+                params: {
+                  screen: stacks.HomeStack,
+                  params: {
+                    screen: routesPath.HOTEL_LIST_VIEW_SCREEN,
+                    params: {hotelId: params?.hotelId},
+                  },
+                },
+              });
             } else {
               navigation.navigate(routesPath.ALL_SCREEN);
             }

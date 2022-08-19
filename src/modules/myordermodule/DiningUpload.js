@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import Modal from 'react-native-modal';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {launchImageLibrary} from 'react-native-image-picker';
 import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {WHITE} from '../../uikit/UikitUtils/colors';
 import Card from '../../uikit/Card/Card';
@@ -64,8 +64,8 @@ const DiningUpload = ({open, close, isBookingId}) => {
     const options = {
       mediaType: 'photo',
       includeBase64: false,
-      maxHeight: 200,
-      maxWidth: 200,
+      maxHeight: 1500,
+      maxWidth: 1800,
     };
     launchImageLibrary(options, response => {
       if (response.didCancel) {

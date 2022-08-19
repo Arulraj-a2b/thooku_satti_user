@@ -8,6 +8,7 @@ import {getHomeDashboardMiddleWare} from '../modules/homemodule/store/homeMiddle
 import {getCartDetailsMiddleWare} from '../modules/hotelviewmodule/store/hotelListViewMiddleware';
 import {calculateLocationDistanceMiddleWare} from '../modules/loginmodule/store/loginScreenMiddleware';
 import {routesPath} from '../routes/routesPath';
+import { checkVersion } from '../uikit/UikitUtils/helpers';
 
 export const BASE_URL = 'https://foodapp.appsure.co.in/api/Mobapi/'; // staging
 // export const BASE_URL = 'https://mobileorder.dindigulthookusatti.com/api/Mobapi/'; // production
@@ -23,7 +24,7 @@ export const useAuthCheck = setLoader => {
   const authUser = async () => {
     try {
       let userData = await AsyncStorage.getItem('userData');
-      console.log('userData', userData);
+      // console.log('userData', userData);
       let geoLocation = await AsyncStorage.getItem('geoLocationDone');
       userData = JSON.parse(userData);
       geoLocation = JSON.parse(geoLocation);
@@ -45,6 +46,7 @@ export const useAuthCheck = setLoader => {
                 setTimeout(() => {
                   SplashScreen.hide();
                   setLoader(false);
+                  checkVersion()
                   navigation.navigate(routesPath.ALL_SCREEN);
                 }, 1000);
               });
@@ -53,16 +55,19 @@ export const useAuthCheck = setLoader => {
           dispatch(getCartDetailsMiddleWare());
         } else {
           setLoader(false);
+          checkVersion()
           navigation.navigate(routesPath.MAP_VIEW_SCREEN);
           SplashScreen.hide();
         }
       } else {
         setLoader(false);
+        checkVersion()
         navigation.navigate(routesPath.MAP_VIEW_SCREEN);
         SplashScreen.hide();
       }
     } catch (error) {
       setLoader(false);
+      checkVersion()
       navigation.navigate(routesPath.MAP_VIEW_SCREEN);
       SplashScreen.hide();
     }

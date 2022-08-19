@@ -27,6 +27,8 @@ target 'thooku_satti' do
 
   pod 'react-native-webview', :path => '../node_modules/react-native-webview'
 
+  pod 'react-native-version-check', :path => '../node_modules/react-native-version-check'
+
   target 'thooku_sattiTests' do
     inherit! :complete
     # Pods for testing
