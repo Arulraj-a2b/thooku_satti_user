@@ -23,6 +23,7 @@ export const routesPath = {
   PRIVACY_SCREEN: 'PrivacyScreen',
   MARKET_ORDER_SCREEN: 'MarketOrderScreen',
   MARKET_ORDER_VIEW_SCREEN: 'MarketOrderViewScreen',
+  TRACKING_SCREEN:'TrackingScreen'
 };
 
 export const stacks = {
