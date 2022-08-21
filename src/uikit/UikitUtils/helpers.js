@@ -39,6 +39,7 @@ export const isFinancial = x => {
 
 export const checkVersion = () => {
   VersionCheck.needUpdate().then(async res => {
+    // console.log('res',res);
     if (res.isNeeded) {
       Alert.alert(
         'Update',

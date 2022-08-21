@@ -1,8 +1,13 @@
-import React from 'react';
-import {StyleSheet, Dimensions} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {StyleSheet, Dimensions, View} from 'react-native';
 import MapViews, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import {API_KEY} from '../../uikit/UikitUtils/constants';
+import Geolocation from 'react-native-geolocation-service';
+import SvgHomeLocation from '../../icons/SvgHomeLocation';
+import SvgOrderPickup from '../../icons/SvgOrderPickup';
+import {BLACK, PRIMARY} from '../../uikit/UikitUtils/colors';
+
 const {width, height} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
@@ -13,47 +18,68 @@ const styles = StyleSheet.create({
 });
 
 const ASPECT_RATIO = width / height;
-const LATITUDE = 37.78825;
-const LONGITUDE = -122.4324;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-const origin = {latitude: 37.3318456, longitude: -122.0296002};
-const destination = {latitude: 37.771707, longitude: -122.4053769};
+const destination = {latitude: 11.644855, longitude: 78.0923283};
 
 const TrackingScreen = () => {
-  return (
-    <MapViews
-      provider={PROVIDER_GOOGLE}
-      userLocationPriority="high"
-      showsUserLocation={true}
-      showsMyLocationButton={true}
-      stopPropagation={true}
-      // onPress={handleMarkerMove}
-      // customMapStyle={mapStyle}
-      style={styles.map}
-      initialRegion={{
-        latitude: origin.latitude,
-        longitude: origin.longitude,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-      }}
-      // onRegionChangeComplete={onRegionChangeComplete}
-    >
-      <Marker
-        coordinate={{
-          latitude: origin.latitude,
-          longitude: origin.longitude,
-        }}
-      />
+  const [isOrgin, setOrgin] = useState();
 
-      <MapViewDirections
-        origin={origin}
-        destination={destination}
-        apikey={API_KEY}
-        strokeWidth={3}
-        strokeColor="hotpink"
-      />
-    </MapViews>
+  useEffect(() => {
+    Geolocation.getCurrentPosition(
+      ({coords}) => {
+        // console.log('coords', coords);
+        setOrgin({latitude: coords.latitude, longitude: coords.longitude});
+      },
+      _error => {
+        // Alert.alert(error.code,error.message)
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 1000,
+        maximumAge: 0,
+        distanceFilter: 1,
+      },
+    );
+  }, []);
+
+  return (
+    <View>
+      {isOrgin && (
+        <MapViews
+          provider={PROVIDER_GOOGLE}
+          userLocationPriority="high"
+          showsUserLocation={true}
+          showsMyLocationButton={true}
+          stopPropagation={true}
+          style={styles.map}
+          initialRegion={{
+            latitude: isOrgin?.latitude,
+            longitude: isOrgin?.longitude,
+            latitudeDelta: LATITUDE_DELTA,
+            longitudeDelta: LONGITUDE_DELTA,
+          }}>
+          <Marker
+            coordinate={{
+              latitude: isOrgin?.latitude,
+              longitude: isOrgin?.longitude,
+            }}>
+            <SvgHomeLocation />
+          </Marker>
+          <Marker coordinate={destination}>
+            <SvgOrderPickup fill={PRIMARY} />
+          </Marker>
+          <MapViewDirections
+            origin={isOrgin}
+            destination={destination}
+            apikey={API_KEY}
+            strokeWidth={4}
+            strokeColor={BLACK}
+            mode="DRIVING"
+          />
+        </MapViews>
+      )}
+    </View>
   );
 };
 
