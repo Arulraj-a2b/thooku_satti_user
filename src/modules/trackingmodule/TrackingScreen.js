@@ -1,12 +1,21 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, Dimensions, View} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {
+  StyleSheet,
+  Dimensions,
+  View,
+  TouchableOpacity,
+  Platform,
+} from 'react-native';
 import MapViews, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
-import {API_KEY} from '../../uikit/UikitUtils/constants';
 import Geolocation from 'react-native-geolocation-service';
+import {API_KEY} from '../../uikit/UikitUtils/constants';
 import SvgHomeLocation from '../../icons/SvgHomeLocation';
 import SvgOrderPickup from '../../icons/SvgOrderPickup';
-import {BLACK, PRIMARY} from '../../uikit/UikitUtils/colors';
+import {PRIMARY, WHITE} from '../../uikit/UikitUtils/colors';
+import SvgGps from '../../icons/SvgGps';
+import {mapStyle} from '../mapmodule/mock';
+import SvgRestaurantPinMap from '../../icons/SvgRestaurantPinMap';
 
 const {width, height} = Dimensions.get('window');
 
@@ -14,6 +23,14 @@ const styles = StyleSheet.create({
   map: {
     width: '100%',
     height: '100%',
+  },
+  gpsBtn: {
+    position: 'absolute',
+    bottom: 24,
+    right: 24,
+    backgroundColor: WHITE,
+    padding: 2,
+    borderRadius: 4,
   },
 });
 
@@ -24,12 +41,14 @@ const destination = {latitude: 11.644855, longitude: 78.0923283};
 
 const TrackingScreen = () => {
   const [isOrgin, setOrgin] = useState();
+  const mapRef = useRef();
+  const markerRef = useRef();
 
   useEffect(() => {
-    Geolocation.getCurrentPosition(
+    Geolocation.watchPosition(
       ({coords}) => {
-        // console.log('coords', coords);
-        setOrgin({latitude: coords.latitude, longitude: coords.longitude});
+        setOrgin(coords);
+        // animate(coords.latitude, coords.longitude);
       },
       _error => {
         // Alert.alert(error.code,error.message)
@@ -41,43 +60,83 @@ const TrackingScreen = () => {
         distanceFilter: 1,
       },
     );
-  }, []);
+  });
+
+  const animate = (latitude, longitude) => {
+    const newCoordinate = {latitude, longitude};
+    if (Platform.OS == 'android') {
+      if (markerRef.current) {
+        markerRef.current.animateMarkerToCoordinate(newCoordinate, 7000);
+      }
+    } else {
+      coordinate.timing(newCoordinate).start();
+    }
+  };
+
+  const onCenter = () => {
+    mapRef.current.animateToRegion({
+      latitude: isOrgin.latitude,
+      longitude: isOrgin.longitude,
+      latitudeDelta: LATITUDE_DELTA,
+      longitudeDelta: LONGITUDE_DELTA,
+    });
+  };
 
   return (
     <View>
       {isOrgin && (
-        <MapViews
-          provider={PROVIDER_GOOGLE}
-          userLocationPriority="high"
-          showsUserLocation={true}
-          showsMyLocationButton={true}
-          stopPropagation={true}
-          style={styles.map}
-          initialRegion={{
-            latitude: isOrgin?.latitude,
-            longitude: isOrgin?.longitude,
-            latitudeDelta: LATITUDE_DELTA,
-            longitudeDelta: LONGITUDE_DELTA,
-          }}>
-          <Marker
-            coordinate={{
+        <View>
+          <MapViews
+            ref={mapRef}
+            provider={PROVIDER_GOOGLE}
+            showsMyLocationButton={true}
+            style={styles.map}
+            customMapStyle={mapStyle}
+            initialRegion={{
               latitude: isOrgin?.latitude,
               longitude: isOrgin?.longitude,
+              latitudeDelta: LATITUDE_DELTA,
+              longitudeDelta: LONGITUDE_DELTA,
             }}>
-            <SvgHomeLocation />
-          </Marker>
-          <Marker coordinate={destination}>
-            <SvgOrderPickup fill={PRIMARY} />
-          </Marker>
-          <MapViewDirections
-            origin={isOrgin}
-            destination={destination}
-            apikey={API_KEY}
-            strokeWidth={4}
-            strokeColor={BLACK}
-            mode="DRIVING"
-          />
-        </MapViews>
+            <Marker
+              zIndex={99}
+              destination
+              coordinate={{
+                latitude: isOrgin?.latitude,
+                longitude: isOrgin?.longitude,
+              }}>
+              <SvgHomeLocation />
+            </Marker>
+
+            <Marker.Animated
+              ref={markerRef}
+              // rotation={90}
+              zIndex={99}
+              coordinate={destination}>
+              <SvgOrderPickup />
+              {/* <SvgRestaurantPinMap /> */}
+            </Marker.Animated>
+
+            <MapViewDirections
+              optimizeWaypoints={true}
+              origin={{
+                latitude: isOrgin.latitude,
+                longitude: isOrgin?.longitude,
+              }}
+              destination={destination}
+              apikey={API_KEY}
+              strokeWidth={4}
+              strokeColor={PRIMARY}
+              onReady={result => {
+                console.log(`Distance: ${result.distance} km`);
+                console.log(`Duration: ${result.duration} min.`);
+              }}
+            />
+          </MapViews>
+          <TouchableOpacity style={styles.gpsBtn} onPress={onCenter}>
+            <SvgGps />
+          </TouchableOpacity>
+        </View>
       )}
     </View>
   );
