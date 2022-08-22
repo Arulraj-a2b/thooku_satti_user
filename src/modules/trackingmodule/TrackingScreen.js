@@ -16,6 +16,7 @@ import {PRIMARY, WHITE} from '../../uikit/UikitUtils/colors';
 import SvgGps from '../../icons/SvgGps';
 import {mapStyle} from '../mapmodule/mock';
 import SvgRestaurantPinMap from '../../icons/SvgRestaurantPinMap';
+import Button from '../../uikit/Button/Button';
 
 const {width, height} = Dimensions.get('window');
 
@@ -40,6 +41,7 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const destination = {latitude: 11.644855, longitude: 78.0923283};
 
 const TrackingScreen = () => {
+  const [isPending, setPending] = useState(false);
   const [isOrgin, setOrgin] = useState();
   const mapRef = useRef();
   const markerRef = useRef();
@@ -85,7 +87,7 @@ const TrackingScreen = () => {
   return (
     <View>
       {isOrgin && (
-        <View>
+        <View style={{height: Dimensions.get('screen').height - 180}}>
           <MapViews
             ref={mapRef}
             provider={PROVIDER_GOOGLE}
@@ -113,8 +115,7 @@ const TrackingScreen = () => {
               // rotation={90}
               zIndex={99}
               coordinate={destination}>
-              <SvgOrderPickup />
-              {/* <SvgRestaurantPinMap /> */}
+              {!isPending ? <SvgRestaurantPinMap /> : <SvgOrderPickup />}
             </Marker.Animated>
 
             <MapViewDirections
@@ -136,6 +137,7 @@ const TrackingScreen = () => {
           <TouchableOpacity style={styles.gpsBtn} onPress={onCenter}>
             <SvgGps />
           </TouchableOpacity>
+          <Button onClick={() => setPending(!isPending)}>Confirm</Button>
         </View>
       )}
     </View>
