@@ -12,10 +12,8 @@ import Text from '../uikit/Text/Text';
 import Button from '../uikit/Button/Button';
 import SvgMyorder from '../icons/SvgMyorder';
 import SvgCart from '../icons/SvgCart';
-import SvgProfile from '../icons/SvgProfile';
 import SvgContacts from '../icons/SvgContacts';
 import SvgHelp from '../icons/SvgHelp';
-import SvgLocation3 from '../icons/SvgLocation3';
 import {routesPath} from '../routes/routesPath';
 import SvgLogout from '../icons/SvgLogout';
 import {WHITE} from '../uikit/UikitUtils/colors';
@@ -24,6 +22,7 @@ import {useDrawerStatus} from '@react-navigation/drawer';
 import SvgClose from '../icons/SvgClose';
 import SvgBook from '../icons/SvgBook';
 import SvgPrivacy from '../icons/SvgPrivacyPolicy';
+import {isEmpty} from '../uikit/UikitUtils/validators';
 
 const styles = StyleSheet.create({
   listStyle: {
@@ -79,6 +78,8 @@ const DrawerContent = props => {
       setUserDetails(JSON.parse(userData));
     }
   };
+
+  const checkLogin = isEmpty(userDetails);
   const dataList = [
     {
       route: () => {
@@ -90,6 +91,7 @@ const DrawerContent = props => {
           <SvgMyorder />
         </View>
       ),
+      isCheck: !checkLogin,
     },
     {
       route: () => {
@@ -97,6 +99,7 @@ const DrawerContent = props => {
       },
       title: 'Book Your Table',
       icon: <SvgBook />,
+      isCheck: !checkLogin,
     },
     {
       route: () => {
@@ -104,6 +107,7 @@ const DrawerContent = props => {
       },
       title: 'My Cart',
       icon: <SvgCart />,
+      isCheck: !checkLogin,
     },
     // {
     //   route: () => {
@@ -125,6 +129,7 @@ const DrawerContent = props => {
       },
       title: 'About Us',
       icon: <SvgContacts />,
+      isCheck: checkLogin,
     },
     {
       route: () => {
@@ -138,6 +143,7 @@ const DrawerContent = props => {
           <SvgHelp />
         </View>
       ),
+      isCheck: !checkLogin,
     },
     {
       route: () => {
@@ -149,6 +155,19 @@ const DrawerContent = props => {
           <SvgPrivacy />
         </View>
       ),
+      isCheck: checkLogin,
+    },
+    {
+      route: () => {
+        props.navigation.navigate(routesPath.LOGIN_SCREEN);
+      },
+      title: 'Log In',
+      icon: (
+        <View style={{position: 'relative', right: -3}}>
+          <SvgLogout fill={'#9796A1'} />
+        </View>
+      ),
+      isCheck: checkLogin,
     },
   ];
 
@@ -159,46 +178,53 @@ const DrawerContent = props => {
         style={styles.svgClose}>
         <SvgClose />
       </Pressable>
-      <Flex overrideStyle={styles.imageContainer}>
-        <Image
-          source={require('../assests/image/profile.png')}
-          style={styles.imageStyle}
-        />
-        <Text bold size={16}>
-          {userDetails && userDetails.Name}
-        </Text>
-        <Text color="gray">{userDetails && userDetails.MobileNo}</Text>
-      </Flex>
-      <Flex flex={1}>
+      {!checkLogin && (
+        <Flex overrideStyle={styles.imageContainer}>
+          <Image
+            source={require('../assests/image/profile.png')}
+            style={styles.imageStyle}
+          />
+          <Text bold size={16}>
+            {userDetails && userDetails.Name}
+          </Text>
+          <Text color="gray">{userDetails && userDetails.MobileNo}</Text>
+        </Flex>
+      )}
+
+      <Flex flex={1} overrideStyle={{marginTop: checkLogin ? 40 : 0}}>
         {dataList.map((list, index) => {
           return (
-            <View
-              style={[styles.listStyle]}
-              key={index.toString() + list.title}>
-              <TouchableOpacity onPress={list.route}>
-                <Flex row center>
-                  <View style={{width: 40}}>{list.icon}</View>
-                  <Text size={16}>{list.title}</Text>
-                </Flex>
-              </TouchableOpacity>
-            </View>
+            list.isCheck && (
+              <View
+                style={[styles.listStyle]}
+                key={index.toString() + list.title}>
+                <TouchableOpacity onPress={list.route}>
+                  <Flex row center>
+                    <View style={{width: 40}}>{list.icon}</View>
+                    <Text size={16}>{list.title}</Text>
+                  </Flex>
+                </TouchableOpacity>
+              </View>
+            )
           );
         })}
       </Flex>
-      <Button
-        width={150}
-        round
-        overrideStyle={styles.btnStyle}
-        onClick={logout}>
-        <Flex row center>
-          <View style={styles.svgLogout}>
-            <SvgLogout />
-          </View>
-          <Text size={16} bold>
-            Log Out
-          </Text>
-        </Flex>
-      </Button>
+      {!checkLogin && (
+        <Button
+          width={150}
+          round
+          overrideStyle={styles.btnStyle}
+          onClick={logout}>
+          <Flex row center>
+            <View style={styles.svgLogout}>
+              <SvgLogout />
+            </View>
+            <Text size={16} bold>
+              Log Out
+            </Text>
+          </Flex>
+        </Button>
+      )}
     </Flex>
   );
 };

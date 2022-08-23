@@ -23,14 +23,21 @@ const DropDown = ({
   placeholder,
   valueKey = 'value',
   labelKey = 'label',
+  ArrowUpIconComponent,
+  ArrowDownIconComponent,
+  searchPlaceholder,
+  itemSeparator,
+  renderListItem,
+  showArrowIcon
 }) => {
   const [open, setOpen] = useState(false);
 
   return (
     <LabelWrapper label={label} required={required}>
       <DropDownPicker
+        searchPlaceholder={searchPlaceholder}
         listMode="MODAL"
-        placeholderStyle={GARY_2}
+        placeholderStyle={{color: GARY_2}}
         schema={{label: labelKey, value: valueKey}}
         placeholder={placeholder}
         style={styles.overAll}
@@ -41,9 +48,15 @@ const DropDown = ({
         setValue={setValue}
         setItems={setData}
         searchable
+        ArrowDownIconComponent={ArrowDownIconComponent}
+        ArrowUpIconComponent={ArrowUpIconComponent}
         searchTextInputStyle={styles.searchTextInputStyle}
         dropDownContainerStyle={styles.dropDownContainerStyle}
         searchContainerStyle={styles.searchContainerStyle}
+        itemSeparator={itemSeparator}
+        renderListItem={renderListItem}
+        itemSeparatorStyle={{backgroundColor: BORDER_COLOR}}
+        showArrowIcon={showArrowIcon}
       />
     </LabelWrapper>
   );

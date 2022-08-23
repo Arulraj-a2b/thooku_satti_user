@@ -41,7 +41,6 @@ const AboutScreen = () => {
     };
   });
   const getContent = data && data[0].Content.match(/(?!$)[^?]*\??/g);
-  console.log('getContent', getContent);
   return (
     <Flex overrideStyle={styles.overAll} flex={1}>
       {isLoading && <Loader />}

@@ -1,11 +1,10 @@
-import React, {useCallback, useRef} from 'react';
+import React, { useRef} from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 import Flex from '../../uikit/Flex/Flex';
 import Button from '../../uikit/Button/Button';
 import HotalCard from './HotalCard';
 import HotelSearch from './HotelSearch';
 import ListEmpty from './ListEmpty';
-import {useFocusEffect} from '@react-navigation/native';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -28,12 +27,6 @@ const HotelList = ({
   setCheckCart
 }) => {
   const flatListRef = useRef();
-
-  useFocusEffect(
-    useCallback(() => {
-      // flatListRef.current.scrollToOffset({animated: true, offset: 0});
-    }, []),
-  );
 
   return (
     <FlatList

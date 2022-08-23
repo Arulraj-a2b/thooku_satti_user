@@ -12,6 +12,9 @@ import TableBookingScreen from '../modules/bookingmodule/TableBookingScreen';
 import AboutScreen from '../modules/aboutmodule/AboutScreen';
 import DiningViewDetailsScreen from '../modules/myordermodule/DiningViewDetailsScreen';
 import PrivacyScreen from '../modules/privacymodule/PrivacyScreen';
+import MarketOrderScreen from '../modules/marketmodule/MarketOrderScreen';
+import {WHITE} from '../uikit/UikitUtils/colors';
+import MarketOrderViewScreen from '../modules/marketmodule/MarketOrderViewScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -19,7 +22,10 @@ const SideNavigation = () => {
   return (
     <Drawer.Navigator
       drawerContent={props => <DrawerContent {...props} />}
-      screenOptions={{drawerPosition: 'right'}}
+      screenOptions={{
+        drawerPosition: 'right',
+        sceneContainerStyle: {backgroundColor: WHITE},
+      }}
       initialRouteName="BottomTab">
       <Drawer.Screen
         options={{
@@ -31,7 +37,18 @@ const SideNavigation = () => {
       <Drawer.Screen
         options={{
           header: props => (
-            <Header backPath={routesPath.HOME_SCREEN} props={props} isMenu />
+            <Header
+              handleBack={() => {
+                props.navigation.navigate(routesPath.ALL_SCREEN, {
+                  screen: 'BottomTab',
+                  params: {
+                    screen: routesPath.HOME_SCREEN,
+                  },
+                });
+              }}
+              props={props}
+              isMenu
+            />
           ),
         }}
         name={routesPath.MY_ORDER_SCREEN}
@@ -40,7 +57,18 @@ const SideNavigation = () => {
       <Drawer.Screen
         options={{
           header: props => (
-            <Header backPath={routesPath.HOME_SCREEN} props={props} isMenu />
+            <Header
+              handleBack={() => {
+                props.navigation.navigate(routesPath.ALL_SCREEN, {
+                  screen: 'BottomTab',
+                  params: {
+                    screen: routesPath.HOME_SCREEN,
+                  },
+                });
+              }}
+              props={props}
+              isMenu
+            />
           ),
         }}
         name={routesPath.MY_PROFILE_SCREEN}
@@ -49,7 +77,15 @@ const SideNavigation = () => {
       <Drawer.Screen
         options={{
           header: props => (
-            <Header backPath={routesPath.HOME_SCREEN} props={props} isMenu />
+            <Header
+              handleBack={() => {
+                props.navigation.navigate(routesPath.ALL_SCREEN, {
+                  screen: routesPath.HOME_SCREEN,
+                });
+              }}
+              props={props}
+              isMenu
+            />
           ),
         }}
         name={routesPath.ADDRESS_SCREEN}
@@ -59,7 +95,11 @@ const SideNavigation = () => {
         options={{
           header: props => (
             <Header
-              backPath={routesPath.MY_ORDER_SCREEN}
+              handleBack={() => {
+                props.navigation.navigate(routesPath.ALL_SCREEN, {
+                  screen: routesPath.MY_ORDER_SCREEN,
+                });
+              }}
               props={props}
               isMenu
             />
@@ -71,7 +111,18 @@ const SideNavigation = () => {
       <Drawer.Screen
         options={{
           header: props => (
-            <Header backPath={routesPath.HOME_SCREEN} props={props} isMenu />
+            <Header
+              handleBack={() => {
+                props.navigation.navigate(routesPath.ALL_SCREEN, {
+                  screen: 'BottomTab',
+                  params: {
+                    screen: routesPath.HOME_SCREEN,
+                  },
+                });
+              }}
+              props={props}
+              isMenu
+            />
           ),
         }}
         name={routesPath.BOOKING_TABLE_SCREEN}
@@ -80,7 +131,58 @@ const SideNavigation = () => {
       <Drawer.Screen
         options={{
           header: props => (
-            <Header backPath={routesPath.HOME_SCREEN} props={props} isMenu />
+            <Header
+              handleBack={() => {
+                props.navigation.navigate(routesPath.ALL_SCREEN, {
+                  screen: 'BottomTab',
+                  params: {
+                    screen: routesPath.HOME_SCREEN,
+                  },
+                });
+              }}
+              props={props}
+              isMenu
+            />
+          ),
+        }}
+        name={routesPath.MARKET_ORDER_SCREEN}
+        component={MarketOrderScreen}
+      />
+      <Drawer.Screen
+        options={{
+          header: props => (
+            <Header
+              handleBack={() => {
+                props.navigation.navigate(routesPath.ALL_SCREEN, {
+                  screen: 'BottomTab',
+                  params: {
+                    screen: routesPath.HOME_SCREEN,
+                  },
+                });
+              }}
+              props={props}
+              isMenu
+            />
+          ),
+        }}
+        name={routesPath.MARKET_ORDER_VIEW_SCREEN}
+        component={MarketOrderViewScreen}
+      />
+      <Drawer.Screen
+        options={{
+          header: props => (
+            <Header
+              handleBack={() => {
+                props.navigation.navigate(routesPath.ALL_SCREEN, {
+                  screen: 'BottomTab',
+                  params: {
+                    screen: routesPath.HOME_SCREEN,
+                  },
+                });
+              }}
+              props={props}
+              isMenu
+            />
           ),
         }}
         name={routesPath.ABOUT_SCREEN}
@@ -100,7 +202,17 @@ const SideNavigation = () => {
         options={() => ({
           title: '',
           header: props => (
-            <Header props={props} backPath={routesPath.HOME_SCREEN} />
+            <Header
+              props={props}
+              handleBack={() => {
+                props.navigation.navigate(routesPath.ALL_SCREEN, {
+                  screen: 'BottomTab',
+                  params: {
+                    screen: routesPath.HOME_SCREEN,
+                  },
+                });
+              }}
+            />
           ),
         })}
       />

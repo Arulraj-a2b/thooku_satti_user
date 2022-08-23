@@ -1,7 +1,9 @@
-import moment from "moment";
-import { isEmpty } from "./validators";
+import moment from 'moment';
+import {Alert, Linking} from 'react-native';
+import VersionCheck from 'react-native-version-check';
+import {isEmpty} from './validators';
 
-export const isValidDate = (date) => {
+export const isValidDate = date => {
   const timestamp = Date.parse(date);
   return Number.isNaN(timestamp) === false;
 };
@@ -15,9 +17,9 @@ export const isValidDate = (date) => {
  */
 export const getDateString = (value, format, isUnix, convertToLocal) => {
   if (
-    (typeof value === "string" ||
-      typeof value === "number" ||
-      typeof value === "object") &&
+    (typeof value === 'string' ||
+      typeof value === 'number' ||
+      typeof value === 'object') &&
     !Array.isArray(value) &&
     !isEmpty(format)
   ) {
@@ -28,9 +30,30 @@ export const getDateString = (value, format, isUnix, convertToLocal) => {
       return moment.parseZone(value).format(format);
     }
   }
-  return "";
+  return '';
 };
 
-export const isFinancial = (x) => {
+export const isFinancial = x => {
   return Number.parseFloat(x).toFixed(2);
+};
+
+export const checkVersion = () => {
+  VersionCheck.needUpdate().then(async res => {
+    if (res.isNeeded) {
+      Alert.alert(
+        'Update',
+        'New version available in play store with new features. Please update  the app from Play Store.',
+        [
+          {
+            text: 'Update',
+            onPress: () => {
+              Linking.openURL(
+                'https://play.google.com/store/apps/details?id=com.thooku_satti',
+              );
+            },
+          },
+        ],
+      );
+    }
+  });
 };

@@ -8,7 +8,6 @@ import {
   PRIMARY_TEXT,
   SUCCESS,
   WHITE,
-  GARY_3,
   SECONDARY
 } from "../UikitUtils/colors";
 

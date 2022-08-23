@@ -2,7 +2,7 @@ import {
   loginReducers,
   calculateLocationDistanceReducers,
   getCurrentVersionReducers,
-  aboutReducers
+  aboutReducers,
 } from '../modules/loginmodule/store/loginReducer';
 import {
   forgotEamilOtpReducers,
@@ -11,6 +11,8 @@ import {
 import {
   getRestaurantListReducers,
   checkLatestVersionReducers,
+  getHomeDashboardReducers,
+  searchRestaurantandItemsReducers,
 } from '../modules/homemodule/store/homeReducer';
 import {getAddressReducers} from '../modules/mapmodule/store/mapReducer';
 import {
@@ -29,8 +31,15 @@ import {
   getOrderDetailsReducers,
   getHistoryOrdersReducers,
   getDiningListReducers,
-  getDiningDetailsReducers
+  getDiningDetailsReducers,
 } from '../modules/myordermodule/store/myOrderReducer';
+import {
+  getCustomerInfoReducers,
+  getMarketOrderReducers,
+  saveMarketOrderReducers,
+  getMarketOrderListReducers,
+} from '../modules/marketmodule/store/marketOrderScreenReducer';
+import {getDiningHotelListReducers} from '../modules/bookingmodule/store/tableBookingReducer';
 
 export const reducers = {
   loginReducers,
@@ -53,5 +62,12 @@ export const reducers = {
   checkLatestVersionReducers,
   aboutReducers,
   getDiningListReducers,
-  getDiningDetailsReducers
+  getDiningDetailsReducers,
+  getHomeDashboardReducers,
+  searchRestaurantandItemsReducers,
+  getCustomerInfoReducers,
+  getMarketOrderReducers,
+  saveMarketOrderReducers,
+  getMarketOrderListReducers,
+  getDiningHotelListReducers,
 };

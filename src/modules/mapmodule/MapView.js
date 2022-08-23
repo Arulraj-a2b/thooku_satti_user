@@ -8,7 +8,7 @@ import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import {PERMISSIONS, request} from 'react-native-permissions';
 import Geolocation from 'react-native-geolocation-service';
 import SvgLocationMarker from '../../icons/SvgLocationMarker';
-import {routesPath, stacks} from '../../routes/routesPath';
+import {routesPath} from '../../routes/routesPath';
 import Button from '../../uikit/Button/Button';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
@@ -22,7 +22,7 @@ import {API_KEY} from '../../uikit/UikitUtils/constants';
 import {mapStyle} from './mock';
 import {getAddressMiddleWare} from './store/mapMiddleware';
 import {calculateLocationDistanceMiddleWare} from '../loginmodule/store/loginScreenMiddleware';
-import {getRestaurantListMiddleWare} from '../homemodule/store/homeMiddleware';
+import {getHomeDashboardMiddleWare} from '../homemodule/store/homeMiddleware';
 
 const styles = StyleSheet.create({
   body: {
@@ -102,19 +102,9 @@ const MapView = () => {
   });
 
   const handleSubmit = async () => {
-    AsyncStorage.setItem('geoLocationDone',JSON.stringify(isGetLocation));
+    AsyncStorage.setItem('geoLocationDone', JSON.stringify(isGetLocation));
     try {
-      let userData = await AsyncStorage.getItem('userData');
-      if (userData) {
-        userData = JSON.parse(userData);
-        if (userData.loggedIn) {
-          navigation.navigate(routesPath.ALL_SCREEN);
-        } else {
-          navigation.navigate(routesPath.LOGIN_SCREEN);
-        }
-      } else {
-        navigation.navigate(routesPath.LOGIN_SCREEN);
-      }
+      navigation.navigate(routesPath.ALL_SCREEN);
     } catch (error) {
       navigation.navigate(routesPath.LOGIN_SCREEN);
     }
@@ -141,7 +131,7 @@ const MapView = () => {
       ).then(res => {
         if (res.payload && res.payload[0]) {
           dispatch(
-            getRestaurantListMiddleWare({
+            getHomeDashboardMiddleWare({
               LocationID: res.payload[0].LocationID,
             }),
           );
@@ -165,7 +155,7 @@ const MapView = () => {
   async function requestLocationPermission() {
     var res = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
     if (res === 'granted') {
-      await Geolocation.getCurrentPosition(
+      Geolocation.getCurrentPosition(
         ({coords}) => {
           setGetLocation({
             latitude: coords.latitude,
@@ -179,7 +169,7 @@ const MapView = () => {
           ).then(res => {
             if (res.payload && res.payload[0]) {
               dispatch(
-                getRestaurantListMiddleWare({
+                getHomeDashboardMiddleWare({
                   LocationID: res.payload[0].LocationID,
                 }),
               );
@@ -225,7 +215,7 @@ const MapView = () => {
     ).then(res => {
       if (res.payload && res.payload[0]) {
         dispatch(
-          getRestaurantListMiddleWare({LocationID: res.payload[0].LocationID}),
+          getHomeDashboardMiddleWare({LocationID: res.payload[0].LocationID}),
         );
       }
     });

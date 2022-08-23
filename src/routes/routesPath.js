@@ -19,7 +19,10 @@ export const routesPath = {
   BOOKING_TABLE_SCREEN: 'TableBookingScreen',
   ABOUT_SCREEN: 'AboutScreen',
   DINING_VIEW_DEAILS_SCREEN: 'DiningViewDetailsScreen',
+  LIST_HOME_SCREEN: 'ListHomeScreen',
   PRIVACY_SCREEN: 'PrivacyScreen',
+  MARKET_ORDER_SCREEN: 'MarketOrderScreen',
+  MARKET_ORDER_VIEW_SCREEN: 'MarketOrderViewScreen',
 };
 
 export const stacks = {

@@ -101,6 +101,7 @@ const CartPrice = ({getCartDetails, formik, getTNCData}) => {
           placeholder={`Enter your address`}
           overrideStyle={styles.inputStyles}
           label={'Address'}
+          required
           height={70}
           numberOfLines={4}
           multiline

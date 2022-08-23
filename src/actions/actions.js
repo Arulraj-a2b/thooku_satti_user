@@ -11,6 +11,8 @@ export const CHANGE_PASSWORD = 'forgot/CHANGE_PASSWORD';
 
 export const GET_RESTAURANT_LIST = 'home/GET_RESTAURANT_LIST';
 export const CHECK_LATEST_VERSION = 'home/CHECK_LATEST_VERSION';
+export const CHECK_DASHBOARD = 'home/CHECK_DASHBOARD';
+export const SEARCH_RESTAURANT_ITEM = 'home/SEARCH_RESTAURANT_ITEM';
 
 export const GET_FOOD_ITEMS = 'hotel_view/GET_FOOD_ITEMS';
 export const GET_CATEGORY_LIST = 'hotel_view/GET_CATEGORY_LIST';
@@ -31,3 +33,9 @@ export const UPLOAD_BILL = 'my_order/UPLOAD_BILL';
 export const GET_DINING_DETAILS = 'my_order/GET_DINING_DETAILS';
 
 export const DINININ_BOOKING = 'table/DINININ_BOOKING';
+export const GET_DINING_HOTEL_LIST = 'table/GET_DINING_HOTEL_LIST';
+
+export const GET_CUSTOMER_INFO = 'market/GET_CUSTOMER_INFO';
+export const SAVE_MARKET_ORDER = 'market/SAVE_MARKET_ORDER';
+export const GET_MARKET_ORDER = 'market/GET_MARKET_ORDER';
+export const GET_MARKET_ORDER_LIST = 'market/GET_MARKET_ORDER_LIST';

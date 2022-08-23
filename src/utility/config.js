@@ -4,13 +4,14 @@ import axios from 'axios';
 import {useEffect} from 'react';
 import SplashScreen from 'react-native-splash-screen';
 import {useDispatch} from 'react-redux';
-import {getRestaurantListMiddleWare} from '../modules/homemodule/store/homeMiddleware';
+import {getHomeDashboardMiddleWare} from '../modules/homemodule/store/homeMiddleware';
 import {getCartDetailsMiddleWare} from '../modules/hotelviewmodule/store/hotelListViewMiddleware';
 import {calculateLocationDistanceMiddleWare} from '../modules/loginmodule/store/loginScreenMiddleware';
 import {routesPath} from '../routes/routesPath';
+import { checkVersion } from '../uikit/UikitUtils/helpers';
 
-// export const BASE_URL = 'https://foodapp.appsure.co.in/api/'; // staging
-export const BASE_URL = 'https://mobileorder.dindigulthookusatti.com/api/'; // production
+// export const BASE_URL = 'https://foodapp.appsure.co.in/api/Mobapi/'; // staging
+export const BASE_URL = 'https://mobileorder.dindigulthookusatti.com/api/Mobapi/'; // production
 
 export const fetchUrl = url => {
   const result = `${BASE_URL}${url}`;
@@ -23,7 +24,7 @@ export const useAuthCheck = setLoader => {
   const authUser = async () => {
     try {
       let userData = await AsyncStorage.getItem('userData');
-      // console.log('userData',userData);
+      // console.log('userData', userData);
       let geoLocation = await AsyncStorage.getItem('geoLocationDone');
       userData = JSON.parse(userData);
       geoLocation = JSON.parse(geoLocation);
@@ -38,13 +39,14 @@ export const useAuthCheck = setLoader => {
           ).then(res => {
             if (res.payload && res.payload[0]) {
               dispatch(
-                getRestaurantListMiddleWare({
+                getHomeDashboardMiddleWare({
                   LocationID: res.payload[0].LocationID,
                 }),
               ).then(() => {
                 setTimeout(() => {
                   SplashScreen.hide();
                   setLoader(false);
+                  checkVersion()
                   navigation.navigate(routesPath.ALL_SCREEN);
                 }, 1000);
               });
@@ -53,16 +55,19 @@ export const useAuthCheck = setLoader => {
           dispatch(getCartDetailsMiddleWare());
         } else {
           setLoader(false);
+          checkVersion()
           navigation.navigate(routesPath.MAP_VIEW_SCREEN);
           SplashScreen.hide();
         }
       } else {
         setLoader(false);
+        checkVersion()
         navigation.navigate(routesPath.MAP_VIEW_SCREEN);
         SplashScreen.hide();
       }
     } catch (error) {
       setLoader(false);
+      checkVersion()
       navigation.navigate(routesPath.MAP_VIEW_SCREEN);
       SplashScreen.hide();
     }

@@ -6,9 +6,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import axios from 'axios';
 import {useFormik} from 'formik';
-import Clipboard from '@react-native-community/clipboard';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import SvgLogo from '../../icons/SvgLogo';
@@ -32,8 +32,7 @@ import Loader from '../../uikit/Loader/Loader';
 import SvgEye from '../../icons/SvgEye';
 import SvgEyeOutline from '../../icons/SvgEyleOutLine';
 import {useAuthCheck} from '../../utility/config';
-import {routesPath} from '../../routes/routesPath';
-import axios from 'axios';
+import {routesPath, stacks} from '../../routes/routesPath';
 
 const styles = StyleSheet.create({
   logoContainer: {
@@ -69,9 +68,9 @@ const initialValues = {
 
 const LoginScreen = () => {
   const navigation = useNavigation();
+  const {params} = useRoute();
   const [hidePassword, setHidePassword] = useState(true);
   const [isLoader, setLoader] = useState(true);
-
   const dispatch = useDispatch();
 
   useAuthCheck(setLoader);
@@ -111,15 +110,64 @@ const LoginScreen = () => {
           );
           axios.defaults.headers.common['token'] = res.payload[0].SessionID;
           formik.resetForm();
-          navigation.navigate(routesPath.ALL_SCREEN);
+          if (isEmpty(params?.type)) {
+            if (!isEmpty(params?.search)) {
+              navigation.navigate(routesPath.ALL_SCREEN, {
+                screen: 'BottomTab',
+                params: {
+                  screen: stacks.HomeStack,
+                  params: {
+                    screen: routesPath.LIST_HOME_SCREEN,
+                    params: {search: params?.search},
+                  },
+                },
+              });
+            } else if (!isEmpty(params?.hotelId)) {
+              navigation.navigate(routesPath.ALL_SCREEN, {
+                screen: 'BottomTab',
+                params: {
+                  screen: stacks.HomeStack,
+                  params: {
+                    screen: routesPath.HOTEL_LIST_VIEW_SCREEN,
+                    params: {hotelId: params?.hotelId},
+                  },
+                },
+              });
+            } else {
+              navigation.navigate(routesPath.ALL_SCREEN);
+            }
+          } else if (
+            params?.type.toString() === '1' ||
+            params?.type.toString() === '2'
+          ) {
+            navigation.navigate(routesPath.ALL_SCREEN, {
+              screen: 'BottomTab',
+              params: {
+                screen: stacks.HomeStack,
+                params: {
+                  screen: routesPath.LIST_HOME_SCREEN,
+                  params: {type: params?.type},
+                },
+              },
+            });
+          } else if (params?.type.toString() === '4') {
+            navigation.navigate(routesPath.ALL_SCREEN, {
+              screen: routesPath.BOOKING_TABLE_SCREEN,
+              params: {
+                type: params?.type,
+              },
+            });
+          } else {
+            navigation.navigate(routesPath.ALL_SCREEN, {
+              screen: routesPath.MARKET_ORDER_SCREEN,
+              params: {
+                type: params?.type,
+                name: params?.name,
+              },
+            });
+          }
         }
       });
-    });
-  };
-
-  const handleToken = async () => {
-    await AsyncStorage.getItem('fcmToken').then(tokenRes => {
-      Clipboard.setString(tokenRes);
     });
   };
 
@@ -145,7 +193,7 @@ const LoginScreen = () => {
   if (isLoader) {
     return <Loader />;
   }
-  
+
   return (
     <Flex flex={1}>
       {(isLoading || getCurrentVersionLoading) && <Loader />}
@@ -155,7 +203,6 @@ const LoginScreen = () => {
         <Flex center middle overrideStyle={styles.logoContainer}>
           <SvgLogo width={350} height={130} />
         </Flex>
-        {/* <TouchableOpacity onPress={handleToken}><Text>Copy Token</Text></TouchableOpacity> */}
         <Flex flex={1} between>
           <Flex overrideStyle={[styles.inputContainer]}>
             <Text size={20} bold overrideStyle={styles.loginText}>
