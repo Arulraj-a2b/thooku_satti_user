@@ -9,6 +9,7 @@ import InputText from '../../uikit/InputText/InputText';
 import Card from '../../uikit/Card/Card';
 import {BORDER_COLOR, WHITE} from '../../uikit/UikitUtils/colors';
 import Button from '../../uikit/Button/Button';
+import { USER_DATA } from '../../utils/localStoreConstants';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -50,7 +51,7 @@ const MyProfileScreen = () => {
   }, []);
 
   const getUserData = async () => {
-    const userData = await AsyncStorage.getItem('userData');
+    const userData = await AsyncStorage.getItem(USER_DATA);
     if (userData) {
       setUserDetails(JSON.parse(userData));
     }

@@ -7,7 +7,6 @@ import Flex from '../../uikit/Flex/Flex';
 import Loader from '../../uikit/Loader/Loader';
 import Text from '../../uikit/Text/Text';
 import {BORDER_COLOR, WHITE} from '../../uikit/UikitUtils/colors';
-import {THIS_FIELD_REQUIRED} from '../../uikit/UikitUtils/constants';
 import {isEmpty} from '../../uikit/UikitUtils/validators';
 import {getCartDetailsMiddleWare} from '../hotelviewmodule/store/hotelListViewMiddleware';
 import CartList from './CartList';
@@ -44,6 +43,7 @@ const MyCartScreen = ({navigation}) => {
   useEffect(() => {
     dispatch(getTNCSMiddleWare());
   }, []);
+
   useFocusEffect(
     useCallback(() => {
       if (listViewRef && listViewRef.current) {
@@ -60,6 +60,7 @@ const MyCartScreen = ({navigation}) => {
     isCheckoutLoader,
     getTNCData,
     getRestaurantList,
+    getCartData
   } = useSelector(
     ({
       getCartDetailsReducers,
@@ -67,6 +68,7 @@ const MyCartScreen = ({navigation}) => {
       checkOutReducers,
       getTNCReducers,
       getRestaurantListReducers,
+      getCartDataReducers
     }) => {
       return {
         getCartDetails: getCartDetailsReducers.data,
@@ -76,10 +78,12 @@ const MyCartScreen = ({navigation}) => {
         isCheckoutLoader: checkOutReducers.isLoading,
         getTNCData: getTNCReducers.data,
         getRestaurantList: getRestaurantListReducers.data,
+        getCartData: getCartDataReducers.data,
+
       };
     },
   );
-  // console.log('getCartDetails',getCartDetails);
+
   const downButtonHandler = () => {
     listViewRef.current.scrollToIndex({
       index: getCartDetails && getCartDetails[0].OrdInfo.length - 1,
@@ -91,7 +95,7 @@ const MyCartScreen = ({navigation}) => {
     const errors = {};
 
     if (isEmpty(values.address)) {
-      errors.address = "Address field is required";
+      errors.address = 'Address field is required';
     }
 
     return errors;
@@ -126,6 +130,7 @@ const MyCartScreen = ({navigation}) => {
       }
     }, [getCartDetails]),
   );
+
   return (
     <Flex
       flex={1}

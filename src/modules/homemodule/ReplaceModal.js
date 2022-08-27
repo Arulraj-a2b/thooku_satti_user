@@ -1,15 +1,16 @@
 import React, {memo, useState} from 'react';
 import {StyleSheet} from 'react-native';
 import Modal from 'react-native-modal';
-import {useDispatch} from 'react-redux';
 import {routesPath} from '../../routes/routesPath';
 import Button from '../../uikit/Button/Button';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import Card from '../../uikit/Card/Card';
 import {WHITE} from '../../uikit/UikitUtils/colors';
-import {getCartDetailsMiddleWare} from '../hotelviewmodule/store/hotelListViewMiddleware';
-import {deleteCartMiddleWare} from '../mycartmodule/store/myCartMiddleware';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {CART_DATA} from '../../utils/localStoreConstants';
+import {useDispatch} from 'react-redux';
+import {updateCartData} from '../mycartmodule/store/myCartReducer';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -37,24 +38,20 @@ const ReplaceModal = ({
   isSelectHotelName,
   navigation,
 }) => {
+  const dispacth = useDispatch();
   const [isLoader, setLoader] = useState(false);
-  const dispatch = useDispatch();
   const handleCancel = () => {
     close();
   };
 
   const handleMyOrder = () => {
     setLoader(true);
-    dispatch(deleteCartMiddleWare()).then(res => {
-      if (res && res.payload[0] === 'R') {
-        dispatch(getCartDetailsMiddleWare()).then(() => {
-          navigation.navigate(routesPath.HOTEL_LIST_VIEW_SCREEN, {
-            hotelId: isSelectHotelName.id,
-          });
-          setLoader(false);
-          close();
-        });
-      }
+    AsyncStorage.removeItem(CART_DATA).then(() => {
+      dispacth(updateCartData([]));
+      navigation.navigate(routesPath.HOTEL_LIST_VIEW_SCREEN, {
+        hotelId: isSelectHotelName.id,
+      });
+      setLoader(false);
     });
   };
 
@@ -65,9 +62,9 @@ const ReplaceModal = ({
           Replace cart item?
         </Text>
         <Text color="gray">
-          Your cart contains dishes from {getCartDetails[0].HotelName}. Do you
-          want to discard the selecttion and add dishes from{' '}
-          {isSelectHotelName.name}?
+          {/* Your cart contains dishes from {getCartDetails.HotelName}. Do you */}
+          Your cart contains dishes. Do you want to discard the selecttion and
+          add dishes from {isSelectHotelName.name}?
         </Text>
         <Flex middle row overrideStyle={styles.btnContainer}>
           <Button

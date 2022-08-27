@@ -87,6 +87,19 @@ const getTNCReducer = createSlice({
   },
 });
 
+export const getCartDataReducer = createSlice({
+  name: 'cartData',
+  initialState: {data: []},
+  reducers: {
+    updateCartData: (state, action) => {
+      state.data = action.payload;
+    },
+  },
+});
+
+export const {updateCartData} = getCartDataReducer.actions;
+
 export const checkOutReducers = checkOutReducer.reducer;
 export const checkCartExistReducers = checkCartExistReducer.reducer;
 export const getTNCReducers = getTNCReducer.reducer;
+export const getCartDataReducers = getCartDataReducer.reducer;

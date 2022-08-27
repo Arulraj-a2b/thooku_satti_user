@@ -1,6 +1,5 @@
 import React from 'react';
 import {Image, StyleSheet, Pressable, View} from 'react-native';
-import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import Flex from '../../uikit/Flex/Flex';
 import Card from '../../uikit/Card/Card';
@@ -10,7 +9,6 @@ import SvgSuccess from '../../icons/SvgSccess';
 import SvgClock from '../../icons/SvgClock';
 import {routesPath} from '../../routes/routesPath';
 import {isEmpty} from '../../uikit/UikitUtils/validators';
-import {checkCartExistMiddleWare} from '../mycartmodule/store/myCartMiddleware';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -74,25 +72,25 @@ const HotalCard = ({
   setSelectHotelName,
 }) => {
   const navigation = useNavigation();
-  const dispacth = useDispatch();
-  const checkIsCart = getCartDetails.length === 0;
-
   const handleNavigate = () => {
-    if (checkIsCart) {
+    if (
+      (Array.isArray(getCartDetails) && getCartDetails.length === 0) ||
+      getCartDetails === null
+    ) {
+      navigation.navigate(routesPath.HOTEL_LIST_VIEW_SCREEN, {
+        hotelId: item.HotelID,
+      });
+    } else if (
+      Array.isArray(getCartDetails) &&
+      getCartDetails.length !== 0 &&
+      getCartDetails[0].hotelID === item.HotelID
+    ) {
       navigation.navigate(routesPath.HOTEL_LIST_VIEW_SCREEN, {
         hotelId: item.HotelID,
       });
     } else {
-      dispacth(checkCartExistMiddleWare({HotelID: item.HotelID})).then(res => {
-        if (res.payload && res.payload[0].StatusCode === 6000) {
-          navigation.navigate(routesPath.HOTEL_LIST_VIEW_SCREEN, {
-            hotelId: item.HotelID,
-          });
-        } else {
-          setSelectHotelName({name: item.HotelName, id: item.HotelID});
-          setCheckCart(true);
-        }
-      });
+      setSelectHotelName({name: item.HotelName, id: item.HotelID});
+      setCheckCart(true);
     }
   };
   return (

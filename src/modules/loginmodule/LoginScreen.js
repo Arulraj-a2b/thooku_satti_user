@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   Keyboard,
   ScrollView,
@@ -24,15 +24,13 @@ import {
   THIS_FIELD_REQUIRED,
 } from '../../uikit/UikitUtils/constants';
 import {isEmpty, isValidEmail} from '../../uikit/UikitUtils/validators';
-import {
-  getCurrentVersionMiddleWare,
-  loginMiddleWare,
-} from './store/loginScreenMiddleware';
+import {loginMiddleWare} from './store/loginScreenMiddleware';
 import Loader from '../../uikit/Loader/Loader';
 import SvgEye from '../../icons/SvgEye';
 import SvgEyeOutline from '../../icons/SvgEyleOutLine';
-import {useAuthCheck} from '../../utility/config';
+import {useAuthCheck} from '../../utils/config';
 import {routesPath, stacks} from '../../routes/routesPath';
+import {FCM_TOKEN, USER_DATA} from '../../utils/localStoreConstants';
 
 const styles = StyleSheet.create({
   logoContainer: {
@@ -75,28 +73,20 @@ const LoginScreen = () => {
 
   useAuthCheck(setLoader);
 
-  useEffect(() => {
-    dispatch(getCurrentVersionMiddleWare());
-  }, []);
-
-  const {isLoading, getCurrentVersionData, getCurrentVersionLoading} =
-    useSelector(({loginReducers, getCurrentVersionReducers}) => {
-      return {
-        isLoading: loginReducers.isLoading,
-        getCurrentVersionData: getCurrentVersionReducers.data,
-        getCurrentVersionLoading: getCurrentVersionReducers.isLoading,
-      };
-    });
+  const {isLoading} = useSelector(({loginReducers}) => {
+    return {
+      isLoading: loginReducers.isLoading,
+    };
+  });
 
   const handleSubmit = async value => {
-    await AsyncStorage.getItem('fcmToken').then(tokenRes => {
+    await AsyncStorage.getItem(FCM_TOKEN).then(tokenRes => {
       dispatch(
         loginMiddleWare({
           Username: value.email,
           Password: value.password,
           DeviceToken: tokenRes,
-          CurrentAppVersion:
-            getCurrentVersionData && getCurrentVersionData[0].VersionNo,
+          CurrentAppVersion: '',
         }),
       ).then(res => {
         if (
@@ -105,7 +95,7 @@ const LoginScreen = () => {
           res.payload[0].Message === 'Success'
         ) {
           AsyncStorage.setItem(
-            'userData',
+            USER_DATA,
             JSON.stringify({...res.payload[0], loggedIn: true}),
           );
           axios.defaults.headers.common['token'] = res.payload[0].SessionID;
@@ -196,7 +186,7 @@ const LoginScreen = () => {
 
   return (
     <Flex flex={1}>
-      {(isLoading || getCurrentVersionLoading) && <Loader />}
+      {isLoading && <Loader />}
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}>

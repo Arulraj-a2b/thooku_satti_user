@@ -2,7 +2,6 @@ import {createSlice} from '@reduxjs/toolkit';
 import {
   aboutMiddleWare,
   calculateLocationDistanceMiddleWare,
-  getCurrentVersionMiddleWare,
   loginMiddleWare,
 } from './loginScreenMiddleware';
 
@@ -68,39 +67,6 @@ const calculateLocationDistanceReducer = createSlice({
   },
 });
 
-const getCurrentVersionInitialState = {
-  isLoading: false,
-  error: '',
-  data: [
-    {
-      VersionNo: '',
-      Message: '',
-    },
-  ],
-};
-
-const getCurrentVersionReducer = createSlice({
-  name: 'login_get_version',
-  initialState: getCurrentVersionInitialState,
-  reducers: {},
-  extraReducers: builder => {
-    builder.addCase(getCurrentVersionMiddleWare.pending, state => {
-      state.isLoading = true;
-      state.error = '';
-    });
-    builder.addCase(getCurrentVersionMiddleWare.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.data = action.payload;
-    });
-    builder.addCase(getCurrentVersionMiddleWare.rejected, (state, action) => {
-      state.isLoading = false;
-      if (typeof action.payload === 'string') {
-        state.error = action.payload;
-      }
-    });
-  },
-});
-
 const aboutInitialState = {
   isLoading: false,
   error: '',
@@ -129,8 +95,20 @@ const aboutReducer = createSlice({
   },
 });
 
-export const getCurrentVersionReducers = getCurrentVersionReducer.reducer;
+export const getUserDataReducer = createSlice({
+  name: 'getUserData',
+  initialState: {data: []},
+  reducers: {
+    updateUserData: (state, action) => {
+      state.data = action.payload;
+    },
+  },
+});
+
+export const {updateUserData} = getUserDataReducer.actions;
+
 export const loginReducers = loginReducer.reducer;
 export const calculateLocationDistanceReducers =
   calculateLocationDistanceReducer.reducer;
 export const aboutReducers = aboutReducer.reducer;
+export const getUserDataReducers = getUserDataReducer.reducer;

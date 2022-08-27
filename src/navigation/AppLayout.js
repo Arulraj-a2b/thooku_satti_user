@@ -5,7 +5,7 @@ import {
   checkLocationUser,
   notificationListener,
   localNotificationNavigate,
-} from '../utility/notificationService';
+} from '../utils/notificationService';
 import MainNavigator from './MainNavigator';
 
 const AppLayout = () => {

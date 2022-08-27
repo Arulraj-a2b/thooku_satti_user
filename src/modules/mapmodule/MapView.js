@@ -23,6 +23,7 @@ import {mapStyle} from './mock';
 import {getAddressMiddleWare} from './store/mapMiddleware';
 import {calculateLocationDistanceMiddleWare} from '../loginmodule/store/loginScreenMiddleware';
 import {getHomeDashboardMiddleWare} from '../homemodule/store/homeMiddleware';
+import {GEO_LOCATION} from '../../utils/localStoreConstants';
 
 const styles = StyleSheet.create({
   body: {
@@ -102,7 +103,7 @@ const MapView = () => {
   });
 
   const handleSubmit = async () => {
-    AsyncStorage.setItem('geoLocationDone', JSON.stringify(isGetLocation));
+    AsyncStorage.setItem(GEO_LOCATION, JSON.stringify(isGetLocation));
     try {
       navigation.navigate(routesPath.ALL_SCREEN);
     } catch (error) {
