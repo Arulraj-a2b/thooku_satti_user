@@ -23,12 +23,16 @@ const BottomTab = () => {
     getUserData();
   }, []);
 
-  const {getRestaurantList, getCartData, getUser} = useSelector(
-    ({getRestaurantListReducers, getCartDataReducers, getUserDataReducers}) => {
+  const {getCartData, getUser, locationID} = useSelector(
+    ({
+      getCartDataReducers,
+      getUserDataReducers,
+      calculateLocationDistanceReducers,
+    }) => {
       return {
-        getRestaurantList: getRestaurantListReducers.data,
         getCartData: getCartDataReducers.data,
         getUser: getUserDataReducers.data,
+        locationID: calculateLocationDistanceReducers.data[0],
       };
     },
   );
@@ -42,7 +46,6 @@ const BottomTab = () => {
       dispacth(updateCartData(JSON.parse(res)));
     });
   };
-
   return (
     <Tab.Navigator>
       <Tab.Screen
@@ -67,10 +70,7 @@ const BottomTab = () => {
                 icon={
                   <CartIcon
                     focused={focused}
-                    isCount={
-                      Array.isArray(getRestaurantList) &&
-                      getRestaurantList.length !== 0
-                    }
+                    isCount={locationID.LocationID !== 0}
                     count={getCartCount}
                   />
                 }

@@ -1,18 +1,17 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useEffect, useState} from 'react';
-import {Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {Image, Pressable, StyleSheet, TouchableOpacity} from 'react-native';
 import {useDispatch} from 'react-redux';
 import SvgClose from '../../icons/SvgClose';
+import SvgDecrement from '../../icons/SvgDecrement';
+import SvgIncrement from '../../icons/SvgIncrement';
 import Card from '../../uikit/Card/Card';
 import Flex from '../../uikit/Flex/Flex';
-import Stepper from '../../uikit/Stepper/Stepper';
 import Text from '../../uikit/Text/Text';
 import {INDIAN_RUPEE} from '../../uikit/UikitUtils/constants';
 import {isFinancial} from '../../uikit/UikitUtils/helpers';
-import {
-  addCartMiddleWare,
-  getCartDetailsMiddleWare,
-} from '../hotelviewmodule/store/hotelListViewMiddleware';
-import {deleteCartListMiddleWare} from './store/myCartMiddleware';
+import {CART_DATA} from '../../utils/localStoreConstants';
+import {updateCartData} from './store/myCartReducer';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -34,49 +33,46 @@ const styles = StyleSheet.create({
   rowContainer: {
     marginLeft: 16,
   },
+  textStyle: {
+    paddingHorizontal: 8,
+  },
 });
 
-const CartList = ({item}) => {
-  const [isCount, setCount] = useState(item.ItemCount);
+const CartList = ({item, handleAddCart}) => {
+  const [isCount, setCount] = useState(item.qty);
 
   useEffect(() => {
-    setCount(item.ItemCount);
-  }, [item.ItemCount]);
+    setCount(item.qty);
+  }, [item.qty]);
 
   const [isUpdateLoader, setUpdateLoader] = useState(false);
   const dispacth = useDispatch();
 
   const handleDelete = () => {
-    dispacth(
-      deleteCartListMiddleWare({HotelID: item.HotelID, ItemID: item.ItemID}),
-    ).then(() => {
-      dispacth(getCartDetailsMiddleWare());
-    });
+    AsyncStorage.removeItem(CART_DATA);
+    dispacth(updateCartData());
   };
 
-  const handleAddCart = value => {
-    setUpdateLoader(true);
-    dispacth(
-      addCartMiddleWare({
-        HotelID: item.HotelID,
-        ItemID: item.ItemID,
-        Qty: value,
-      }),
-    ).then(() => {
-      setUpdateLoader(false);
-      dispacth(getCartDetailsMiddleWare());
-    });
+
+  const handleIncrement = () => {
+    handleAddCart(item, isCount + 1);
+    setCount(pre => pre + 1);
+  };
+
+  const handleIDecrement = () => {
+    handleAddCart(item, isCount - 1);
+    setCount(pre => pre - 1);
   };
 
   return (
     <Card overrideStyle={[styles.overAll, {marginTop: 12}]}>
       <Flex row>
         {/* <Card> */}
-        <Image style={styles.imgStyle} source={{uri: item.ItemImage}} />
+        <Image style={styles.imgStyle} source={{uri: item.FoodImage}} />
         {/* </Card> */}
         <Flex flex={1} overrideStyle={styles.rowContainer} between>
           <Flex row center between>
-            <Text bold>{item.ItemName}</Text>
+            <Text bold>{item.FoodName}</Text>
             <TouchableOpacity onPress={handleDelete}>
               <SvgClose height={14} width={14} />
             </TouchableOpacity>
@@ -84,14 +80,21 @@ const CartList = ({item}) => {
           <Flex between row center overrideStyle={styles.stepperContainer}>
             <Text bold color="theme">
               {INDIAN_RUPEE}
-              {isFinancial(item.TotalPrice)}
+              {isFinancial(item.Price * item.qty)}
             </Text>
-            <Stepper
-              isLoader={isUpdateLoader}
-              onSubmit={handleAddCart}
-              onChange={setCount}
-              value={isCount}
-            />
+            <Flex overrideStyle={{position: 'relative'}}>
+              <Flex row center>
+                <Pressable onPress={handleIDecrement} disabled={isCount === 0}>
+                  <SvgDecrement />
+                </Pressable>
+                <Text bold overrideStyle={styles.textStyle}>
+                  {isCount}
+                </Text>
+                <Pressable onPress={handleIncrement}>
+                  <SvgIncrement />
+                </Pressable>
+              </Flex>
+            </Flex>
           </Flex>
         </Flex>
       </Flex>

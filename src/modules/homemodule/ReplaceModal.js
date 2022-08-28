@@ -41,16 +41,16 @@ const ReplaceModal = ({
   const dispacth = useDispatch();
   const [isLoader, setLoader] = useState(false);
 
-
   const handleMyOrder = () => {
     setLoader(true);
     AsyncStorage.removeItem(CART_DATA).then(() => {
       dispacth(updateCartData());
       navigation.navigate(routesPath.HOTEL_LIST_VIEW_SCREEN, {
         hotelId: isSelectHotelName.id,
+        hotelName: isSelectHotelName.name,
       });
       setLoader(false);
-      close()
+      close();
     });
   };
 
@@ -61,9 +61,12 @@ const ReplaceModal = ({
           Replace cart item?
         </Text>
         <Text color="gray">
-          {/* Your cart contains dishes from {getCartDetails.HotelName}. Do you */}
-          Your cart contains dishes. Do you want to discard the selecttion and
-          add dishes from {isSelectHotelName.name}?
+          Your cart contains dishes from{' '}
+          {Array.isArray(getCartDetails) &&
+            getCartDetails.length !== 0 &&
+            getCartDetails[0]?.HotelName}
+          . Do you Your cart contains dishes. Do you want to discard the
+          selecttion and add dishes from {isSelectHotelName.name}?
         </Text>
         <Flex middle row overrideStyle={styles.btnContainer}>
           <Button

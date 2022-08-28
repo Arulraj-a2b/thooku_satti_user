@@ -90,7 +90,7 @@ const FoodCard = ({
   const [isCount, setCount] = useState(0);
   const checkQty = (arr, val) => {
     return arr.some(function (arrVal) {
-      if (val.HotelID === arrVal.hotelID && val.FoodID === arrVal.itemID) {
+      if (val.HotelID === arrVal.HotelID && val.FoodID === arrVal.FoodID) {
         return setCount(arrVal.qty);
       }
     });
@@ -103,12 +103,12 @@ const FoodCard = ({
 
   const checkImage = item.IsRecommand === 'N' ? false : true;
   const handleIncrement = () => {
-    handleAddCart(item.HotelID, item.FoodID, isCount + 1, item.Price);
+    handleAddCart(item, isCount + 1);
     setCount(pre => pre + 1);
   };
 
   const handleIDecrement = () => {
-    handleAddCart(item.HotelID, item.FoodID, isCount - 1, item.Price);
+    handleAddCart(item, isCount - 1);
     setCount(pre => pre - 1);
   };
 

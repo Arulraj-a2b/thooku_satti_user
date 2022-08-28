@@ -19,13 +19,14 @@ const styles = StyleSheet.create({
     top: -1,
   },
 });
-const MyCartFooter = ({getCartDetails, downButtonHandler, handleSubmit}) => {
+
+const MyCartFooter = ({grandTotal, downButtonHandler, handleSubmit}) => {
   return (
     <Flex row between overrideStyle={styles.btnContainer}>
       <Flex middle flex={5.8} overrideStyle={{paddingLeft: 12}}>
         <Text bold color="black">
           {INDIAN_RUPEE}
-          {isFinancial(getCartDetails[0].GrandTotal)}
+          {isFinancial(grandTotal)}
         </Text>
         <TouchableOpacity onPress={downButtonHandler}>
           <Text bold color="link">

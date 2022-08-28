@@ -89,25 +89,28 @@ const HotelListViewScreen = ({navigation}) => {
     flatListRef.current.scrollToOffset({animated: true, offset: 0});
   };
 
-  const handleAddCart = (hotelID, itemID, qty, price) => {
-    if (Array.isArray(isCartData) &&isCartData.length !== 0) {
+  const handleAddCart = (item, qty) => {
+    if (Array.isArray(isCartData) && isCartData.length !== 0) {
       const updatedOSArray = isCartData.map(list =>
-        list?.hotelID === hotelID && list?.itemID === itemID
-          ? {...list, qty}
+        list?.HotelID === item.HotelID && list?.FoodID === item.FoodID
+          ? {...list, qty, HotelName: routes.params?.hotelName}
           : list,
       );
 
       const elementIndex = isCartData.findIndex(
-        obj => obj?.hotelID === hotelID && obj?.itemID === itemID,
+        obj => obj?.HotelID === item.HotelID && obj?.FoodID === item.FoodID,
       );
 
       if (elementIndex === -1) {
-        setCardData(pre => [...pre, {hotelID, itemID, qty, price}]);
+        setCardData(pre => [
+          ...pre,
+          {...item, qty, HotelName: routes.params?.hotelName},
+        ]);
       } else {
         setCardData(updatedOSArray);
       }
     } else {
-      setCardData([{hotelID, itemID, qty, price}]);
+      setCardData([{...item, qty, HotelName: routes.params?.hotelName}]);
     }
   };
 
@@ -131,7 +134,7 @@ const HotelListViewScreen = ({navigation}) => {
   }, [isCartData]);
 
   const getTotal = filterArr?.reduce((accumulator, value) => {
-    return (accumulator + value.price) * value.qty;
+    return (accumulator + value.Price) * value.qty;
   }, 0);
 
   useEffect(() => {
@@ -140,6 +143,14 @@ const HotelListViewScreen = ({navigation}) => {
       dispacth(updateCartData(filterArr));
     }
   }, [filterArr]);
+
+  useEffect(() => {
+    const unsubscribe = navigation.getParent().addListener('tabPress', e => {
+      e.preventDefault();
+      navigation.navigate(routesPath.HOME_SCREEN);
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   if (isLoader) {
     return <HomePlaceHolder />;
