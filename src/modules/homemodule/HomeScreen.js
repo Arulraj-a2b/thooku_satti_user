@@ -88,7 +88,6 @@ const HomeScreen = ({navigation}) => {
   );
 
   const inputSearchCheck = isSearch.length === 0;
-
   if (isLoading || calculateLoading) {
     return <HomePlaceHolder />;
   }

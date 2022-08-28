@@ -40,18 +40,17 @@ const ReplaceModal = ({
 }) => {
   const dispacth = useDispatch();
   const [isLoader, setLoader] = useState(false);
-  const handleCancel = () => {
-    close();
-  };
+
 
   const handleMyOrder = () => {
     setLoader(true);
     AsyncStorage.removeItem(CART_DATA).then(() => {
-      dispacth(updateCartData([]));
+      dispacth(updateCartData());
       navigation.navigate(routesPath.HOTEL_LIST_VIEW_SCREEN, {
         hotelId: isSelectHotelName.id,
       });
       setLoader(false);
+      close()
     });
   };
 
@@ -69,7 +68,7 @@ const ReplaceModal = ({
         <Flex middle row overrideStyle={styles.btnContainer}>
           <Button
             disabled={isLoader}
-            onClick={handleCancel}
+            onClick={close}
             types={'secondary'}
             overrideStyle={styles.cancelBtn}>
             No

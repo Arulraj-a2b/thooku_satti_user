@@ -74,16 +74,10 @@ const HotalCard = ({
   const navigation = useNavigation();
   const handleNavigate = () => {
     if (
-      (Array.isArray(getCartDetails) && getCartDetails.length === 0) ||
+      (Array.isArray(getCartDetails) &&
+        getCartDetails.length !== 0 &&
+        getCartDetails[0].hotelID === item.HotelID) ||
       getCartDetails === null
-    ) {
-      navigation.navigate(routesPath.HOTEL_LIST_VIEW_SCREEN, {
-        hotelId: item.HotelID,
-      });
-    } else if (
-      Array.isArray(getCartDetails) &&
-      getCartDetails.length !== 0 &&
-      getCartDetails[0].hotelID === item.HotelID
     ) {
       navigation.navigate(routesPath.HOTEL_LIST_VIEW_SCREEN, {
         hotelId: item.HotelID,

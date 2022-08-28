@@ -83,7 +83,7 @@ const MyCartScreen = ({navigation}) => {
       };
     },
   );
-
+console.log('getCartData',getCartData);
   const downButtonHandler = () => {
     listViewRef.current.scrollToIndex({
       index: getCartDetails && getCartDetails[0].OrdInfo.length - 1,

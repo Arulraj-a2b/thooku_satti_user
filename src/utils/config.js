@@ -53,7 +53,7 @@ export const useAuthCheck = setLoader => {
               });
             }
           });
-          dispatch(getCartDetailsMiddleWare());
+          // dispatch(getCartDetailsMiddleWare());
         } else {
           setLoader(false);
           checkVersion()
