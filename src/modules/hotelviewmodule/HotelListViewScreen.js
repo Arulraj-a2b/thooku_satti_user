@@ -134,7 +134,7 @@ const HotelListViewScreen = ({navigation}) => {
   }, [isCartData]);
 
   const getTotal = filterArr?.reduce((accumulator, value) => {
-    return (accumulator + value.Price) * value.qty;
+    return (accumulator + (value.Price * value.qty));
   }, 0);
 
   useEffect(() => {
