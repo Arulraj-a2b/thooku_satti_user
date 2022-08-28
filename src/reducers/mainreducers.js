@@ -18,11 +18,9 @@ import {
   getFoodItemsReducers,
   getCategoryListReducers,
   getCartDetailsReducers,
-  addCartReducers,
 } from '../modules/hotelviewmodule/store/hotelListViewReducer';
 import {
   checkOutReducers,
-  checkCartExistReducers,
   getTNCReducers,
   getCartDataReducers
 } from '../modules/mycartmodule/store/myCartReducer';
@@ -50,12 +48,10 @@ export const reducers = {
   getFoodItemsReducers,
   getCategoryListReducers,
   getCartDetailsReducers,
-  addCartReducers,
   checkOutReducers,
   getUpComingOrderReducers,
   getOrderDetailsReducers,
   getHistoryOrdersReducers,
-  checkCartExistReducers,
   getTNCReducers,
   calculateLocationDistanceReducers,
   aboutReducers,

@@ -62,7 +62,6 @@ const MyCartScreen = ({navigation}) => {
   );
 
   const {
-    addCartLoader,
     checkOutData,
     isCheckoutLoader,
     getTNCData,
@@ -71,7 +70,6 @@ const MyCartScreen = ({navigation}) => {
     locationID,
   } = useSelector(
     ({
-      addCartReducers,
       checkOutReducers,
       getTNCReducers,
       getCartDataReducers,
@@ -79,7 +77,6 @@ const MyCartScreen = ({navigation}) => {
       calculateLocationDistanceReducers,
     }) => {
       return {
-        addCartLoader: addCartReducers.isLoading,
         checkOutData: checkOutReducers.data,
         isCheckoutLoader: checkOutReducers.isLoading,
         getTNCData: getTNCReducers.data,
@@ -140,7 +137,7 @@ const MyCartScreen = ({navigation}) => {
   );
 
   const getTotal = getCartData?.reduce((accumulator, value) => {
-    return (accumulator + (value.Price * value.qty));
+    return accumulator + value.Price * value.qty;
   }, 0);
   const deliveryCost = getUser?.DeliveryCharge;
   const grandTotal = Number(getTotal) + Number(deliveryCost);
@@ -180,9 +177,7 @@ const MyCartScreen = ({navigation}) => {
   }, [filterArr]);
 
   return (
-    <Flex
-      flex={1}
-      overrideStyle={[styles.overAll, {opacity: addCartLoader ? 0.5 : 1}]}>
+    <Flex flex={1} overrideStyle={[styles.overAll]}>
       <OrderSuccessModal
         open={isSuccess}
         close={() => setSuccess(false)}

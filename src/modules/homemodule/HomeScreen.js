@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import Flex from '../../uikit/Flex/Flex';
-import Loader from '../../uikit/Loader/Loader';
 import {WHITE} from '../../uikit/UikitUtils/colors';
 import HotelList from './HotelList';
 import HomePlaceHolder from './HomePlaceHolder';
@@ -31,30 +30,22 @@ const HomeScreen = ({navigation}) => {
   const [isSelectHotelName, setSelectHotelName] = useState({name: '', id: ''});
   const [isCheckCart, setCheckCart] = useState(false);
 
-  const {
-    isLoading,
-    data,
-    checkCartLoading,
-    calculateLoading,
-    locationID,
-    getCartData,
-  } = useSelector(
-    ({
-      getRestaurantListReducers,
-      checkCartExistReducers,
-      calculateLocationDistanceReducers,
-      getCartDataReducers,
-    }) => {
-      return {
-        isLoading: getRestaurantListReducers.isLoading,
-        data: getRestaurantListReducers.data,
-        checkCartLoading: checkCartExistReducers.isLoading,
-        calculateLoading: calculateLocationDistanceReducers.isLoading,
-        locationID: calculateLocationDistanceReducers.data[0],
-        getCartData: getCartDataReducers.data,
-      };
-    },
-  );
+  const {isLoading, data, calculateLoading, locationID, getCartData} =
+    useSelector(
+      ({
+        getRestaurantListReducers,
+        calculateLocationDistanceReducers,
+        getCartDataReducers,
+      }) => {
+        return {
+          isLoading: getRestaurantListReducers.isLoading,
+          data: getRestaurantListReducers.data,
+          calculateLoading: calculateLocationDistanceReducers.isLoading,
+          locationID: calculateLocationDistanceReducers.data[0],
+          getCartData: getCartDataReducers.data,
+        };
+      },
+    );
 
   useEffect(() => {
     dispatch(
@@ -94,8 +85,6 @@ const HomeScreen = ({navigation}) => {
 
   return (
     <Flex overrideStyle={styles.overAll}>
-      {checkCartLoading && <Loader />}
-
       {Array.isArray(getCartData) && getCartData.length !== 0 && (
         <ReplaceModal
           open={isCheckCart}

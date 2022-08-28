@@ -60,6 +60,7 @@ export const getHomeDashboardMiddleWare = createAsyncThunk(
       });
       return data;
     } catch (error) {
+      Toast('Service Unavailable', 'error');
       const typedError = error;
       return rejectWithValue(typedError);
     }

@@ -54,6 +54,7 @@ export const aboutMiddleWare = createAsyncThunk(
       const {data} = await axios.get(aboutApi);
       return data;
     } catch (error) {
+      Toast('Service Unavailable', 'error');
       const typedError = error ;
       return rejectWithValue(typedError);
     }

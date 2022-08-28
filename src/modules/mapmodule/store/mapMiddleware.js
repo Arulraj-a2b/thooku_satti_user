@@ -1,5 +1,6 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import axios from 'axios';
+import Toast from '../../../uikit/Toast/Toast';
 
 export const getAddressMiddleWare = createAsyncThunk(
   'getAddressMiddleWare',
@@ -16,6 +17,7 @@ export const getAddressMiddleWare = createAsyncThunk(
       );
       return data;
     } catch (error) {
+      Toast('Service Unavailable', 'error');
       const typedError = error;
       return rejectWithValue(typedError);
     }
