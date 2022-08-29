@@ -1,7 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useEffect, useState} from 'react';
 import {Image, Pressable, StyleSheet, TouchableOpacity} from 'react-native';
-import {useDispatch} from 'react-redux';
 import SvgClose from '../../icons/SvgClose';
 import SvgDecrement from '../../icons/SvgDecrement';
 import SvgIncrement from '../../icons/SvgIncrement';
@@ -43,16 +42,7 @@ const CartList = ({item, handleAddCart}) => {
 
   useEffect(() => {
     setCount(item.qty);
-  }, [item.qty]);
-
-  const [isUpdateLoader, setUpdateLoader] = useState(false);
-  const dispacth = useDispatch();
-
-  const handleDelete = () => {
-    AsyncStorage.removeItem(CART_DATA);
-    dispacth(updateCartData());
-  };
-
+  }, [item]);
 
   const handleIncrement = () => {
     handleAddCart(item, isCount + 1);
@@ -71,11 +61,11 @@ const CartList = ({item, handleAddCart}) => {
         <Image style={styles.imgStyle} source={{uri: item.FoodImage}} />
         {/* </Card> */}
         <Flex flex={1} overrideStyle={styles.rowContainer} between>
-          <Flex row center between>
+          <Flex row between>
             <Text bold>{item.FoodName}</Text>
-            <TouchableOpacity onPress={handleDelete}>
+            {/* <TouchableOpacity onPress={()=>handleDelete(item)}>
               <SvgClose height={14} width={14} />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </Flex>
           <Flex between row center overrideStyle={styles.stepperContainer}>
             <Text bold color="theme">

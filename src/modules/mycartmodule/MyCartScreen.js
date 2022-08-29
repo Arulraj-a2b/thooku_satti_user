@@ -114,10 +114,13 @@ const MyCartScreen = ({navigation}) => {
 
   const handleCheckOut = value => {
     Keyboard.dismiss();
+    const formData = new FormData();
+    formData.append('ExtraNotes', value.notes);
+    formData.append('DeliveryAddress', value.address);
+    formData.append('JsonPayload', `${JSON.stringify(getCartData)}`);
     dispatch(
       checkOutMiddleWare({
-        ExtraNotes: value.notes,
-        DeliveryAddress: value.address,
+        formData,
       }),
     ).then(res => {
       if (res.payload && res.payload[0].OrderID) {
@@ -176,11 +179,20 @@ const MyCartScreen = ({navigation}) => {
     }
   }, [filterArr]);
 
+  // const handleDelete = (value) => {
+  //   const result = getCartData.filter(list => list.FoodID !== value.FoodID);
+  //   AsyncStorage.setItem(CART_DATA, result);
+  //   dispatch(updateCartData(result));
+  // };
+
   return (
     <Flex flex={1} overrideStyle={[styles.overAll]}>
       <OrderSuccessModal
         open={isSuccess}
-        close={() => setSuccess(false)}
+        close={() => {
+          AsyncStorage.removeItem(CART_DATA);
+          dispatch(updateCartData());
+        }}
         navigation={navigation}
         checkOutData={checkOutData}
       />
@@ -203,7 +215,11 @@ const MyCartScreen = ({navigation}) => {
             data={getCartData}
             keyExtractor={(_item, index) => index.toString()}
             renderItem={({item}) => (
-              <CartList item={item} handleAddCart={handleAddCart} />
+              <CartList
+                item={item}
+                handleAddCart={handleAddCart}
+                // handleDelete={handleDelete}
+              />
             )}
             ListFooterComponent={
               <CartPrice

@@ -77,11 +77,12 @@ const HotalCard = ({
       (Array.isArray(getCartDetails) &&
         getCartDetails.length !== 0 &&
         getCartDetails[0].HotelID === item.HotelID) ||
-      getCartDetails === null
+      isEmpty(getCartDetails) ||
+      (Array.isArray(getCartDetails) && getCartDetails.length === 0)
     ) {
       navigation.navigate(routesPath.HOTEL_LIST_VIEW_SCREEN, {
         hotelId: item.HotelID,
-        hotelName: item.HotelName
+        hotelName: item.HotelName,
       });
     } else {
       setSelectHotelName({name: item.HotelName, id: item.HotelID});

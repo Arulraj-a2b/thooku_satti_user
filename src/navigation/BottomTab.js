@@ -36,7 +36,11 @@ const BottomTab = () => {
       };
     },
   );
-  const getCartCount = Array.isArray(getCartData) ? getCartData.length : '';
+  const getCartCount = Array.isArray(getCartData)
+    ? getCartData.length === 0
+      ? ''
+      : getCartData.length
+    : '';
 
   const getUserData = async () => {
     await AsyncStorage.getItem(USER_DATA).then(res => {

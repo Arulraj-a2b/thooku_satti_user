@@ -6,11 +6,12 @@ import Toast from '../../../uikit/Toast/Toast';
 
 export const checkOutMiddleWare = createAsyncThunk(
   CHECK_OUT,
-  async ({ExtraNotes, DeliveryAddress}, {rejectWithValue}) => {
+  async ({formData}, {rejectWithValue}) => {
     try {
-      const {data} = await axios.post(checkOutApi, {
-        ExtraNotes,
-        DeliveryAddress,
+      const {data} = await axios.post(checkOutApi, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
       return data;
     } catch (error) {
