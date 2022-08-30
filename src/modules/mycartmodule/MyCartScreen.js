@@ -48,7 +48,7 @@ const MyCartScreen = ({navigation}) => {
   const [isSuccess, setSuccess] = useState(false);
   const listViewRef = createRef();
   const [isCartData, setCardData] = useState([]);
-  const [isAddLoader, setAddLoader] = useState(false);
+  const [isAddLoader, setAddLoader] = useState();
 
   useEffect(() => {
     dispatch(getTNCSMiddleWare());
@@ -149,9 +149,9 @@ const MyCartScreen = ({navigation}) => {
   const deliveryCost = getUser?.DeliveryCharge;
   const grandTotal = Number(getTotal) + Number(deliveryCost);
 
-  const handleAddCart = (item, qty) => {
+  const handleAddCart = (item, qty, check) => {
     if (Array.isArray(getCartData) && getCartData.length !== 0) {
-      setAddLoader(true);
+      setAddLoader({FoodID: item.FoodID, check});
       const updatedArray = getCartData.map(list =>
         list?.HotelID === item.HotelID && list?.FoodID === item.FoodID
           ? {...list, qty}
@@ -181,7 +181,7 @@ const MyCartScreen = ({navigation}) => {
     if (Array.isArray(isCartData) && isCartData.length !== 0) {
       AsyncStorage.setItem(CART_DATA, JSON.stringify(filterArr));
       dispatch(updateCartData(filterArr));
-      setAddLoader(false);
+      setAddLoader();
     }
   }, [filterArr]);
 
@@ -192,10 +192,7 @@ const MyCartScreen = ({navigation}) => {
   // };
 
   return (
-    <Flex
-      pointerEvents={isAddLoader ? 'none' : 'auto'}
-      flex={1}
-      overrideStyle={[styles.overAll, {opacity: isAddLoader ? 0.5 : 1}]}>
+    <Flex flex={1} overrideStyle={[styles.overAll]}>
       <OrderSuccessModal
         open={isSuccess}
         close={() => {
@@ -230,6 +227,7 @@ const MyCartScreen = ({navigation}) => {
                 item={item}
                 handleAddCart={handleAddCart}
                 // handleDelete={handleDelete}
+                isAddLoader={isAddLoader}
               />
             )}
             ListFooterComponent={

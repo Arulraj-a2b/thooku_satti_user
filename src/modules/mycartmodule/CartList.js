@@ -1,7 +1,5 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useEffect, useState} from 'react';
-import {Image, Pressable, StyleSheet, TouchableOpacity} from 'react-native';
-import SvgClose from '../../icons/SvgClose';
+import {Image, Pressable, StyleSheet} from 'react-native';
 import SvgDecrement from '../../icons/SvgDecrement';
 import SvgIncrement from '../../icons/SvgIncrement';
 import Card from '../../uikit/Card/Card';
@@ -9,8 +7,7 @@ import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import {INDIAN_RUPEE} from '../../uikit/UikitUtils/constants';
 import {isFinancial} from '../../uikit/UikitUtils/helpers';
-import {CART_DATA} from '../../utils/localStoreConstants';
-import {updateCartData} from './store/myCartReducer';
+import {isEmpty} from '../../uikit/UikitUtils/validators';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -37,7 +34,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const CartList = ({item, handleAddCart}) => {
+const CartList = ({item, handleAddCart, isAddLoader}) => {
   const [isCount, setCount] = useState(item.qty);
 
   useEffect(() => {
@@ -45,15 +42,24 @@ const CartList = ({item, handleAddCart}) => {
   }, [item]);
 
   const handleIncrement = () => {
-    handleAddCart(item, isCount + 1);
+    handleAddCart(item, isCount + 1, 'increment');
     setCount(pre => pre + 1);
   };
 
-  const handleIDecrement = () => {
-    handleAddCart(item, isCount - 1);
+  const handleDecrement = () => {
+    handleAddCart(item, isCount - 1, 'decrement');
     setCount(pre => pre - 1);
   };
 
+  const checkDecrementLoader =
+    !isEmpty(isAddLoader) &&
+    isAddLoader.FoodID === item.FoodID &&
+    isAddLoader.check === 'decrement';
+
+  const checkIncrementLoader =
+    !isEmpty(isAddLoader) &&
+    isAddLoader.FoodID === item.FoodID &&
+    isAddLoader.check === 'increment';
   return (
     <Card overrideStyle={[styles.overAll, {marginTop: 12}]}>
       <Flex row>
@@ -74,14 +80,20 @@ const CartList = ({item, handleAddCart}) => {
             </Text>
             <Flex overrideStyle={{position: 'relative'}}>
               <Flex row center>
-                <Pressable onPress={handleIDecrement} disabled={isCount === 0}>
-                  <SvgDecrement />
+                <Pressable
+                  onPress={handleDecrement}
+                  disabled={isCount === 0 || checkDecrementLoader}>
+                  <SvgDecrement isLoader={checkDecrementLoader} />
                 </Pressable>
+
                 <Text bold overrideStyle={styles.textStyle}>
                   {isCount}
                 </Text>
-                <Pressable onPress={handleIncrement}>
-                  <SvgIncrement />
+
+                <Pressable
+                  onPress={handleIncrement}
+                  disabled={checkIncrementLoader}>
+                  <SvgIncrement isLoader={checkIncrementLoader} />
                 </Pressable>
               </Flex>
             </Flex>
