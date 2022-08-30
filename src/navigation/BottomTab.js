@@ -23,20 +23,23 @@ const BottomTab = () => {
     getUserData();
   }, []);
 
-  const {getCartData, getUser, locationID} = useSelector(
+  const {getCartData, getUser, locationID,homeDashboardData} = useSelector(
     ({
       getCartDataReducers,
       getUserDataReducers,
       calculateLocationDistanceReducers,
+      getHomeDashboardReducers
     }) => {
       return {
         getCartData: getCartDataReducers.data,
         getUser: getUserDataReducers.data,
         locationID: calculateLocationDistanceReducers.data[0],
+        homeDashboardData: getHomeDashboardReducers.data,
       };
     },
   );
-  const getCartCount = Array.isArray(getCartData)
+  const getCartCount = Array.isArray(getCartData) && Array.isArray(homeDashboardData) &&
+  homeDashboardData.length !== 0
     ? getCartData.length === 0
       ? ''
       : getCartData.length

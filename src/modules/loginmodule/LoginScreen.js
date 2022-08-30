@@ -200,6 +200,8 @@ const LoginScreen = () => {
             </Text>
 
             <InputText
+              autoCapitalize="none"
+              textContentType="emailAddress"
               keyboardType={'email-address'}
               name={'email'}
               touched={formik.touched}

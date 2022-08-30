@@ -8,7 +8,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import {FlatList, Keyboard, StyleSheet} from 'react-native';
+import {FlatList, Keyboard, StyleSheet, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import Flex from '../../uikit/Flex/Flex';
 import Loader from '../../uikit/Loader/Loader';
@@ -48,6 +48,7 @@ const MyCartScreen = ({navigation}) => {
   const [isSuccess, setSuccess] = useState(false);
   const listViewRef = createRef();
   const [isCartData, setCardData] = useState([]);
+  const [isAddLoader, setAddLoader] = useState(false);
 
   useEffect(() => {
     dispatch(getTNCSMiddleWare());
@@ -68,6 +69,7 @@ const MyCartScreen = ({navigation}) => {
     getCartData,
     getUser,
     locationID,
+    homeDashboardData,
   } = useSelector(
     ({
       checkOutReducers,
@@ -75,6 +77,7 @@ const MyCartScreen = ({navigation}) => {
       getCartDataReducers,
       getUserDataReducers,
       calculateLocationDistanceReducers,
+      getHomeDashboardReducers,
     }) => {
       return {
         checkOutData: checkOutReducers.data,
@@ -83,6 +86,7 @@ const MyCartScreen = ({navigation}) => {
         getCartData: getCartDataReducers.data,
         getUser: getUserDataReducers.data,
         locationID: calculateLocationDistanceReducers.data[0],
+        homeDashboardData: getHomeDashboardReducers.data,
       };
     },
   );
@@ -147,6 +151,7 @@ const MyCartScreen = ({navigation}) => {
 
   const handleAddCart = (item, qty) => {
     if (Array.isArray(getCartData) && getCartData.length !== 0) {
+      setAddLoader(true);
       const updatedArray = getCartData.map(list =>
         list?.HotelID === item.HotelID && list?.FoodID === item.FoodID
           ? {...list, qty}
@@ -176,6 +181,7 @@ const MyCartScreen = ({navigation}) => {
     if (Array.isArray(isCartData) && isCartData.length !== 0) {
       AsyncStorage.setItem(CART_DATA, JSON.stringify(filterArr));
       dispatch(updateCartData(filterArr));
+      setAddLoader(false);
     }
   }, [filterArr]);
 
@@ -186,7 +192,10 @@ const MyCartScreen = ({navigation}) => {
   // };
 
   return (
-    <Flex flex={1} overrideStyle={[styles.overAll]}>
+    <Flex
+      pointerEvents={isAddLoader ? 'none' : 'auto'}
+      flex={1}
+      overrideStyle={[styles.overAll, {opacity: isAddLoader ? 0.5 : 1}]}>
       <OrderSuccessModal
         open={isSuccess}
         close={() => {
@@ -199,7 +208,9 @@ const MyCartScreen = ({navigation}) => {
       {isCheckoutLoader && <Loader />}
       {locationID.LocationID !== 0 &&
       Array.isArray(getCartData) &&
-      getCartData?.length !== 0 ? (
+      getCartData?.length !== 0 &&
+      Array.isArray(homeDashboardData) &&
+      homeDashboardData.length !== 0 ? (
         <Flex between flex={1}>
           <FlatList
             ListHeaderComponentStyle={styles.listHeaderComponentStyle}
