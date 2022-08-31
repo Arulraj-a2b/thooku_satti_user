@@ -12,6 +12,7 @@ import {
   getMarketOrdersApi,
   saveMarketOrderApi,
 } from '../../../routes/apiRoutes';
+import Toast from '../../../uikit/Toast/Toast';
 
 export const getCustomerInfoMiddleWare = createAsyncThunk(
   GET_CUSTOMER_INFO,
@@ -20,6 +21,7 @@ export const getCustomerInfoMiddleWare = createAsyncThunk(
       const {data} = await axios.get(getCustomerInfoApi);
       return data;
     } catch (error) {
+      Toast('Service Unavailable', 'error');
       const typedError = error;
       return rejectWithValue(typedError);
     }
@@ -37,6 +39,7 @@ export const saveMarketOrderMiddleWare = createAsyncThunk(
       });
       return data;
     } catch (error) {
+      Toast('Service Unavailable', 'error');
       const typedError = error;
       return rejectWithValue(typedError);
     }
@@ -54,6 +57,7 @@ export const getMarketOrdersMiddleWare = createAsyncThunk(
       });
       return data;
     } catch (error) {
+      Toast('Service Unavailable', 'error');
       const typedError = error;
       return rejectWithValue(typedError);
     }
@@ -67,6 +71,7 @@ export const getMarketOrderListMiddleWare = createAsyncThunk(
       const {data} = await axios.get(getMarketOrderListApi);
       return data;
     } catch (error) {
+      Toast('Service Unavailable', 'error');
       const typedError = error;
       return rejectWithValue(typedError);
     }

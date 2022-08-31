@@ -40,6 +40,7 @@ const InputText = (
     errors,
     name,
     disabled,
+    autoCapitalize,
   },
   ref,
 ) => {
@@ -92,6 +93,7 @@ const InputText = (
             </View>
           )}
           <TextInput
+            autoCapitalize={autoCapitalize}
             key={index}
             autoFocus={autoFocus}
             ref={ref}

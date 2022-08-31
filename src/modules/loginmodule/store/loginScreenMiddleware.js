@@ -1,10 +1,9 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import axios from 'axios';
-import {CALCULATE_LOCATION, LOGIN,GET_CURRENT_VERSION, GET_ABOUT} from '../../../actions/actions';
+import {CALCULATE_LOCATION, LOGIN, GET_ABOUT} from '../../../actions/actions';
 import {
   aboutApi,
   calculateLocationDistanceApi,
-  getVersionApi,
   loginApi,
 } from '../../../routes/apiRoutes';
 import Toast from '../../../uikit/Toast/Toast';
@@ -48,20 +47,6 @@ export const calculateLocationDistanceMiddleWare = createAsyncThunk(
 );
 
 
-export const getCurrentVersionMiddleWare = createAsyncThunk(
-  GET_CURRENT_VERSION,
-  async (_a, {rejectWithValue}) => {
-    try {
-      const {data} = await axios.get(getVersionApi);
-      return data;
-    } catch (error) {
-      const typedError = error ;
-      return rejectWithValue(typedError);
-    }
-  },
-);
-
-
 export const aboutMiddleWare = createAsyncThunk(
   GET_ABOUT,
   async (_a, {rejectWithValue}) => {
@@ -69,6 +54,7 @@ export const aboutMiddleWare = createAsyncThunk(
       const {data} = await axios.get(aboutApi);
       return data;
     } catch (error) {
+      Toast('Service Unavailable', 'error');
       const typedError = error ;
       return rejectWithValue(typedError);
     }

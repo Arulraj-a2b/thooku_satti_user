@@ -11,6 +11,7 @@ import {getAddressMiddleWare} from '../modules/mapmodule/store/mapMiddleware';
 import {API_KEY} from '../uikit/UikitUtils/constants';
 import SvgLocation2 from '../icons/SvgLocation2';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { GEO_LOCATION } from '../utils/localStoreConstants';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -52,7 +53,7 @@ const Header = ({props, isBack, isMenu, isLocation, handleBack}) => {
   }, []);
 
   async function requestLocationPermission() {
-    let geoLocation = await AsyncStorage.getItem('geoLocationDone');
+    let geoLocation = await AsyncStorage.getItem(GEO_LOCATION);
     geoLocation = JSON.parse(geoLocation);
     try {
       if (geoLocation) {

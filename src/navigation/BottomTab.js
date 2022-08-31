@@ -1,5 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {useDispatch, useSelector} from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {routesPath, stacks} from '../routes/routesPath';
 import TabBarIcon from './TabBarIcon';
 import SvgHome from '../icons/SvgHome';
@@ -8,40 +10,49 @@ import HomeStack from './HomeStack';
 import MyCartScreen from '../modules/mycartmodule/MyCartScreen';
 import Header from './Header';
 import CartIcon from './CartIcon';
-import {useSelector} from 'react-redux';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {isEmpty} from '../uikit/UikitUtils/validators';
+import {CART_DATA, USER_DATA} from '../utils/localStoreConstants';
+import {updateCartData} from '../modules/mycartmodule/store/myCartReducer';
+import {updateUserData} from '../modules/loginmodule/store/loginReducer';
 
 const Tab = createBottomTabNavigator();
 
 const BottomTab = () => {
-  const [userDetails, setUserDetails] = useState();
-
-  const {getCartDetails, getRestaurantList} = useSelector(
-    ({getCartDetailsReducers, getRestaurantListReducers}) => {
-      return {
-        getCartDetails: getCartDetailsReducers.data,
-        getRestaurantList: getRestaurantListReducers.data,
-      };
-    },
-  );
-
-  const getCartCount =
-    getCartDetails &&
-    getCartDetails.length !== 0 &&
-    getCartDetails[0].CartCount;
+  const dispacth = useDispatch();
 
   useEffect(() => {
     getUserData();
   }, []);
 
-  const getUserData = async () => {
-    const userData = await AsyncStorage.getItem('userData');
-    if (userData) {
-      setUserDetails(JSON.parse(userData));
-    }
-  };
+  const {getCartData, getUser, locationID,homeDashboardData} = useSelector(
+    ({
+      getCartDataReducers,
+      getUserDataReducers,
+      calculateLocationDistanceReducers,
+      getHomeDashboardReducers
+    }) => {
+      return {
+        getCartData: getCartDataReducers.data,
+        getUser: getUserDataReducers.data,
+        locationID: calculateLocationDistanceReducers.data[0],
+        homeDashboardData: getHomeDashboardReducers.data,
+      };
+    },
+  );
+  const getCartCount = Array.isArray(getCartData) && Array.isArray(homeDashboardData) &&
+  homeDashboardData.length !== 0
+    ? getCartData.length === 0
+      ? ''
+      : getCartData.length
+    : '';
 
+  const getUserData = async () => {
+    await AsyncStorage.getItem(USER_DATA).then(res => {
+      dispacth(updateUserData(JSON.parse(res)));
+    });
+    await AsyncStorage.getItem(CART_DATA).then(res => {
+      dispacth(updateCartData(JSON.parse(res)));
+    });
+  };
   return (
     <Tab.Navigator>
       <Tab.Screen
@@ -55,7 +66,7 @@ const BottomTab = () => {
           headerShown: false,
         }}
       />
-      {!isEmpty(userDetails) && (
+      {getUser && getUser?.Message === 'Success' && (
         <Tab.Screen
           name={routesPath.MY_CART_SCREEN}
           component={MyCartScreen}
@@ -66,10 +77,7 @@ const BottomTab = () => {
                 icon={
                   <CartIcon
                     focused={focused}
-                    isCount={
-                      Array.isArray(getRestaurantList) &&
-                      getRestaurantList.length !== 0
-                    }
+                    isCount={locationID.LocationID !== 0}
                     count={getCartCount}
                   />
                 }

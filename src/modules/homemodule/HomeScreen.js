@@ -2,17 +2,12 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import Flex from '../../uikit/Flex/Flex';
-import Loader from '../../uikit/Loader/Loader';
 import {WHITE} from '../../uikit/UikitUtils/colors';
 import HotelList from './HotelList';
 import HomePlaceHolder from './HomePlaceHolder';
 import ReplaceModal from './ReplaceModal';
 import Text from '../../uikit/Text/Text';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {
-  checkLatestVersionMiddleWare,
-  getRestaurantListMiddleWare,
-} from './store/homeMiddleware';
+import {getRestaurantListMiddleWare} from './store/homeMiddleware';
 import {useRoute} from '@react-navigation/native';
 import {isEmpty} from '../../uikit/UikitUtils/validators';
 
@@ -34,61 +29,25 @@ const HomeScreen = ({navigation}) => {
   const [isSearch, setSearch] = useState('');
   const [isSelectHotelName, setSelectHotelName] = useState({name: '', id: ''});
   const [isCheckCart, setCheckCart] = useState(false);
-  const [isLoader, setLoader] = useState(true);
 
-  const getUserData = async () => {
-    setLoader(true);
-    await AsyncStorage.getItem('userData').then(userRes => {
-      const userDetails = JSON.parse(userRes);
-      dispatch(
-        checkLatestVersionMiddleWare({
-          UserId: userDetails && userDetails.UserID,
-        }),
-      )
-        .then(res => {
-          setLoader(false);
-          Alert.alert('Update', res.payload[0].Message, [
-            {
-              text: 'Later',
-              onPress: () => {},
-            },
-            {
-              text: 'Update',
-              onPress: () => {},
-            },
-          ]);
-        })
-        .catch(() => {
-          setLoader(false);
-        });
-    });
-  };
-  const {
-    isLoading,
-    data,
-    getCartDetails,
-    checkCartLoading,
-    calculateLoading,
-    locationID,
-  } = useSelector(
-    ({
-      getRestaurantListReducers,
-      getCartDetailsReducers,
-      checkCartExistReducers,
-      calculateLocationDistanceReducers,
-    }) => {
-      return {
-        isLoading: getRestaurantListReducers.isLoading,
-        data: getRestaurantListReducers.data,
-        getCartDetails: getCartDetailsReducers.data,
-        checkCartLoading: checkCartExistReducers.isLoading,
-        calculateLoading: calculateLocationDistanceReducers.isLoading,
-        locationID: calculateLocationDistanceReducers.data[0],
-      };
-    },
-  );
+  const {isLoading, data, calculateLoading, locationID, getCartData} =
+    useSelector(
+      ({
+        getRestaurantListReducers,
+        calculateLocationDistanceReducers,
+        getCartDataReducers,
+      }) => {
+        return {
+          isLoading: getRestaurantListReducers.isLoading,
+          data: getRestaurantListReducers.data,
+          calculateLoading: calculateLocationDistanceReducers.isLoading,
+          locationID: calculateLocationDistanceReducers.data[0],
+          getCartData: getCartDataReducers.data,
+        };
+      },
+    );
+
   useEffect(() => {
-    getUserData();
     dispatch(
       getRestaurantListMiddleWare({
         LocationID: locationID.LocationID,
@@ -120,19 +79,16 @@ const HomeScreen = ({navigation}) => {
   );
 
   const inputSearchCheck = isSearch.length === 0;
-
   if (isLoading || calculateLoading) {
     return <HomePlaceHolder />;
   }
 
   return (
     <Flex overrideStyle={styles.overAll}>
-      {(checkCartLoading || isLoader) && <Loader />}
-
-      {getCartDetails.length !== 0 && (
+      {Array.isArray(getCartData) && getCartData.length !== 0 && (
         <ReplaceModal
           open={isCheckCart}
-          getCartDetails={getCartDetails}
+          getCartDetails={getCartData}
           isSelectHotelName={isSelectHotelName}
           close={() => setCheckCart(false)}
           navigation={navigation}
@@ -145,7 +101,7 @@ const HomeScreen = ({navigation}) => {
           data={isAll ? results : inputSearchCheck ? data.slice(0, 5) : results}
           handleViewAll={handleViewAll}
           isAll={isAll && inputSearchCheck}
-          getCartDetails={getCartDetails}
+          getCartDetails={getCartData}
           setSelectHotelName={setSelectHotelName}
           setCheckCart={setCheckCart}
         />

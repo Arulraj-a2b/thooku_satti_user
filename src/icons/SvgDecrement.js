@@ -1,4 +1,5 @@
 import React from 'react';
+import {ActivityIndicator, View} from 'react-native';
 import Svg, {Path, Rect, Line} from 'react-native-svg';
 import Text from '../uikit/Text/Text';
 
@@ -8,7 +9,7 @@ const defaultProps = {
   fill: '#E59722',
 };
 
-const SvgDecrement = ({width, height, fill}) => (
+const SvgDecrement = ({width, height, fill, isLoader}) => (
   <Svg width={width} height={height} viewBox="0 0 29 29" fill="none">
     <Rect
       x="0.5"
@@ -18,15 +19,21 @@ const SvgDecrement = ({width, height, fill}) => (
       rx="13.6402"
       stroke={fill}
     />
-    <Line
-      x1="9.89954"
-      y1="13.8437"
-      x2="18.3808"
-      y2="13.8437"
-      stroke={fill}
-      stroke-width="1.5"
-      stroke-linecap="round"
-    />
+    {isLoader ? (
+      <View style={{position: 'relative', top: 4}}>
+        <ActivityIndicator color={'#000000'} size={'small'} />
+      </View>
+    ) : (
+      <Line
+        x1="9.89954"
+        y1="13.8437"
+        x2="18.3808"
+        y2="13.8437"
+        stroke={fill}
+        stroke-width="1.5"
+        stroke-linecap="round"
+      />
+    )}
   </Svg>
 );
 

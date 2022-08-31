@@ -23,6 +23,7 @@ import SvgClose from '../icons/SvgClose';
 import SvgBook from '../icons/SvgBook';
 import SvgPrivacy from '../icons/SvgPrivacyPolicy';
 import {isEmpty} from '../uikit/UikitUtils/validators';
+import { USER_DATA } from '../utils/localStoreConstants';
 
 const styles = StyleSheet.create({
   listStyle: {
@@ -64,7 +65,7 @@ const DrawerContent = props => {
   const isDrawerOpen = useDrawerStatus() === 'open';
 
   const logout = () => {
-    AsyncStorage.removeItem('userData');
+    AsyncStorage.removeItem(USER_DATA);
     props.navigation.navigate('LoginScreen');
   };
 
@@ -73,7 +74,7 @@ const DrawerContent = props => {
   }, [isDrawerOpen]);
 
   const getUserData = async () => {
-    const userData = await AsyncStorage.getItem('userData');
+    const userData = await AsyncStorage.getItem(USER_DATA);
     if (userData) {
       setUserDetails(JSON.parse(userData));
     }

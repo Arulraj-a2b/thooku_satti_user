@@ -16,6 +16,7 @@ import {
   getUpComingOrderApi,
   uploadBillApi,
 } from '../../../routes/apiRoutes';
+import Toast from '../../../uikit/Toast/Toast';
 
 export const getUpComingOrderMiddleWare = createAsyncThunk(
   MY_ORDER_UP_COMINNG,
@@ -24,6 +25,7 @@ export const getUpComingOrderMiddleWare = createAsyncThunk(
       const {data} = await axios.get(getUpComingOrderApi);
       return data;
     } catch (error) {
+      Toast('Service Unavailable', 'error');
       const typedError = error;
       return rejectWithValue(typedError);
     }
@@ -37,6 +39,7 @@ export const getHistoryOrdersMiddleWare = createAsyncThunk(
       const {data} = await axios.get(getHistoryOrdersApi);
       return data;
     } catch (error) {
+      Toast('Service Unavailable', 'error');
       const typedError = error;
       return rejectWithValue(typedError);
     }
@@ -54,6 +57,7 @@ export const getOrderDetailsMiddleWare = createAsyncThunk(
       });
       return data;
     } catch (error) {
+      Toast('Service Unavailable', 'error');
       const typedError = error;
       return rejectWithValue(typedError);
     }
@@ -67,6 +71,7 @@ export const getDiningListMiddleWare = createAsyncThunk(
       const {data} = await axios.get(getDiningListApi);
       return data;
     } catch (error) {
+      Toast('Service Unavailable', 'error');
       const typedError = error;
       return rejectWithValue(typedError);
     }
@@ -84,6 +89,7 @@ export const uploadBillMiddleWare = createAsyncThunk(
       });
       return data;
     } catch (error) {
+      Toast('Service Unavailable', 'error');
       const typedError = error;
       return rejectWithValue(typedError);
     }
@@ -99,6 +105,7 @@ export const getDiningDetailsMiddleWare = createAsyncThunk(
       });
       return data;
     } catch (error) {
+      Toast('Service Unavailable', 'error');
       const typedError = error;
       return rejectWithValue(typedError);
     }

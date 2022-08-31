@@ -1,4 +1,4 @@
-import {fetchUrl} from '../utility/config';
+import {fetchUrl} from '../utils/config';
 
 export const loginApi = fetchUrl('Login');
 export const signInApi = fetchUrl('MobileSignUp');

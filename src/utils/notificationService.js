@@ -5,6 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import {routesPath} from '../routes/routesPath';
 import {navigationRef} from '../../App';
 import {getUpComingOrderMiddleWare} from '../modules/myordermodule/store/myOrderMiddleware';
+import { FCM_TOKEN, GEO_LOCATION } from './localStoreConstants';
 
 export const handleNotification = message => {
   PushNotification.cancelAllLocalNotifications();
@@ -33,7 +34,7 @@ export async function requestUserPermission() {
 export const checkLocationUser = async () => {
   const navigation = useNavigation();
   try {
-    let geoLocation = await AsyncStorage.getItem('geoLocationDone');
+    let geoLocation = await AsyncStorage.getItem(GEO_LOCATION);
 
     if (geoLocation) {
       geoLocation = JSON.parse(geoLocation);
@@ -51,14 +52,14 @@ export const checkLocationUser = async () => {
 };
 
 const getFcmToken = async () => {
-  let fcmToken = await AsyncStorage.getItem('fcmToken');
+  let fcmToken = await AsyncStorage.getItem(FCM_TOKEN);
   // console.log('new fcmToken', fcmToken);
   if (!fcmToken) {
     try {
       const fcmToken = await messaging().getToken();
       if (fcmToken) {
         // console.log('new fcmToken', fcmToken);
-        await AsyncStorage.setItem('fcmToken', fcmToken);
+        await AsyncStorage.setItem(FCM_TOKEN, fcmToken);
       }
     } catch (error) {
       console.log('fcmToken error:', error);

@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
   content: {
-    // textAlign: 'justify',
     marginBottom: 8
   },
 });

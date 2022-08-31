@@ -40,15 +40,22 @@ const styles = StyleSheet.create({
   },
 });
 
-const CartPrice = ({getCartDetails, formik, getTNCData}) => {
+const CartPrice = ({
+  getCartDetails,
+  formik,
+  getTNCData,
+  getTotal,
+  deliveryCost,
+  grandTotal,
+}) => {
   const myRef = useRef();
+
   useEffect(() => {
     if (!isEmpty(formik.errors.address) && myRef && myRef.current) {
       myRef.current.focus();
     }
   }, [formik]);
-  const grandTotal =
-    Number(getCartDetails.GrandTotal) + Number(getCartDetails.DelliveryCharge);
+
   return (
     <Flex>
       <Text
@@ -64,28 +71,21 @@ const CartPrice = ({getCartDetails, formik, getTNCData}) => {
             <Text bold>Subtotal</Text>
             <Text bold>
               {INDIAN_RUPEE}
-              {isFinancial(getCartDetails.GrandTotal)}
+              {isFinancial(getTotal)}
             </Text>
           </Flex>
-          {/* <Flex row center between overrideStyle={styles.marginTop16}>
-            <Text bold>Tax and Fees</Text>
-            <Text bold>
-              {INDIAN_RUPEE}
-              {isFinancial(getCartDetails.DelliveryCharge)}
-            </Text>
-          </Flex> */}
           <Flex row center between overrideStyle={styles.marginTop16}>
             <Text bold>Delivery</Text>
             <Text bold>
               {INDIAN_RUPEE}
-              {isFinancial(getCartDetails.DelliveryCharge)}
+              {isFinancial(deliveryCost)}
             </Text>
           </Flex>
           <Flex row center between overrideStyle={styles.marginTop16}>
             <Flex row center>
               <Text bold>Total</Text>
               <Text size={12} bold color="gray">
-                {` (${getCartDetails.CartCount} Item)`}
+                {` (${getCartDetails.length} Item)`}
               </Text>
             </Flex>
             <Text bold>

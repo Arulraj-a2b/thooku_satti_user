@@ -1,6 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {
-  checkLatestVersionMiddleWare,
   getHomeDashboardMiddleWare,
   getRestaurantListMiddleWare,
   searchRestaurantandItemsMiddleWare,
@@ -9,16 +8,7 @@ import {
 const getRestaurantListState = {
   isLoading: false,
   error: '',
-  data: [
-    {
-      HotelID: 0,
-      HotelName: '',
-      HotelImage: '',
-      ContactPerson: '',
-      ContactNo: '',
-      Address: '',
-    },
-  ],
+  data: [],
 };
 
 const getRestaurantListReducer = createSlice({
@@ -35,39 +25,6 @@ const getRestaurantListReducer = createSlice({
       state.data = action.payload;
     });
     builder.addCase(getRestaurantListMiddleWare.rejected, (state, action) => {
-      state.isLoading = false;
-      if (typeof action.payload === 'string') {
-        state.error = action.payload;
-      }
-    });
-  },
-});
-
-const checkLatestInitialState = {
-  isLoading: false,
-  error: '',
-  data: [
-    {
-      VersionNo: '',
-      Message: '',
-    },
-  ],
-};
-
-const checkLatestVersionReducer = createSlice({
-  name: 'home_version_check',
-  initialState: checkLatestInitialState,
-  reducers: {},
-  extraReducers: builder => {
-    builder.addCase(checkLatestVersionMiddleWare.pending, state => {
-      state.isLoading = true;
-      state.error = '';
-    });
-    builder.addCase(checkLatestVersionMiddleWare.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.data = action.payload;
-    });
-    builder.addCase(checkLatestVersionMiddleWare.rejected, (state, action) => {
       state.isLoading = false;
       if (typeof action.payload === 'string') {
         state.error = action.payload;
@@ -119,20 +76,26 @@ const searchRestaurantandItemsReducer = createSlice({
       state.isLoading = true;
       state.error = '';
     });
-    builder.addCase(searchRestaurantandItemsMiddleWare.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.data = action.payload;
-    });
-    builder.addCase(searchRestaurantandItemsMiddleWare.rejected, (state, action) => {
-      state.isLoading = false;
-      if (typeof action.payload === 'string') {
-        state.error = action.payload;
-      }
-    });
+    builder.addCase(
+      searchRestaurantandItemsMiddleWare.fulfilled,
+      (state, action) => {
+        state.isLoading = false;
+        state.data = action.payload;
+      },
+    );
+    builder.addCase(
+      searchRestaurantandItemsMiddleWare.rejected,
+      (state, action) => {
+        state.isLoading = false;
+        if (typeof action.payload === 'string') {
+          state.error = action.payload;
+        }
+      },
+    );
   },
 });
 
 export const getRestaurantListReducers = getRestaurantListReducer.reducer;
-export const checkLatestVersionReducers = checkLatestVersionReducer.reducer;
 export const getHomeDashboardReducers = getHomeDashboardReducer.reducer;
-export const searchRestaurantandItemsReducers = searchRestaurantandItemsReducer.reducer;
+export const searchRestaurantandItemsReducers =
+  searchRestaurantandItemsReducer.reducer;

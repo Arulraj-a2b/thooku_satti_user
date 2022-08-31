@@ -1,6 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {
-  addCartMiddleWare,
   getCartDetailsMiddleWare,
   getCategoryListMiddleWare,
   getFoodItemsMiddleWare,
@@ -107,33 +106,6 @@ const getCartDetailsReducer = createSlice({
   },
 });
 
-const addCartState = {
-  isLoading: false,
-  error: '',
-};
-
-const addCartReducer = createSlice({
-  name: 'addCart',
-  initialState: addCartState,
-  reducers: {},
-  extraReducers: builder => {
-    builder.addCase(addCartMiddleWare.pending, state => {
-      state.isLoading = true;
-      state.error = '';
-    });
-    builder.addCase(addCartMiddleWare.fulfilled, (state, action) => {
-      state.isLoading = false;
-    });
-    builder.addCase(addCartMiddleWare.rejected, (state, action) => {
-      state.isLoading = false;
-      if (typeof action.payload === 'string') {
-        state.error = action.payload;
-      }
-    });
-  },
-});
-
 export const getFoodItemsReducers = getFoodItemsReducer.reducer;
 export const getCategoryListReducers = getCategoryListReducer.reducer;
 export const getCartDetailsReducers = getCartDetailsReducer.reducer;
-export const addCartReducers = addCartReducer.reducer;

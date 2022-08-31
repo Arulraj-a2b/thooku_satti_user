@@ -6,10 +6,11 @@ import {RootSiblingParent} from 'react-native-root-siblings';
 import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import SplashScreen from 'react-native-splash-screen';
 import Logger, {startNetworkLogging} from 'react-native-network-logger';
 import store from './store';
 import AppLayout from './src/navigation/AppLayout';
-import {requestUserPermission} from './src/utility/notificationService';
+import {requestUserPermission} from './src/utils/notificationService';
 import OfflineScreen from './src/modules/offlinemodule/OfflineScreen';
 import Text from './src/uikit/Text/Text';
 import {PRIMARY} from './src/uikit/UikitUtils/colors';
@@ -23,6 +24,7 @@ const App = () => {
   useEffect(() => {
     startNetworkLogging();
     requestUserPermission();
+    SplashScreen.hide();
   }, []);
 
   const handleToggleLogger = () => setShowLogger(!showLogger);

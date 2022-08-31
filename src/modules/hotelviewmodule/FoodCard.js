@@ -1,13 +1,14 @@
 import React, {memo, useEffect, useState} from 'react';
-import {Image, StyleSheet} from 'react-native';
+import {Image, Pressable, StyleSheet} from 'react-native';
 import SvgStar from '../../icons/SvgStar';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import {BORDER_COLOR, PRIMARY, WHITE} from '../../uikit/UikitUtils/colors';
 import Stepper from '../../uikit/Stepper/Stepper';
-import {isEmpty} from '../../uikit/UikitUtils/validators';
 import Card from '../../uikit/Card/Card';
 import {isFinancial} from '../../uikit/UikitUtils/helpers';
+import SvgDecrement from '../../icons/SvgDecrement';
+import SvgIncrement from '../../icons/SvgIncrement';
 
 const styles = StyleSheet.create({
   overAll: {
@@ -71,20 +72,45 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: BORDER_COLOR,
   },
+  textStyle: {
+    paddingHorizontal: 8,
+  },
+  stpperOverAll: {
+    opacity: 0.5,
+  },
 });
 
-const FoodCard = ({index, totalLength, item, handleAddCart}) => {
-  const [isCount, setCount] = useState(item.CartValue);
-
+const FoodCard = ({
+  index,
+  totalLength,
+  item,
+  handleAddCart,
+  isCartDataDetails,
+}) => {
+  const [isCount, setCount] = useState(0);
+  const checkQty = (arr, val) => {
+    return arr.some(function (arrVal) {
+      if (val.HotelID === arrVal.HotelID && val.FoodID === arrVal.FoodID) {
+        return setCount(arrVal.qty);
+      }
+    });
+  };
   useEffect(() => {
-    setCount(item.CartValue);
-  }, [item.CartValue]);
+    if (Array.isArray(isCartDataDetails) && isCartDataDetails.length !== 0) {
+      checkQty(isCartDataDetails, item);
+    }
+  }, []);
 
-  const handleSubmit = value => {
-    handleAddCart(item.HotelID, item.FoodID, value);
+  const checkImage = item.IsRecommand === 'N' ? false : true;
+  const handleIncrement = () => {
+    handleAddCart(item, isCount + 1);
+    setCount(pre => pre + 1);
   };
 
-  const checkImage = item.IsRecommand === 'N' ? false: true
+  const handleIDecrement = () => {
+    handleAddCart(item, isCount - 1);
+    setCount(pre => pre - 1);
+  };
 
   return (
     <Card
@@ -142,12 +168,18 @@ const FoodCard = ({index, totalLength, item, handleAddCart}) => {
                 {item.CategoryName}
               </Text>
             </Flex>
-            <Flex flex={3} center>
-              <Stepper
-                value={isCount}
-                onChange={setCount}
-                onSubmit={handleSubmit}
-              />
+            <Flex overrideStyle={{position: 'relative'}}>
+              <Flex row center>
+                <Pressable onPress={handleIDecrement} disabled={isCount === 0}>
+                  <SvgDecrement />
+                </Pressable>
+                <Text bold overrideStyle={styles.textStyle}>
+                  {isCount}
+                </Text>
+                <Pressable onPress={handleIncrement}>
+                  <SvgIncrement />
+                </Pressable>
+              </Flex>
             </Flex>
           </Flex>
         </Flex>

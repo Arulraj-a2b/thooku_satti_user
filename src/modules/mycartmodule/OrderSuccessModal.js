@@ -45,7 +45,10 @@ const OrderSuccessModal = ({open, close, navigation, checkOutData}) => {
           Your order placed successfully
         </Text>
         <Text color="gray" bold>
-          #{checkOutData && checkOutData[0].OrderID}
+          #
+          {Array.isArray(checkOutData) &&
+            checkOutData.length !== 0 &&
+            checkOutData[0]?.OrderID}
         </Text>
         <Flex row overrideStyle={styles.btnContainer}>
           <Button

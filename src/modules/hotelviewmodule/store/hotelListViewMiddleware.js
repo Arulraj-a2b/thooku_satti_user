@@ -50,24 +50,6 @@ export const getCategoryListMiddleWare = createAsyncThunk(
   },
 );
 
-export const addCartMiddleWare = createAsyncThunk(
-  ADD_CART,
-  async ({HotelID, ItemID, Qty}, {rejectWithValue}) => {
-    try {
-      const {data} = await axios.post(addCartApi, {
-        HotelID,
-        ItemID,
-        Qty,
-      });
-      return data;
-    } catch (error) {
-      Toast(error.response.data[0].Message, 'error');
-      const typedError = error;
-      return rejectWithValue(typedError);
-    }
-  },
-);
-
 export const getCartDetailsMiddleWare = createAsyncThunk(
   GET_CART_DETAILS,
   async (_a, {rejectWithValue}) => {

@@ -80,6 +80,7 @@ const Flex = ({
   onLayout,
   testID,
   nativeID,
+  pointerEvents
 }) => {
   let styleArray = [styles.column];
   const rowStyle = [];
@@ -143,7 +144,7 @@ const Flex = ({
   }
   if (row || rowReverse) {
     flexComponent = (
-      <View style={rowStyle} onLayout={onLayout} testID={testID}>
+      <View style={rowStyle} onLayout={onLayout} testID={testID} pointerEvents={pointerEvents}>
         <View nativeID={nativeID} style={styleArray}>
           {children}
         </View>
@@ -152,6 +153,7 @@ const Flex = ({
   } else if (columnReverse || column) {
     flexComponent = (
       <View
+      pointerEvents={pointerEvents}
         nativeID={nativeID}
         style={styleArray}
         onLayout={onLayout}

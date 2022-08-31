@@ -1,8 +1,8 @@
 import {
   loginReducers,
   calculateLocationDistanceReducers,
-  getCurrentVersionReducers,
   aboutReducers,
+  getUserDataReducers
 } from '../modules/loginmodule/store/loginReducer';
 import {
   forgotEamilOtpReducers,
@@ -10,7 +10,6 @@ import {
 } from '../modules/forgotpasswordmodule/store/forgotReducer';
 import {
   getRestaurantListReducers,
-  checkLatestVersionReducers,
   getHomeDashboardReducers,
   searchRestaurantandItemsReducers,
 } from '../modules/homemodule/store/homeReducer';
@@ -19,12 +18,11 @@ import {
   getFoodItemsReducers,
   getCategoryListReducers,
   getCartDetailsReducers,
-  addCartReducers,
 } from '../modules/hotelviewmodule/store/hotelListViewReducer';
 import {
   checkOutReducers,
-  checkCartExistReducers,
   getTNCReducers,
+  getCartDataReducers
 } from '../modules/mycartmodule/store/myCartReducer';
 import {
   getUpComingOrderReducers,
@@ -50,16 +48,12 @@ export const reducers = {
   getFoodItemsReducers,
   getCategoryListReducers,
   getCartDetailsReducers,
-  addCartReducers,
   checkOutReducers,
   getUpComingOrderReducers,
   getOrderDetailsReducers,
   getHistoryOrdersReducers,
-  checkCartExistReducers,
   getTNCReducers,
   calculateLocationDistanceReducers,
-  getCurrentVersionReducers,
-  checkLatestVersionReducers,
   aboutReducers,
   getDiningListReducers,
   getDiningDetailsReducers,
@@ -70,4 +64,6 @@ export const reducers = {
   saveMarketOrderReducers,
   getMarketOrderListReducers,
   getDiningHotelListReducers,
+  getCartDataReducers,
+  getUserDataReducers
 };

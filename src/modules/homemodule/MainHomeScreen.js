@@ -30,6 +30,7 @@ import {
 import {BORDER_COLOR} from '../../uikit/UikitUtils/colors';
 import SvgClose from '../../icons/SvgClose';
 import {OrderAginList, PromotionList, SearchList} from './homeScreenHelper';
+import { USER_DATA } from '../../utils/localStoreConstants';
 
 const {height} = Dimensions.get('screen');
 
@@ -96,7 +97,7 @@ const MainHomeScreen = () => {
   }, []);
 
   const getUserData = async () => {
-    const userData = await AsyncStorage.getItem('userData');
+    const userData = await AsyncStorage.getItem(USER_DATA);
     if (userData) {
       setUserDetails(JSON.parse(userData));
     }
