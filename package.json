@@ -1,6 +1,6 @@
 {
   "name": "thooku_satti",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "private": true,
   "author": "Arulraj & abofficial1997@gmail.com",
   "scripts": {
@@ -10,8 +10,10 @@
     "test": "jest",
     "lint": "eslint .",
     "prebuild": "npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res",
-    "build": "cd android && ./gradlew assembleDebug && cd ../",
     "clear": "cd android && ./gradlew clean && cd ../",
+    "build:debug": "cd android && ./gradlew assembleDebug && cd ../",
+    "build:release": "cd android && ./gradlew assembleRelease && cd ../",
+    "build:bundle":" cd android && ./gradlew bundleRelease && cd ../",
     "postversion": "react-native-version --never-amend"
   },
   "dependencies": {

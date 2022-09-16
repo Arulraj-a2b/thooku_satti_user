@@ -144,10 +144,10 @@ const MyCartScreen = ({navigation}) => {
   );
 
   const getTotal = getCartData?.reduce((accumulator, value) => {
-    return accumulator + value.Price * value.qty;
+    return accumulator + Number(value.Price) * Number(value.qty);
   }, 0);
-  const deliveryCost = getUser?.DeliveryCharge;
-  const grandTotal = Number(getTotal) + Number(deliveryCost);
+  const deliveryCost = getUser ? getUser.DeliveryCharge : 45;
+  const grandTotal = getTotal + deliveryCost;
 
   const handleAddCart = (item, qty, check) => {
     if (Array.isArray(getCartData) && getCartData.length !== 0) {
