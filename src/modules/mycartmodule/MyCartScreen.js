@@ -18,6 +18,7 @@ import {isEmpty} from '../../uikit/UikitUtils/validators';
 import {CART_DATA} from '../../utils/localStoreConstants';
 import CartList from './CartList';
 import CartPrice from './CartPrice';
+import CheckOutModal from './CheckOutModal';
 import EmptyCart from './EmptyCart';
 import MyCartFooter from './MyCartFooter';
 import OrderSuccessModal from './OrderSuccessModal';
@@ -49,7 +50,7 @@ const MyCartScreen = ({navigation}) => {
   const listViewRef = createRef();
   const [isCartData, setCardData] = useState([]);
   const [isAddLoader, setAddLoader] = useState();
-
+  const [isCheckOut, setChechOut] = useState(false);
   useEffect(() => {
     dispatch(getTNCSMiddleWare());
   }, []);
@@ -112,15 +113,15 @@ const MyCartScreen = ({navigation}) => {
 
   const formik = useFormik({
     initialValues: {notes: '', address: ''},
-    onSubmit: value => handleCheckOut(value),
+    onSubmit: () => setChechOut(true),
     validate: handleValidate,
   });
 
-  const handleCheckOut = value => {
+  const handleCheckOut = () => {
     Keyboard.dismiss();
     const formData = new FormData();
-    formData.append('ExtraNotes', value.notes);
-    formData.append('DeliveryAddress', value.address);
+    formData.append('ExtraNotes', formik.values.notes);
+    formData.append('DeliveryAddress', formik.values.address);
     formData.append('JsonPayload', `${JSON.stringify(getCartData)}`);
     dispatch(
       checkOutMiddleWare({
@@ -128,6 +129,7 @@ const MyCartScreen = ({navigation}) => {
       }),
     ).then(res => {
       if (res.payload && res.payload[0].OrderID) {
+        setChechOut(false)
         setSuccess(true);
         formik.resetForm();
         dispatch(updateCartData());
@@ -201,6 +203,11 @@ const MyCartScreen = ({navigation}) => {
         }}
         navigation={navigation}
         checkOutData={checkOutData}
+      />
+      <CheckOutModal
+        handleCheckOut={handleCheckOut}
+        cancel={() => setChechOut(false)}
+        open={isCheckOut}
       />
       {isCheckoutLoader && <Loader />}
       {locationID.LocationID !== 0 &&

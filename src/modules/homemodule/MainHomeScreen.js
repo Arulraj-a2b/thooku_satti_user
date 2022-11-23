@@ -30,7 +30,7 @@ import {
 import {BORDER_COLOR} from '../../uikit/UikitUtils/colors';
 import SvgClose from '../../icons/SvgClose';
 import {OrderAginList, PromotionList, SearchList} from './homeScreenHelper';
-import { USER_DATA } from '../../utils/localStoreConstants';
+import {USER_DATA} from '../../utils/localStoreConstants';
 
 const {height} = Dimensions.get('screen');
 
@@ -152,20 +152,29 @@ const MainHomeScreen = () => {
       )
     : getSearchData;
 
-  const handleMenu = (id, name) => {
+  const handleMenu = (id, name, menuCode) => {
     if (isEmpty(userDetails)) {
       navigation.navigate(routesPath.LOGIN_SCREEN, {
         type: id,
         name: name,
+        menuCode: menuCode,
       });
     } else {
-      if (id === 1 || id === 2) {
+      if (
+        menuCode.toUpperCase() === 'MNU_REST' ||
+        menuCode.toUpperCase() === 'MNU_MEAT'
+      ) {
         navigation.navigate(routesPath.LIST_HOME_SCREEN, {
           type: id,
+          menuCode: menuCode,
         });
-      } else if (id === 4) {
+      } else if (menuCode.toUpperCase() === 'MNU_DINING') {
         navigation.navigate(routesPath.BOOKING_TABLE_SCREEN);
-      } else {
+      } else if (
+        menuCode.toUpperCase() === 'MNU_VEG' ||
+        menuCode.toUpperCase() === 'MNU_GROCRY' ||
+        menuCode.toUpperCase() === 'MNU_FRUT'
+      ) {
         navigation.navigate(routesPath.MARKET_ORDER_SCREEN, {
           type: id,
           name: name,
@@ -209,7 +218,7 @@ const MainHomeScreen = () => {
         <>
           <View
             style={{
-              marginBottom: 20,
+              marginBottom: 16,
               position: 'relative',
             }}>
             <TouchableOpacity onPress={() => setSearch(true)}>
@@ -309,7 +318,7 @@ const MainHomeScreen = () => {
             </View>
           )}
           {data[0]?.PromotionResponse.length !== 0 && (
-            <View style={{marginTop: 20}}>
+            <View style={{marginTop: 8}}>
               <Text size={16} bold overrideStyle={styles.orderText}>
                 Check out the greate offers !!!
               </Text>
@@ -336,7 +345,9 @@ const MainHomeScreen = () => {
                   return (
                     <TouchableOpacity
                       key={list.MenuImage}
-                      onPress={() => handleMenu(list.MenuID, list.MenuName)}>
+                      onPress={() =>
+                        handleMenu(list.MenuID, list.MenuName, list.MenuCode)
+                      }>
                       <Flex center overrideStyle={styles.foodList}>
                         <Card overrideStyle={styles.radius}>
                           <Image

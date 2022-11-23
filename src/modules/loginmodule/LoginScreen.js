@@ -127,8 +127,8 @@ const LoginScreen = () => {
               navigation.navigate(routesPath.ALL_SCREEN);
             }
           } else if (
-            params?.type.toString() === '1' ||
-            params?.type.toString() === '2'
+            params?.menuCode.toUpperCase() === 'MNU_REST' ||
+            params?.menuCode.toUpperCase() === 'MNU_MEAT'
           ) {
             navigation.navigate(routesPath.ALL_SCREEN, {
               screen: 'BottomTab',
@@ -136,23 +136,25 @@ const LoginScreen = () => {
                 screen: stacks.HomeStack,
                 params: {
                   screen: routesPath.LIST_HOME_SCREEN,
-                  params: {type: params?.type},
+                  params: {type: params?.type, menuCode: params?.menuCode},
                 },
               },
             });
-          } else if (params?.type.toString() === '4') {
+          } else if (params?.menuCode.toUpperCase() === 'MNU_DINING') {
             navigation.navigate(routesPath.ALL_SCREEN, {
               screen: routesPath.BOOKING_TABLE_SCREEN,
               params: {
                 type: params?.type,
+                menuCode: params?.menuCode,
               },
             });
-          } else {
+          } else if (params?.menuCode.toUpperCase() === 'MNU_VEG') {
             navigation.navigate(routesPath.ALL_SCREEN, {
               screen: routesPath.MARKET_ORDER_SCREEN,
               params: {
                 type: params?.type,
                 name: params?.name,
+                menuCode: params?.menuCode,
               },
             });
           }

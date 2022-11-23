@@ -98,13 +98,11 @@ const HotalCard = ({
         ]}>
         <Flex>
           <Flex overrideStyle={styles.imageContainer}>
-            {!isEmpty(item.HotelImage) && (
-              <Image
-                resizeMode="cover"
-                source={{uri: item.HotelImage}}
-                style={styles.imageStyle}
-              />
-            )}
+            <Image
+              resizeMode="cover"
+              source={{uri: item.HotelImage}}
+              style={styles.imageStyle}
+            />
           </Flex>
 
           <Flex overrideStyle={styles.nameListContainer}>

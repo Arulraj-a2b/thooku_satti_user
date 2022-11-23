@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {Dimensions, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import {useDispatch} from 'react-redux';
 import Card from '../../uikit/Card/Card';
 import Flex from '../../uikit/Flex/Flex';
@@ -18,8 +18,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   promoImage: {
-    height: 80,
-    width: 150,
+    height: 140,
+    width: Dimensions.get('screen').width - 80,
     borderRadius: 8,
   },
 
@@ -64,6 +64,7 @@ export const PromotionList = ({item, index}) => {
       overrideStyle={[styles.orderList, {marginLeft: index === 0 ? 16 : 8}]}>
       <Card>
         <Image
+          resizeMode="contain"
           style={styles.promoImage}
           source={{uri: item.PromotionImageName}}
         />
@@ -82,6 +83,7 @@ export const SearchList = ({item, handleSearch}) => {
         {!isEmpty(item.Imagename) && (
           <Card overrideStyle={{marginRight: 10}}>
             <Image
+              resizeMode="contain"
               style={{height: 30, width: 30, borderRadius: 8}}
               source={{uri: item.Imagename}}
             />

@@ -47,12 +47,19 @@ const HomeScreen = ({navigation}) => {
       },
     );
 
+  let menuCode;
+  if (route.params?.menuCode === 'MNU_REST') {
+    menuCode = 1;
+  } else if (route.params?.menuCode === 'MNU_MEAT') {
+    menuCode = 2;
+  }
+
   useEffect(() => {
     dispatch(
       getRestaurantListMiddleWare({
         LocationID: locationID.LocationID,
         SearchText: route.params?.search ? route.params?.search : '',
-        Type: route.params?.type ? route.params?.type : '',
+        Type: route.params?.menuCode ? menuCode : '',
       }),
     );
   }, []);
@@ -64,7 +71,7 @@ const HomeScreen = ({navigation}) => {
       dispatch(
         getRestaurantListMiddleWare({
           LocationID: locationID.LocationID,
-          Type: route.params?.type ? route.params?.type : '',
+          Type: route.params?.menuCode ? menuCode : '',
         }),
       );
     }
