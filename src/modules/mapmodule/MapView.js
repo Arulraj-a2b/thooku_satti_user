@@ -264,8 +264,8 @@ const MapView = () => {
         <>
           <MapViews
             userLocationPriority="high"
-            showsUserLocation={true}
-            showsMyLocationButton={true}
+            // showsUserLocation={true}
+            // showsMyLocationButton={true}
             stopPropagation={true}
             // onPress={handleMarkerMove}
             customMapStyle={mapStyle}
