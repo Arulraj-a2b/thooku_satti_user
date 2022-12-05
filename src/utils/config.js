@@ -11,8 +11,9 @@ import {routesPath} from '../routes/routesPath';
 import {checkVersion} from '../uikit/UikitUtils/helpers';
 import {CART_DATA, GEO_LOCATION, USER_DATA} from './localStoreConstants';
 
-export const BASE_URL = 'https://foodapp.appsure.co.in/api/Mobapi/'; // staging
-// export const BASE_URL = 'https://mobileorder.dindigulthookusatti.com/api/Mobapi/'; // production
+// export const BASE_URL = 'https://foodapp.appsure.co.in/api/Mobapi/'; // staging
+export const BASE_URL =
+  'https://mobileorder.dindigulthookusatti.com/api/Mobapi/'; // production
 
 export const fetchUrl = url => {
   const result = `${BASE_URL}${url}`;

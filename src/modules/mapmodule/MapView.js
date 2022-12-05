@@ -238,8 +238,12 @@ const MapView = () => {
   const MoveMarker = isGetLocation && (
     <MapViews.Marker
       coordinate={{
-        latitude: isGetLocation.latitude,
-        longitude: isGetLocation.longitude,
+        latitude: isGetLocation.latitude
+          ? Number(isGetLocation.latitude)
+          : 0,
+        longitude: isGetLocation.longitude
+          ? Number(isGetLocation.longitude)
+          : 0,
       }}>
       <View style={{backgroundColor: TRANSPARENT, display: 'none'}}>
         <SvgLocationMarker fill={'green'} height={30} width={30} />
@@ -260,15 +264,19 @@ const MapView = () => {
         <>
           <MapViews
             userLocationPriority="high"
-            showsUserLocation={true}
-            showsMyLocationButton={true}
+            // showsUserLocation={true}
+            // showsMyLocationButton={true}
             stopPropagation={true}
             // onPress={handleMarkerMove}
             customMapStyle={mapStyle}
             style={styles.map}
             initialRegion={{
-              latitude: isGetLocation.latitude,
-              longitude: isGetLocation.longitude,
+              latitude: isGetLocation.latitude
+                ? Number(isGetLocation.latitude)
+                : 0,
+              longitude: isGetLocation.longitude
+                ? Number(isGetLocation.longitude)
+                : 0,
               latitudeDelta: 0.005625094176657797,
               longitudeDelta: 0.004125572741031647,
             }}
